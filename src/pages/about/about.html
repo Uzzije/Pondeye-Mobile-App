@@ -1,0 +1,278 @@
+<ion-header> 
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>About</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content> 
+    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, motivations, and people" (search)="search($event)"></ion-searchbar> 
+        <ion-toolbar *ngIf="newUser" text-wrap>
+            <ion-title text-wrap text-center>Thanks for testing out Pondeye!</ion-title>
+        </ion-toolbar>
+    <ion-card>
+        <button ion-button full (click)="goToFeed()">Go to Feed</button>
+        <ion-card-header text-center text-wrap>
+            What is Pondeye?
+        </ion-card-header>
+        <ion-card-content text-wrap>
+            <p>A fitness journal platform for logging and sharing your fitness goals with others.</p>
+        </ion-card-content>
+    </ion-card> 
+    <ion-card>
+        <ion-card-header text-wrap text-center>
+            Why Pondeye?
+        </ion-card-header>
+        <ion-card-content text-wrap>
+            <p>Sharing the experience of achieving your goals inspires others to achieve theirs.</p>
+        </ion-card-content>
+        <ion-card-content text-wrap>
+            <p>Making your goals visible creates a sense of accountability needed in achieving daring goals.</p>
+        </ion-card-content>
+    </ion-card> 
+    <ion-toolbar *ngIf="newUser" text-center>
+        <ion-title>How Pondeye Works</ion-title>
+    </ion-toolbar> 
+    <ion-card>
+        <ion-card-header text-wrap text-center>
+            Create New Entry
+        </ion-card-header>
+        <ion-card-content text-wrap>
+            <p> Press <button ion-fab mini><ion-icon name="add"></ion-icon></button>
+                below to create new goals and milestones.</p>
+        </ion-card-content>
+        <ion-card-content text-wrap>
+            <p>Goals are things you want to accomplish. Milestones are checkpoints within the goals.</p>
+        </ion-card-content>
+        <ion-card-content text-wrap>
+            <p> Goal: "Run a half marathon on the 22nd of April".</p>
+            <p>Milestones: "Run the 2 miles hill near my house tomorrow"</p>
+        </ion-card-content>
+        <ion-card-content text-wrap>
+            <p>Upon Completion of goal or milestone, REMEMBER to mark it as completed in your profile page. If you don't do this
+                prior to the completion time, it will be marked as failed (we don't want that!).
+            </p>
+        </ion-card-content>
+    </ion-card>
+    <ion-card> 
+        <ion-card-header text-wrap text-center>
+            Before and After Pictures
+        </ion-card-header>
+        <ion-card-content text-wrap>
+            <p>Pondeye is about sharing your experiences with others. Hence, you can capture before and after pictures that reflect the progress of your goals.</p>
+        </ion-card-content>
+        <ion-card-content text-wrap>
+            <p>Click this button to do so <button ion-fab mini><ion-icon name="md-camera"></ion-icon></button></p>
+        </ion-card-content>
+    </ion-card> 
+    <ion-card> 
+        <ion-card-header text-wrap text-center>
+            Ponds (Communities)
+        </ion-card-header>
+        <ion-card-content text-wrap>
+            <p>Ponds are interest and motivation based groups that you can jion or create.</p>
+        </ion-card-content>
+        <ion-card-content text-wrap>
+            <p>You see how to achieve your goals by seeing how others with similar interest and motivation accomplish theirs.</p>
+        </ion-card-content>
+    </ion-card>
+    <ion-card> 
+        <ion-card-header text-wrap text-center>
+            Create and Find Ponds
+        </ion-card-header>
+        <ion-card-content text-wrap>
+            <p>Simply use the search bar to find a pond based on name or interest.</p>
+        </ion-card-content>
+        <ion-card-header text-wrap text-center>
+            <p>Example of Pond Entry:</p>
+        </ion-card-header>
+        <ion-card-content text-wrap>
+            <p> Name of Pond: Fitness for profesional women.</p>
+        </ion-card-content>
+        <ion-card-content text-wrap>
+            <p>Purpose: A pond for busy professional women interested in staying in shape.</p>
+        </ion-card-content>
+        <ion-card-content>
+            <p>Someone can find this pond by using these key words: "in shape", "professional", "women" etc.</p>
+        </ion-card-content>
+    </ion-card> 
+    <ion-card> 
+        <ion-card-header text-wrap text-center>
+            Vouch
+        </ion-card-header>
+        <ion-card-content text-wrap>
+            <p>By clicking the vouch button <ion-icon ios="ios-hand" md="md-hand" color="secondary"></ion-icon>
+                you are telling a user that I believe in you and I am realistic about your chances of achieving this milestone.
+            </p>
+        </ion-card-content>
+        <ion-card-content text-wrap>
+            <p>If a user completes a goal you vouched for, it adds more points to that user's ranking and increases your credibility.</p>
+        </ion-card-content>
+        <ion-card-content text-wrap>
+            <p>Be thoughtful with your vouch. If a user deosn't complete the tasks it affects your vouch credibility.</p>
+        </ion-card-content>
+        <ion-card-content text-wrap>
+            <p>Your vouch credibility is like your word. The less accurate you are at vouching correctly, the less impact
+                your vouch has on user's goals
+            </p>
+        </ion-card-content>
+    </ion-card> 
+    <ion-card> 
+        <ion-card-header text-wrap text-center>
+            Failed Goals/Milestones
+        </ion-card-header>
+        <ion-card-content text-wrap>
+            <p>A <ion-icon color="danger" name="thumbs-down"></ion-icon> is giving for a failed item!</p>
+        </ion-card-content>
+    </ion-card> 
+    <ion-card> 
+        <ion-card-header text-wrap text-center>
+            Completed Goals/Milestones
+        </ion-card-header>
+        <ion-card-content text-wrap>
+            <p>A <ion-icon color="primary" name="checkmark-circle"></ion-icon> is giving for a completed item.</p>
+        </ion-card-content>
+    </ion-card> 
+    <ion-card> 
+        <ion-card-header text-wrap text-center>
+            Interested
+        </ion-card-header>
+    
+    <ion-card-content text-wrap> 
+    
+    
+    <p>Express your interest in a particular goal by clicking <ion-icon name="md-heart" color="secondary"></ion-icon> .</p> 
+    
+    </ion-card-content> 
+    
+    <ion-card-content> 
+    
+    
+    <p>This priotizes the goals and it's milestones in your feed. It also notifies you if the user fails or completes the goal.</p> 
+    
+    </ion-card-content> 
+    </ion-card> 
+    <ion-card> 
+    
+    <ion-card-header text-wrap text-center> 
+    
+    
+    Work Ethic Rank 
+    
+    </ion-card-header> 
+    
+    <ion-card-content text-wrap> 
+    
+    
+    <p>Where you stand in comparison with the pondeye community in goals and milestones completed!</p> 
+    
+    </ion-card-content> 
+    
+    <ion-card-content text-wrap> 
+    
+    
+    <p>This is determined by both the quantity of completions as well as the consistency of completions!</p> 
+    
+    </ion-card-content> 
+    
+    <ion-card-content text-wrap> 
+    
+    
+    <p>Top 25 percentile is the highest rank.</p> 
+    
+    </ion-card-content> 
+    </ion-card> 
+    <ion-card> 
+    
+    
+    <ion-card-header text-wrap text-center> 
+    
+    
+    
+    View <ion-icon name="md-eye" color="primary"></ion-icon> 
+    
+    
+    </ion-card-header> 
+    
+    
+    <ion-card-content text-wrap> 
+    
+    
+    
+    <p>The view represents how many distinct individuals have seen your milestone.</p> 
+    
+    
+    </ion-card-content> 
+    </ion-card> 
+    <ion-card> 
+    
+    <ion-card-header text-wrap text-center> 
+    
+    
+    Entries 
+    
+    </ion-card-header> 
+    
+    <ion-card-content text-wrap> 
+    
+    
+    <p>Everything you create namely: goals, milestones, before and after pictures, personal info and ponds can be edited here.</p> 
+    
+    </ion-card-content> 
+    
+    <ion-card-content text-wrap> 
+    
+    
+    <p>Deleting goals and milestone 24 hours past their creation would be marked as failed!</p> 
+    
+    </ion-card-content> 
+    </ion-card> 
+    <ion-card> 
+    
+    <ion-card-header text-wrap text-center> 
+    
+    
+    Technical Support and General Questions 
+    
+    </ion-card-header> 
+    
+    <ion-card-content text-wrap> 
+    
+    
+    <p>For Additional Questions and Support Contact us at pondeye@textdoar.com</p> 
+    
+    
+    
+    
+    </ion-card-content> 
+    </ion-card> 
+    <br><br> 
+    <ion-fab bottom right> 
+    
+    <button ion-fab mini (click)="createPost()"> 
+    
+    
+    <ion-icon name="add"></ion-icon> 
+    
+    </button> 
+    
+    <br> 
+    
+    <button ion-fab mini (click)="createPicture()"> 
+    
+    
+    <ion-icon name="md-camera"></ion-icon> 
+    
+    </button> 
+    </ion-fab>
+</ion-content> 
+<ion-footer> 
+    
+    <div class="bottom_bar" text-center text-wrap> 
+    
+    
+    <span color="primary"> &copy; Pondeye LLC</span> 
+    
+    </div> 
+</ion-footer>

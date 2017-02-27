@@ -1,0 +1,47 @@
+<ion-content class="auth-bg"> 
+<ion-searchbar [(ngModel)]="queryWord" placeholder="discover ponds, goals, and people" (search)="search($event)"></ion-searchbar> 
+<div class="login-content white-bg"> 
+  <div class="light-bg" padding text-center> 
+ 
+ <span>You need to be sign in to create a post</span> 
+ 
+ <button ion-button class="btn-round" margin-top color="primary" (click)="signUp()">SIGN UP</button> 
+  </div> 
+  <h2 text-center>Login</h2> 
+  <ion-list class="list-no-border" margin-bottom> 
+ 
+ <ion-item> 
+ 
+ 
+<ion-input #username type="email" placeholder="Email"></ion-input> 
+ 
+ </ion-item> 
+ 
+ <ion-item> 
+ 
+ 
+<ion-input #password type="password" placeholder="Password"></ion-input> 
+ 
+ </ion-item> 
+ 
+ <ion-item> 
+ 
+ 
+<ion-label> 
+ 
+ 
+  Remember me 
+ 
+ 
+  <span class="pull-right" color="secondary">Forgot?</span> 
+ 
+ 
+</ion-label> 
+ 
+ 
+<ion-checkbox color="dark"></ion-checkbox> 
+ 
+ </ion-item> 
+  </ion-list> 
+  <button ion-button class="no-round" no-margin block color="secondary" (click)="login(username.value, password.value)">LOGIN</button> 
+</div> </ion-content> 

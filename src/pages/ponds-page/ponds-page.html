@@ -1,0 +1,49 @@
+<ion-header>  
+    <ion-navbar color="primary">    
+        <button ion-button menuToggle>      
+            <ion-icon name="menu"></ion-icon>    
+        </button>    
+        <ion-title>List of Ponds</ion-title>  
+    </ion-navbar>
+</ion-header>
+<ion-content>  
+    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, motivations, and people" (search)="search($event)"></ion-searchbar>  
+    <ion-list *ngIf="!noPonds" class="list-full-border">    
+        <ion-item-sliding *ngFor="let pond of ponds">      
+            <ion-item (click)="viewPond(pond.id)">        
+                <ion-avatar item-left>          
+                    <img class="profile-picture" src="{{ pond.owner_profile_pic }}" alt=""/>        
+                </ion-avatar>        
+                <div>          
+                    <h3 color="primary">{{ pond.name }}</h3>        
+                </div>      
+            </ion-item>    
+        </ion-item-sliding>  
+    </ion-list>    
+    <ion-list *ngIf="noPonds" class="list-full-border">      
+        <ion-item text-wrap>        
+            <h4>          
+                Seems like you are not part of a pond. Below is a list of ponds that might interest you!        
+            </h4>      
+        </ion-item>      
+        <ion-item-sliding *ngFor="let pond of ponds">        
+            <ion-item (click)="viewPond(pond.id)">          
+                <ion-avatar item-left>            
+                    <img class="profile-picture" src="{{ pond.owner_profile_pic }}" alt=""/>          
+                </ion-avatar>          
+                <div>            
+                    <h3 color="primary">{{ pond.name }}</h3>          
+                </div>        
+            </ion-item>      
+        </ion-item-sliding>  
+    </ion-list>  
+    <ion-fab bottom right>    
+        <button ion-fab mini (click)="createPost()">      
+            <ion-icon name="add"></ion-icon>    
+        </button>    
+        <br>    
+        <button ion-fab mini (click)="createPicture()">      
+            <ion-icon name="md-camera"></ion-icon>    
+        </button>  
+    </ion-fab>
+</ion-content>

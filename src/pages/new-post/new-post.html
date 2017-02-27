@@ -1,0 +1,105 @@
+<ion-header>
+	<ion-navbar color="light">
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title>New Post</ion-title>
+	</ion-navbar>
+</ion-header>
+<ion-content>	
+	<ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, and people" (search)="search($event)"></ion-searchbar>
+	<div class="item item-input-inset">
+		<button ion-button class="no-round" (click)="openProjOption()" no-margin block color="secondary">New Goal</button>
+	</div>
+	<div class="item item-input-inset">
+		<button ion-button class="no-round" (click)="openMilOption()" no-margin block color="grey">New Milestone</button>
+	</div>
+	<ion-list *ngIf="showMilstone" class="list-no-border">
+		<span *ngIf="hasProj">	
+			<ion-item>
+				<label class="item item-input"></label>
+					<ion-textarea #milName placeholder="What's the Milestone?"></ion-textarea>	
+			</ion-item>
+			<ion-item>
+				<ion-label>What goal is this for?</ion-label>
+				<ion-select [(ngModel)]="name_of_mil_proj" >
+					<ion-option value="{{proj.id}}" *ngFor="let proj of projAndPond.user_project.projects">{{proj.name}}</ion-option>
+				</ion-select>	 
+			</ion-item>	 	
+			<ion-item>
+				<ion-label>Date of Completion</ion-label>
+				<ion-datetime [(ngModel)]="milComDate" displayFormat="MMM DD YYYY"></ion-datetime>	 
+			</ion-item>	
+			<ion-item>
+				<ion-label>Time of Completion</ion-label>
+					<ion-datetime [(ngModel)]="milComTime" displayFormat="h:mm A" pickerFormat="h mm A"></ion-datetime>	 
+			</ion-item>	
+			<ion-item>
+				<ion-label>How long will this take to complete?</ion-label>
+				<ion-select [(ngModel)]="length_of_time">
+					<ion-option value="-1">Less Than an Hour</ion-option>
+					<ion-option value="1">An Hour</ion-option>
+					<ion-option value="2">Two Hours</ion-option>
+					<ion-option value="3">Three Hours</ion-option>
+					<ion-option value="4">Four Hours</ion-option>
+					<ion-option value="5">Five Hours</ion-option>
+				</ion-select>
+			</ion-item>
+			<ion-item>
+				<label class="item item-input">
+					<button ion-button color="light" (click)="addNewMilestone(milName.value)" large>Add Milestone</button>
+				</label>
+			</ion-item>
+		</span>
+		 <ion-list *ngIf="!hasProj">
+			<p>Can't create milestone without a project.</p>
+		 </ion-list>
+	</ion-list>
+	
+	<ion-list *ngIf="showProject" class="list-no-border">	
+		<ion-item>
+			<ion-textarea #goalName placeholder="My Goal is to..."></ion-textarea>
+		</ion-item>
+		 <ion-item>
+			 <ion-label>What best describes your motivation?</ion-label>
+			 <ion-select [(ngModel)]="tags" multiple="true">
+				<ion-option value="Relationship">Relationship</ion-option>
+				<ion-option value="Health">Health</ion-option>
+				<ion-option value="Self-Image">Self-Image</ion-option>
+				<ion-option value="Social Cause">Social Cause</ion-option>
+				<ion-option value="Self-Improvement">Self-Improvement</ion-option>
+				<ion-option value="A Dare">A Dare</ion-option>
+				<ion-option value="Diet">Diet</ion-option>
+				<ion-option value="Get In Shape">Get In Shape</ion-option>
+				 <ion-option value="Build Muscle">Build Muscle</ion-option>
+				<ion-option value="Lose Weight">Lose Weight</ion-option>
+			</ion-select>
+		 </ion-item>
+		 <ion-item>
+			<ion-label>Finished Date?</ion-label>
+			<ion-datetime [(ngModel)]="projComDate" displayFormat="MMM DD YYYY"></ion-datetime>
+		 </ion-item>
+		<ion-item>
+			<ion-label>Finished Time?</ion-label>
+			<ion-datetime [(ngModel)]="projComTime" dispdisplayFormat="h:mm A" pickerFormat="h mm A"></ion-datetime>
+		</ion-item>
+		<ion-item *ngIf="hasPond">
+			<ion-label>Who Can See This Goal?</ion-label>
+			<ion-select [(ngModel)]="public_status">
+				<ion-option value="{{pond.id}}" *ngFor="let pond of projAndPond.pond.ponds">{{pond.pond_name}}</ion-option>
+				<ion-option value="aps">All Pond</ion-option>
+				<ion-option checked="true" value="">Public</ion-option>
+			</ion-select>
+		 </ion-item>
+		 <ion-item>
+			<ion-label class="item item-input">
+				<button ion-button color="light" (click)="addNewProject(goalName.value)" large>Add Project</button>
+			</ion-label>
+		 </ion-item>
+	</ion-list>
+	<ion-fab bottom right>
+		<button ion-fab mini (click)="createPicture()">
+			<ion-icon name="md-camera"></ion-icon>
+		</button>
+	</ion-fab>	
+</ion-content>

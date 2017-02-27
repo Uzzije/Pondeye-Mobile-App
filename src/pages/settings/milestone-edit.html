@@ -1,0 +1,40 @@
+<ion-header>  
+    <ion-navbar color="primary">    
+        <button menuToggle ion-button>      
+            <ion-icon name="menu"></ion-icon>    
+        </button>    
+        <ion-title>Milestones Entries</ion-title>  
+    </ion-navbar>
+</ion-header>
+<ion-content>		
+    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, motivations, and people" (search)="search($event)"></ion-searchbar>		
+    <ion-list *ngFor="let mil of milestoneList">				
+        <ion-item *ngIf="showMilestoneArray[mil.id]" text-wrap>					
+            <label>Finish by: {{ mil.time }}</label>				
+        </ion-item>				
+        <ion-item *ngIf="showMilestoneArray[mil.id]">						
+            <ion-textarea [(ngModel)]="modelArray[mil.id]"></ion-textarea>				
+        </ion-item>				
+        <ion-item *ngIf="showMilestoneArray[mil.id]">						
+            <button ion-button (click)="deleteMilestone(mil.id)"  color="danger">							
+                Delete						
+            </button>						
+            <button ion-button (click)="updateMilestone(mil.id)"  color="secondary">							
+                Update						
+            </button>				
+        </ion-item>			
+        <br><br><br>		
+    </ion-list>		
+    <ion-item text-wrap *ngIf="!hasMilestone">			
+        <p>You do not have a milestone entry.</p>		
+    </ion-item>  
+    <ion-fab bottom right>    
+        <button ion-fab mini (click)="createPost()">      
+            <ion-icon name="add"></ion-icon>    
+        </button>    
+        <br>    
+        <button ion-fab mini (click)="createPicture()">      
+            <ion-icon name="md-camera"></ion-icon>    
+        </button>  
+    </ion-fab>
+</ion-content>

@@ -1,0 +1,51 @@
+<ion-content position="bottom" class="auth-bg">
+<div class="login-content white-bg">
+
+    <div class="light-bg" padding text-center>
+
+    <span>You need to be sign in to create a post</span><br>
+
+
+<button ion-button class="btn-round" margin-top color="primary" (click)="signUp()">SIGN UP</button>
+
+</div>
+
+<h2 text-center>Login</h2>
+
+<ion-list position="bottom" class="list-no-border" margin-bottom>
+
+
+<ion-item>
+
+
+
+<ion-input #username type="text" placeholder="Username"></ion-input>
+
+
+</ion-item>
+
+
+<ion-item>
+
+
+
+<ion-input #password type="password" placeholder="Password"></ion-input>
+
+
+</ion-item>
+
+</ion-list>
+
+<ion-item text-center>
+
+
+
+<span text-center (click)="goToPassReset()" color="secondary">Forgot password or username ?</span>
+
+</ion-item>
+
+<br>
+
+<button ion-button class="no-round" no-margin block color="secondary" (click)="login(username.value, password.value)" large>LOGIN</button>
+</div>
+</ion-content>

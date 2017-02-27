@@ -1,0 +1,77 @@
+<!--
+  Generated template for the ProfilePage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>  
+  <ion-navbar color="primary">    
+    <button ion-button menuToggle>      
+      <ion-icon name="menu"></ion-icon>    
+    </button>
+    <ion-title>The Square</ion-title>  
+    </ion-navbar>
+</ion-header>
+<ion-content>  
+  <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, motivations, and people" (search)="search($event)"></ion-searchbar>  
+  <div #imgCompare class="posts card">      
+    <div class="item-post border-bottom" *ngFor="let feed of feeds">        
+      <ion-item class="no-border">            
+        <ion-avatar item-left (click)="viewProfile(feed.user_id)">              
+          <img src="{{ feed.profile_url }}">            
+        </ion-avatar>                   
+      <h2 (click)="viewUser(feed.user_id)">{{ feed.name }}</h2>            
+      <p>{{ feed.created }}</p>        
+      </ion-item>        
+      <ion-item text-wrap no-padding class="post-body no-border">                     
+        <p *ngIf="feed.is_picture_feed" (click)="viewMilestone(feed.milestone_id)">{{ feed.message }}</p>            
+        <p *ngIf="feed.is_milestone_feed" (click)="viewMilestone(feed.id)">{{ feed.message }}               
+          <span *ngIf="feed.is_completed">
+            <ion-icon color="primary" name="checkmark-circle"></ion-icon>
+          </span>              
+          <span *ngIf="feed.is_failed"><ion-icon color="danger" name="thumbs-down"></ion-icon></span>            
+        </p>            
+        <p *ngIf="feed.is_project_feed" (click)="viewProject(feed.id)">{{ feed.message }}               
+          <span *ngIf="feed.is_completed"><ion-icon color="primary" name="checkmark-circle"></ion-icon></span>              
+          <span *ngIf="feed.is_failed"><ion-icon color="danger" name="thumbs-down"></ion-icon></span>            
+        </p>                        
+        <div *ngIf="feed.is_milestone_feed" class="actions">                
+          <span (click)="createVouch(feed.id)">                  
+            <ion-icon ios="ios-hand" md="md-hand" color="secondary"></ion-icon>                  
+            <span color="gray">{{ vouchCountList[feed.id] }}</span>                
+          </span>                
+          <span margin-left (click)="viewPost(post.id)">                  
+            <ion-icon name="md-eye" color="primary"></ion-icon>                  
+            <span color="gray">{{ feed.seen_count }}</span>                
+          </span>              
+        </div>              
+        <div *ngIf="feed.is_project_feed" class="actions">                
+          <span (click)="createFollow(feed.id)">                  
+            <ion-icon name="md-heart" color="secondary"></ion-icon>                  
+            <span color="gray">{{ followCountList[feed.id] }}</span>                
+          </span>                
+          <span margin-left>                  
+            <ion-icon name="md-eye" color="primary"></ion-icon>                  
+          <span color="gray">{{ feed.seen_count }}</span>                
+          </span>              
+        </div>                
+        <ion-card *ngIf="feed.is_picture_feed" #imgList>                  
+          <ion-card-content color="secondary">                    
+            <img class="full-image" src="{{ feed.before_url }}" (click)="viewPost(feed.id)">                      
+            <img class="full-image" src="{{ feed.after_url }}" (click)="viewPost(feed.id)">                  
+          </ion-card-content>                
+        </ion-card>            
+        </ion-item>          
+      </div>        
+    </div>        
+    <ion-fab bottom right>        
+      <button ion-fab mini (click)="createPost()">          
+        <ion-icon name="add"></ion-icon>       
+      </button>        
+      <br>        
+      <button ion-fab mini (click)="createPicture()">          
+        <ion-icon name="md-camera"></ion-icon>        
+      </button>      
+    </ion-fab>
+</ion-content>

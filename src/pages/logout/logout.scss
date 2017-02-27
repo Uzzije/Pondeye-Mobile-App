@@ -1,0 +1,27 @@
+page-login {
+  .scroll-content {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.4);
+
+    .login-content {
+      width: 92%;
+
+      ion-list {
+
+        .item-input {
+          border-bottom: 1px solid color($colors, border-color);
+        }
+      }
+
+      .checkbox-icon {
+        border-radius: 20%;
+      }
+
+      button.no-round {
+        height: 3.8em;
+      }
+    }
+  }
+}

@@ -1,0 +1,52 @@
+<ion-header>  
+    <ion-navbar color="primary">    
+        <button menuToggle ion-button>      
+            <ion-icon name="menu"></ion-icon>    
+        </button>    
+        <ion-title text-center>Personal Information</ion-title>  
+    </ion-navbar>
+</ion-header>
+<ion-content class="auth-bg">  
+    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, people" (search)="search($event)"></ion-searchbar>  
+    <div class="login-content white-bg">    <h2 margin-top text-center padding-top>Update Personal Information</h2>    
+        <ion-list class="list-no-border">        
+            <ion-item>        
+                <ion-input [(ngModel)]="firstName" type="Name" placeholder="First Name"></ion-input>      
+            </ion-item>      
+            <ion-item>        
+                <ion-input [(ngModel)]="lastName" type="Name" placeholder="Last Name"></ion-input>      
+            </ion-item>      			
+            <ion-item>        
+                <ion-input [(ngModel)]="email" type="email" placeholder="Email"></ion-input>      
+            </ion-item>    
+        </ion-list>    
+        <button ion-button class="no-round" no-margin block color="secondary" (click)="updateIdentity()">Update Identity</button>   
+         <!-- <button ion-button class="no-round" no-margin color="facebook-color" block>SIGNUP WITH FACEBOOK</button> -->  
+    </div>  
+        <hr>  
+    <div class="login-content white-bg">    
+        <h2 margin-top text-center padding-top>Update Password</h2>    
+        <ion-list class="list-no-border">      
+            <ion-item>        
+                <ion-input #oldPassword type="password" placeholder="Old Password"></ion-input>      
+            </ion-item>      			
+            <ion-item>        
+                <ion-input #newPassword type="password" placeholder="New Password"></ion-input>      
+            </ion-item>      
+            <ion-item>        
+                <ion-input #confirmPassword type="password" placeholder="Confirm New Password"></ion-input>      
+            </ion-item>    
+        </ion-list>		
+        <button ion-button class="no-round" no-margin block color="secondary" (click)="updatePassword(oldPassword.value, newPassword.value, confirmPassword.value)">Update Password</button>    
+            <!-- <button ion-button class="no-round" no-margin color="facebook-color" block>SIGNUP WITH FACEBOOK</button> -->  
+    </div>  
+    <ion-fab bottom right>    
+        <button ion-fab mini (click)="createPost()">      
+            <ion-icon name="add"></ion-icon>    
+        </button>    
+        <br>    
+        <button ion-fab mini (click)="createPicture()">      
+            <ion-icon name="md-camera"></ion-icon>    
+        </button>  
+    </ion-fab>	
+</ion-content>

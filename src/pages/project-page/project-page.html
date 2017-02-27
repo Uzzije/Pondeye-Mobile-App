@@ -1,0 +1,69 @@
+<ion-header>  
+  <ion-navbar color="primary">    
+    <button ion-button menuToggle>      
+      <ion-icon name="menu"></ion-icon>    
+    </button>    
+    <ion-title>Goal</ion-title>  
+  </ion-navbar>
+</ion-header>
+<ion-content>    
+  <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, motivations, and people" (search)="search($event)"></ion-searchbar>    
+  <div *ngIf="projData" class="item-post">        
+    <ion-item *ngIf="projData.is_completed" class="no-border" text-wrap text-center>            
+      <ion-toolbar> <ion-title>{{ projData.is_completed }}</ion-title></ion-toolbar>        
+      </ion-item>        
+    <ion-item class="no-border" text-wrap>          
+        <h2 (click)="viewUser(post.user_id)">Owner: {{ projData?.user_first_name }}  {{ projData?.user_last_name }}</h2>          
+        <p>{{ projData.start_time }} to {{ projData.end_time }}</p>        
+      </ion-item>            
+      <ion-item text-wrap no-padding class="post-body">          
+      <div (click)="viewPost(post.id)">            
+        <p>{{ projData.project_name }}</p>          
+      </div>          
+      <div class="actions">              
+        <span (click)="toggleLike(post)">                
+          <ion-icon name="md-eye" color="primary"></ion-icon>                
+          <span color="gray">{{ projData.seen_count }}</span>              
+        </span>            
+        <span margin-left (click)="createFollow(projData?.proj_id)">                
+          <ion-icon name="md-heart" color="secondary"></ion-icon>                
+          <span color="gray">{{  followCount }}</span>              
+        </span>          
+      </div>        
+    </ion-item>        
+    <ion-item *ngIf="projData.user_owns_proj" text-wrap>            
+      <p  text-wrap>{{ projData.public_status }}</p>        
+    </ion-item>        
+    <ion-item text-wrap no-padding class="post-body no-border">          
+      <ion-toolbar> <ion-title text-center>Motivations</ion-title></ion-toolbar>          
+      <div *ngFor="let mil of projData.motif">              
+        <p text-center text-wrap>{{ mil }}</p>
+        <br>          
+      </div>        
+    </ion-item>                
+    <ion-item text-wrap no-padding *ngIf="projData.user_owns_proj" class="post-body no-border">          
+      <div>              
+        <p (click)="viewPond(projData.pond.id)">{{ projData.pond.blurb }}</p>          
+      </div>        
+    </ion-item>        
+    <ion-item text-wrap no-padding class="post-body no-border">          
+      <ion-toolbar> <ion-title text-center>Milestones</ion-title></ion-toolbar>          
+      <div *ngFor="let mil of milestones">              
+        <p (click)="viewMilestone(mil.id)" text-center text-wrap>{{ mil.blurb }}</p>
+        <br>          
+      </div>        
+    </ion-item>    
+  </div>    
+  <ion-fab bottom right>    
+    <button ion-fab mini (click)="createPost()">      
+      <ion-icon name="add"></ion-icon>    
+    </button>    
+      <br>    
+    <button ion-fab mini (click)="createPicture()">      
+      <ion-icon name="md-camera"></ion-icon>    
+    </button>  
+    </ion-fab>
+</ion-content>
+<ion-footer>
+  <hr>
+</ion-footer>

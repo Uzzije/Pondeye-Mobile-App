@@ -1,0 +1,22 @@
+page-welcome {
+
+  .logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60%;
+
+    ion-icon {
+      display: block;
+      font-size: 10rem;
+    }
+  }
+
+  button {
+    height: 3.8em;
+
+    &.button-md {
+      height: 4.8em;
+    }
+  }
+}

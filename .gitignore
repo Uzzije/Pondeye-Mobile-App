@@ -1,1 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
+node_modules/
+www/build/
+platforms/
+plugins/
+.DS_Store
+

@@ -1,0 +1,67 @@
+<ion-header>  
+    <ion-navbar color="primary">    
+        <button menuToggle ion-button>      
+            <ion-icon name="menu"></ion-icon>    
+        </button>    
+        <ion-title>Pond Entries</ion-title>  
+    </ion-navbar>
+</ion-header>
+<ion-content>	
+    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, motivations, and people" (search)="search($event)"></ion-searchbar>   
+    <ion-list class="list-no-border" *ngFor="let pel of pondEditList" padding>		 
+        <div *ngIf="showPondArray[pel.id]">			 
+            <ion-toolbar> 
+                <ion-title text-center>Pond</ion-title>
+            </ion-toolbar>				
+            <ion-item>							
+                <ion-textarea [(ngModel)]="pondNameArray[pel.id]"></ion-textarea>				
+            </ion-item>				
+            <ion-item>								
+                <ion-label><h2>Purpose of Pond</h2></ion-label>				
+            </ion-item>			   
+            <ion-item>							
+                <ion-textarea [(ngModel)]="pupModelArray[pel.id]"></ion-textarea>				
+            </ion-item>							 
+            <ion-item>					
+                <ion-label>Edit Pond Tag?</ion-label>					
+                <ion-select [(ngModel)]="tagModelArray[pel.id]" multiple="true">						
+                    <ion-option  value="Relationship">Relationship</ion-option>						
+                    <ion-option value="Health">Health</ion-option>						
+                    <ion-option value="Self-Image">Self-Image</ion-option>						
+                    <ion-option value="Social Cause">Social Cause</ion-option>						
+                    <ion-option value="Self-Improvement">Self-Improvement</ion-option>						
+                    <ion-option value="A Challenge">A Challenge</ion-option>						
+                    <ion-option value="Diet">Diet</ion-option>						
+                    <ion-option value="Get In Shape">Get In Shape</ion-option>						
+                    <ion-option value="Build Muscle">Build Muscle</ion-option>						
+                    <ion-option value="Lose Weight">Lose Weight</ion-option>					
+                </ion-select>				
+            </ion-item>										
+            <ion-item>							
+                <ion-label>Remove Pond Members</ion-label>							
+                <ion-select [(ngModel)]="pondMemberArray[pel.id]">								
+                    <ion-option value="{{ ponders.id }}" *ngFor="let ponders of pel.pond_members">{{ ponders.first_name }}  {{ ponders.last_name }}</ion-option>							
+                </ion-select>					
+            </ion-item>									
+            <ion-item>					
+                <label class="item item-input">							
+                    <button ion-button color="secondary" (click)="updateIndividualPondSet(pel.id)">Update Pond</button>							
+                    <button ion-button color="danger" (click)="deletePondSet(pel.id)">Delete Pond</button>					
+                </label>  				
+            </ion-item>		 
+        </div>		 	
+        <br><br><br>	
+    </ion-list>	
+    <ion-item text-wrap *ngIf="!hasPond">		
+        <p>You are not part of a pond. Go to your pond page to view pond suggestions.</p>	
+    </ion-item>	
+    <ion-fab bottom right>    
+        <button ion-fab mini (click)="createPost()">      
+            <ion-icon name="add"></ion-icon>    
+        </button>		
+        <br>    
+        <button ion-fab mini (click)="createPicture()">      
+            <ion-icon name="md-camera"></ion-icon>    
+        </button>  
+    </ion-fab>	
+</ion-content>

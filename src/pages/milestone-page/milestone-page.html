@@ -1,0 +1,61 @@
+<ion-header>  
+    <ion-navbar color="primary">    
+        <button ion-button menuToggle>      
+            <ion-icon name="menu"></ion-icon>    
+        </button>    
+        <ion-title>Milestone</ion-title>  
+    </ion-navbar>
+</ion-header>
+<ion-content>    
+    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, motivations, and people" (search)="search($event)"></ion-searchbar>    
+    <div *ngIf="milData" class="item-post">        
+        <ion-item *ngIf="milData.is_completed" class="no-border" text-wrap text-center>            
+            <ion-toolbar> <ion-title>{{ milData.is_completed }}</ion-title></ion-toolbar>        
+        </ion-item>        
+        <ion-item class="no-border" text-wrap>          
+            <h2 (click)="viewUser(milData?.user_id)">Owner: {{ milData?.user_first_name }} {{ milData.user_last_name }}</h2>          
+            <p>{{ milData.start_time }} to {{ milData.end_time }}</p>        
+        </ion-item>            
+        <ion-item text-wrap no-padding class="post-body">          
+            <div>            
+                <p>{{ milData.milestone_name }}</p>          
+            </div>          
+            <div class="actions">              
+                <span>                
+                    <ion-icon name="md-eye" color="primary"></ion-icon>                
+                    <span color="gray">{{ milData.seen_count }}</span>              
+                </span>            
+                <span margin-left (click)="createVouch(milData?.feed_id)">                
+                    <ion-icon name="md-hand" color="secondary"></ion-icon>                
+                    <span color="gray">{{ vouchCount }}</span>              
+                </span>          
+            </div>                  
+        </ion-item>       
+        <ion-toolbar> <ion-title text-center> Goal  </ion-title></ion-toolbar>       
+        <ion-item text-wrap text-center>         
+            <span (click)="viewProject(milData?.project_id)">{{ milData?.project_name }}</span>       
+        </ion-item>        
+        <ion-item text-wrap>            
+            <p text-wrap>{{ milData.percentage_statement }}</p>        
+        </ion-item>        
+        <ion-item text-wrap no-padding class="post-body no-border">          
+            <div *ngFor="let pic of milData.pic_list">              
+                <ion-card>                
+                    <ion-card-content>                  
+                        <img class="full-image" src="{{ pic.picture_before }}">                  
+                        <img class="full-image" src="{{ pic.picture_after }}">                
+                    </ion-card-content>              
+                </ion-card>          
+            </div>        
+        </ion-item>    
+    </div>  
+    <ion-fab bottom right>    
+        <button ion-fab mini (click)="createPost()">      
+            <ion-icon name="add"></ion-icon>    
+        </button>    
+        <br>    
+        <button ion-fab mini (click)="createPicture()">      
+            <ion-icon name="md-camera"></ion-icon>    
+        </button>  
+    </ion-fab>
+</ion-content>

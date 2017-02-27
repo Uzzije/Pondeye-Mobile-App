@@ -1,0 +1,21 @@
+page-post {
+
+  .list-ios,
+  .list-md,
+  .list-wp {
+    &[no-margin] {
+      margin: 0;
+    }
+  }
+
+  ion-footer {
+
+    .bar-buttons-md[start] {
+      order: 3;
+    }
+
+    ion-icon {
+      font-size: 1.6em;
+    }
+  }
+}

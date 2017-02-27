@@ -1,0 +1,216 @@
+<ion-content class="auth-bg">
+<div class="login-content white-bg">
+
+<div padding text-center>
+
+
+
+<h2 margin-top text-center>Register</h2>
+
+
+
+<button ion-button class="btn-round" no-margin block color="primary" (click)="login()">LOGIN</button>
+
+</div>
+
+<ion-list position="bottom"
+class="list-no-border" margin-bottom>
+
+
+<ion-item *ngIf="edusername">
+
+
+	<span type="text" value="Invalid Username" class="no-round" no-margin role="alert">
+
+
+		Invalid Username
+
+
+
+</span>
+
+
+</ion-item>
+
+
+<ion-item>
+
+
+
+<ion-input #username type="name" placeholder="Username"></ion-input>
+
+
+</ion-item>
+
+
+
+
+
+<ion-item *ngIf="edemail">
+
+
+	<span value="Invalid Email" class="no-round" no-margin role="alert">
+
+
+		Invalid Email
+
+
+
+</span>
+
+
+</ion-item>
+
+
+<ion-item>
+
+
+
+<ion-input #email type="email" placeholder="Email"></ion-input>
+
+
+</ion-item>
+
+
+<ion-item *ngIf="edfirst_name">
+
+
+	<span type="text" value="Invalid First Name" class="no-round" no-margin role="alert">
+
+
+		Invalid First Name
+
+
+
+</span>
+
+
+</ion-item>
+
+
+<ion-item>
+
+
+
+<ion-input #first_name type="Name" placeholder="First Name"></ion-input>
+
+
+</ion-item>
+
+
+
+
+
+
+
+
+<ion-item *ngIf="edlast_name">
+
+
+	<span type="text" value="Invalid Last Name" class="no-round" no-margin role="alert">
+
+
+		Invalid Last Name
+
+
+ </span>
+
+
+</ion-item>
+
+
+<ion-item>
+
+
+
+<ion-input #last_name type="Name" placeholder="Last Name"></ion-input>
+
+
+</ion-item>
+
+
+
+
+
+
+
+
+<ion-item *ngIf="edpassword">
+
+
+	<span type="text" value="Invalid Password" class="no-round" no-margin role="alert">
+
+
+		Invalid Password
+
+
+ </span>
+
+
+</ion-item>
+
+
+<ion-item>
+
+
+
+<ion-input #password type="password" placeholder="Password"></ion-input>
+
+
+</ion-item>
+
+
+
+
+
+
+
+
+<ion-item *ngIf="edconf_password">
+
+
+	<span type="text" value="Invalid Password"
+class="no-round" no-margin role="alert">
+
+
+		Invalid Password
+
+
+ </span>
+
+
+</ion-item>
+
+
+<ion-item>
+
+
+
+<ion-input #conf_password type="password" placeholder="Confirm Password"></ion-input>
+
+
+</ion-item>
+
+
+
+
+
+
+
+
+<ion-item text-wrap>
+
+
+
+
+By signing up I agree to the term of use.
+
+
+</ion-item>
+
+
+
+
+</ion-list>
+
+<button ion-button large class="no-round" no-margin block color="secondary" (click)="signUp(username.value, password.value, conf_password.value, email.value, first_name.value, last_name.value)">SIGNUP</button>

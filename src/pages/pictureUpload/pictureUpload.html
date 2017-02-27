@@ -1,0 +1,63 @@
+<ion-header>
+<ion-navbar color="primary">
+
+<button menuToggle ion-button>
+
+
+<ion-icon name="menu"></ion-icon>
+
+</button>
+
+<ion-title>Picture Upload</ion-title>
+</ion-navbar></ion-header><ion-content>	 <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, motivations, and people" (search)="search($event)"></ion-searchbar>
+ <ion-list class="list-no-border">	
+<ion-item>	
+
+<ion-label>What milestone is this for?</ion-label>
+
+	<ion-select [(ngModel)]="milId" >	
+
+
+<ion-option value="{{mil.id}}" *ngFor="let mil of milPicture">{{mil.name}}</ion-option>
+
+	</ion-select>	
+ </ion-item>	
+	
+	
+ <ion-item>	 	 <ion-label>Type of Picture</ion-label>	 	 <ion-select [(ngModel)]="type_of_picture">		
+
+<ion-option value="bc">The Before Visual</ion-option>		
+
+<ion-option value="ac">The After Visual</ion-option>	
+
+
+</ion-select>	
+	</ion-item>
+	
+	
+ <ion-item>
+
+	<label class="item item-input">
+
+
+
+	<button ion-button color="primary" (click)="createMilPictureUpload()" full large>Upload Picture</button>
+
+	</label>
+	
+ </ion-item>	</ion-list>	<ion-fab bottom right>
+
+<button ion-fab mini (click)="createPost()">
+
+
+<ion-icon name="add"></ion-icon>
+
+</button>		<br>
+
+<button ion-fab mini (click)="createPicture()">
+
+
+<ion-icon name="md-camera"></ion-icon>
+
+</button>
+</ion-fab>	</ion-content>

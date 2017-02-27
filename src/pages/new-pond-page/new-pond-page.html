@@ -1,0 +1,98 @@
+<ion-header>
+    <ion-navbar color="primary">
+
+    <button menuToggle ion-button>
+
+    <ion-icon name="menu"></ion-icon>
+
+    </button>
+
+    <ion-title>Add New Pond</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>	
+    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, motivations, and people" (search)="search($event)"></ion-searchbar>
+ <ion-list class="list-no-border">	
+<ion-item>	
+
+<label class="item item-input"></label>	
+
+
+
+<ion-textarea #pondName placeholder="Enter Name of Pond (Max 240 Characters)?"></ion-textarea>	
+</ion-item>	
+ 	
+ <ion-item>	
+
+<label class="item item-input"></label>	
+
+<ion-textarea #pondPurpose placeholder="Purpose of this Pond (Max 100 Characters)?"></ion-textarea>	
+</ion-item>	
+ 	 <ion-item> 	
+ 	<ion-label>Check tags that best describes the Intentions of this Pond?</ion-label> 	
+ 	<ion-select [(ngModel)]="tags" multiple="true">	
+
+
+    <ion-option value="Relationship">Relationship</ion-option>	
+
+
+    <ion-option value="Health">Health</ion-option>	
+
+
+    <ion-option value="Self-Image">Self-Image</ion-option>	
+
+
+    <ion-option value="Social Cause">Social Cause</ion-option>	
+
+
+    <ion-option value="Self-Improvement">Self-Improvement</ion-option>	
+
+
+    <ion-option value="A Challenge">A Challenge</ion-option>	
+
+
+    <ion-option value="Diet">Diet</ion-option>	
+
+
+    <ion-option value="Get In Shape">Get In Shape</ion-option>	
+
+
+    <ion-option value="Build Muscle">Build Muscle</ion-option>	
+
+
+    <ion-option value="Lose Weight">Lose Weight</ion-option>
+
+        </ion-select>
+        
+    </ion-item>
+        
+        
+    <ion-item>
+
+        <label class="item item-input">
+
+
+
+        <button ion-button color="primary" (click)="createPondEntry(pondName.value, pondPurpose.value)" full large>Create New Pond</button>
+
+        </label>
+        
+    </ion-item>	</ion-list>	<ion-fab bottom right>
+
+    <button ion-fab mini (click)="createPost()">
+
+
+    <ion-icon name="add"></ion-icon>
+
+    </button>		<br>
+
+    <button ion-fab mini (click)="createPicture()">
+
+
+    <ion-icon name="md-camera"></ion-icon>
+
+    </button>
+    </ion-fab>
+</ion-content>
+
+
