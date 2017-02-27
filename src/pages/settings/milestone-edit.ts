@@ -147,19 +147,19 @@ export class MilestoneEditPage {
     createPicture = () => {
         this.takePicture();
     };
-    takePicture = () => {
-        
-        Camera .getPicture({
-            destinationType: Camera .DestinationType.DATA_URL,
-            mediaType: Camera .MediaType.PICTURE,
-            encodingType: Camera .EncodingType.JPEG,
+     takePicture (){ 
+          Camera.getPicture({
+            destinationType:  Camera.DestinationType.DATA_URL,
+            mediaType: Camera.MediaType.PICTURE,
+            encodingType: Camera.EncodingType.JPEG,
             correctOrientation: true
-        }).then(function (imageData) {
+        }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            this.nav.setRoot(NewPictureUploadPage, { 'fileName': this.base64Image });
+            console.log('base64Image pic ', this.base64Image);
+            this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {
             console.log(err);
         });
-    };
+    }
     
 }

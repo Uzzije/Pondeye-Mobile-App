@@ -73,7 +73,8 @@ import {PersonalInfoEditPage} from '../pages/settings/personal-info-edit';
     ProjectEditPage,
     MilestoneEditPage,
     PictureEditPage,
-    PersonalInfoEditPage
+    PersonalInfoEditPage,
+    PondEditPage
     /* import pages */
   ],
   imports: [
@@ -107,7 +108,8 @@ import {PersonalInfoEditPage} from '../pages/settings/personal-info-edit';
     ProjectEditPage,
     MilestoneEditPage,
     PictureEditPage,
-    PersonalInfoEditPage
+    PersonalInfoEditPage,
+    PondEditPage
     /* import pages */
   ],
   providers: [

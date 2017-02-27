@@ -39,7 +39,12 @@
       <div *ngFor="let mil of projData.motif">              
         <p text-center text-wrap>{{ mil }}</p>
         <br>          
-      </div>        
+      </div> 
+      <div *ngIf="noMotif">
+          <p text-center text-wrap>
+            There is no particular motivation associated with this goal.
+          </p>
+      </div>       
     </ion-item>                
     <ion-item text-wrap no-padding *ngIf="projData.user_owns_proj" class="post-body no-border">          
       <div>              

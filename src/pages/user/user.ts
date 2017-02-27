@@ -51,7 +51,7 @@ export class UserPage {
   private yourProfile;
   private userName;
   private selectedPond;
-  private cover_url = '../../../assets/img/cover.jpg';
+  private cover_url = '../../assets/img/cover.jpg';
   constructor(private nav: NavController, private userService: UserService, private pondService: PondService, 
               private navParams: NavParams, private setService: SettingsService, private postService: PostService, 
               public actionSheetCtrl: ActionSheetController,

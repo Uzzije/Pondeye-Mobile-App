@@ -65,9 +65,10 @@ export class NewPictureUploadPage {
             this.loader.dismiss();
         });
     };
-   createMilPictureUpload = () => {
+   createMilPictureUpload() {
        
         this.fileUpload = this.base64Image;
+        console.log('file uploda ', this.fileUpload);
         if (this.type_of_picture && this.fileUpload, this.milId) {
             var subscribe = this.picUploadService.milPictureUpload(this.fileUpload, this.type_of_picture, this.milId);
             subscribe.subscribe((data) => {
@@ -114,8 +115,9 @@ export class NewPictureUploadPage {
             mediaType: Camera.MediaType.PICTURE,
             encodingType: Camera.EncodingType.JPEG,
             correctOrientation: true
-        }).then(function (imageData) {
+        }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
+            console.log('base64Image pic ', this.base64Image);
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {
             console.log(err);

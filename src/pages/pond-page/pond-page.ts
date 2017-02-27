@@ -34,6 +34,7 @@ export class PondPage {
     private noNotification = false;
     private pondData;
     private pond;
+    private noMotif = false;
     // get sample data only
     private pondId;
     constructor(private nav: NavController,   private userService: UserService, private pondService: PondService, private params: NavParams, private setService: SettingsService, private postService: PostService, public actionSheetCtrl: ActionSheetController,
@@ -56,6 +57,11 @@ export class PondPage {
             }
             else {
                 this.pond = this.pondData.pond_info;
+                console.log(this.pond.tags);
+                if(this.pond.tags.length == 0){
+                    this.noMotif = true;
+                    console.log("its true");
+                }
             }
         }, (error) => { this.loader.dismiss(); var alert = this.showAlert(error); }, () => {
             console.log("Finished! ");
@@ -114,19 +120,19 @@ export class PondPage {
     createPicture = () => {
         this.takePicture();
     };
-    takePicture = () => {
-        
-        Camera .getPicture({
-            destinationType: Camera .DestinationType.DATA_URL,
-            mediaType: Camera .MediaType.PICTURE,
-            encodingType: Camera .EncodingType.JPEG,
+     takePicture (){ 
+          Camera.getPicture({
+            destinationType:  Camera.DestinationType.DATA_URL,
+            mediaType: Camera.MediaType.PICTURE,
+            encodingType: Camera.EncodingType.JPEG,
             correctOrientation: true
-        }).then(function (imageData) {
+        }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            this.nav.setRoot(NewPictureUploadPage, { 'fileName': this.base64Image });
+            console.log('base64Image pic ', this.base64Image);
+            this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {
             console.log(err);
         });
-    };
+    }
     
 }

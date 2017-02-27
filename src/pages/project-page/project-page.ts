@@ -31,6 +31,7 @@ export class ProjectPage {
     private projID;
     private projData;
     private followCount; 
+    private noMotif = false;
     constructor(private nav: NavController,  private params: NavParams, private setService: SettingsService, 
               private postService: PostService, public actionSheetCtrl: ActionSheetController,
               public platform: Platform, public loadingCtrl: 
@@ -54,6 +55,9 @@ export class ProjectPage {
                 this.followCount = this.projData.follow_count;
                 console.log("follow, count", this.followCount);
                 this.milestones = this.projData.mil_list;
+                if(this.projData.motif.length == 0){
+                    this.noMotif = true;
+                }
             }
         }, (error) => { this.loader.dismiss(); var alert = this.showAlert(error); }, () => {
             console.log("Finished! ");
@@ -128,19 +132,19 @@ export class ProjectPage {
     createPicture = () => {
         this.takePicture();
     };
-    takePicture = () => {
-        
-        Camera .getPicture({
-            destinationType: Camera .DestinationType.DATA_URL,
-            mediaType: Camera .MediaType.PICTURE,
-            encodingType: Camera .EncodingType.JPEG,
+     takePicture (){ 
+          Camera.getPicture({
+            destinationType:  Camera.DestinationType.DATA_URL,
+            mediaType: Camera.MediaType.PICTURE,
+            encodingType: Camera.EncodingType.JPEG,
             correctOrientation: true
-        }).then(function (imageData) {
+        }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            this.nav.setRoot(NewPictureUploadPage, { 'fileName': this.base64Image });
+            console.log('base64Image pic ', this.base64Image);
+            this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {
             console.log(err);
         });
-    };
+    }
     
 }

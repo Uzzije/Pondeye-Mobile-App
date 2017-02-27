@@ -1,6 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {Platform} from 'ionic-angular';
-import {ViewChild} from '@angular/core';
 import {StatusBar, Keyboard, Splashscreen} from 'ionic-native';
 
 // import pages
@@ -29,12 +28,13 @@ import {CURRENTURL} from '../services/service-util/URLS';
     nav: new ViewChild('content')
   }
 })
+
 export class MyApp {
   public userName = localStorage.getItem("username");
   public userProfilePic = CURRENTURL + localStorage.getItem("profile_url");
   public hasNotif = 0;
   public rootPage: any;
-
+  
   public nav: any;
 
   public pages = [
@@ -92,13 +92,16 @@ export class MyApp {
 
   constructor(public platform: Platform) {
     this.rootPage = WelcomePage;
-
+    Keyboard.disableScroll(true);
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
+      
        if (this.platform.is('android')) {
-         Keyboard.disableScroll(true);
           this.hideSplashScreen();
+        this.platform.registerBackButtonAction(() => {
+            window['plugins'].appMinimize.minimize();
+        });
        }
       StatusBar.styleDefault();
     });

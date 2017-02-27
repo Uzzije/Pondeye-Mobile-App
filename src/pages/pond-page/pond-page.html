@@ -52,8 +52,7 @@ pond.purpose
 
 
 
-<ion-item color="primary">{{ pond.pond_status
-}}</ion-item>
+<ion-item color="secondary" text-wrap text-center>{{ pond.pond_status }}</ion-item>
 
 </ion-toolbar>
 
@@ -66,11 +65,11 @@ pond.purpose
 
 <ion-item *ngFor="let tags of pond.tags" text-wrap text-center>
 
-
-
-
 <p>{{ tags }}</p>
 
+</ion-item>
+<ion-item *ngIf="noMotif" text-wrap text-center>
+    <p>No particular motivation stated!</p>
 </ion-item>
 
 <ion-toolbar>

@@ -72,7 +72,7 @@ export class PasswordResetPage {
                 if (this.resetCodeData) {
                     if (this.resetCodeData.status == true) {
                         var title = "Success!";
-                        var alert_5 = this.showAlert('Reset code sent to this email: ' + email, title = title);
+                        var alert_5 = this.showAlert('Reset code sent to this email: ' + email, title=title);
                     }
                     else {
                         var alert_6 = this.showAlert(this.resetCodeData.error);
@@ -100,9 +100,9 @@ export class PasswordResetPage {
         this.nav.setRoot(LoginPage);
     };
 
-    showAlert = function (mes) {
+    showAlert = function (mes, title="Error!") {
         var alert = this.alertCtrl.create({
-            title: 'Error!',
+            title: title,
             subTitle: mes,
             buttons: ['OK']
         });

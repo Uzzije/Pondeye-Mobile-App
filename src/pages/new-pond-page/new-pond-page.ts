@@ -34,6 +34,7 @@ export class NewPondPage {
     private milestones = [];
     // get sample data only
     private pondId;
+    private tags = [];
     constructor(private nav: NavController,  private userService: UserService,  private newPondService: PondService, private params: NavParams, private setService: SettingsService, 
                 private postService: PostService, public actionSheetCtrl: ActionSheetController,
               public platform: Platform, public loadingCtrl: 
@@ -43,11 +44,18 @@ export class NewPondPage {
 
    createPondEntry = function (name_of_pond, purpose) {
         if (name_of_pond && purpose) {
+            console.log('tags of pond ', this.tags);
             this.loader = this.loadingCtrl.create({
                 content: "Creating new pond...",
-            });
+            }); 
             this.loader.present();
-            var subscribe = this.newPondService.newPondEntry(name_of_pond, purpose, this.tags);
+            if(this.tags.length > 0){
+                var subscribe = this.newPondService.newPondEntry(name_of_pond, purpose, this.tags);
+            }else{
+                var subscribe = this.newPondService.newPondEntry(name_of_pond, purpose, []);
+            }
+            
+
             subscribe.subscribe((data) => {
                 this.pondData = JSON.parse(data);
                 if (this.pondData.status === false) {
@@ -56,7 +64,9 @@ export class NewPondPage {
                 else {
                     this.nav.setRoot(ActivityPage);
                 }
-            }, (error) => { this.loader.dismiss(); var alert = this.showAlert(error); }, () => {
+            }, (error) => { 
+                    this.loader.dismiss(); var alert = this.showAlert(error); 
+                }, () => {
                 console.log("Finished! ");
                 this.loader.dismiss();
             });
@@ -92,19 +102,18 @@ export class NewPondPage {
     createPicture = () => {
         this.takePicture();
     };
-    takePicture = () => {
-        
-        Camera .getPicture({
-            destinationType: Camera .DestinationType.DATA_URL,
-            mediaType: Camera .MediaType.PICTURE,
-            encodingType: Camera .EncodingType.JPEG,
+     takePicture (){ 
+          Camera.getPicture({
+            destinationType:  Camera.DestinationType.DATA_URL,
+            mediaType: Camera.MediaType.PICTURE,
+            encodingType: Camera.EncodingType.JPEG,
             correctOrientation: true
-        }).then(function (imageData) {
+        }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            this.nav.setRoot(NewPictureUploadPage, { 'fileName': this.base64Image });
+            console.log('base64Image pic ', this.base64Image);
+            this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {
             console.log(err);
         });
-    };
-    
+    }
 }

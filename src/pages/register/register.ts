@@ -6,7 +6,7 @@ import {PostService} from '../../services/post-service';
 import {UserPage} from "../user/user";
 import {LoginPage} from '../login/login';
 import {AboutPage} from '../about/about';
-
+import {AuthenticateService} from '../../services/authenticate-service';
 /*
  Generated class for the LoginPage page.
 
@@ -26,7 +26,8 @@ export class RegisterPage {
  private edpassword = false;
  private edconf_password = false;
 
-  constructor(public nav: NavController, public postService: PostService, public actionSheetCtrl: ActionSheetController,
+  constructor(public nav: NavController, private authService: AuthenticateService, 
+  public postService: PostService, public actionSheetCtrl: ActionSheetController,
               public platform: Platform) {
   }
 

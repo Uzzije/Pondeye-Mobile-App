@@ -68,11 +68,12 @@ export class LoginPage {
                             }
                         }
                     }, (error) => { 
-                        var alert = this.showAlert(error); }, () => { return console.log("Finished!"); 
-                    },
-                        () => {
+                        this.loader.dismiss();
+                        var alert = this.showAlert(error); }, 
+                        () => { 
                             this.loader.dismiss();
-                        }
+                            return console.log("Finished!"); 
+                         },
                     );
                 }
             }
