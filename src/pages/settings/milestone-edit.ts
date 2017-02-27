@@ -71,7 +71,7 @@ export class MilestoneEditPage {
         });
     };
 
-    updateMilestone = function (milId) {
+    updateMilestone  (milId) {
         
         console.log("this mil " + milId + " " + this.modelArray[milId]);
         var subcribe = this.setService.updateMilestone(milId, this.modelArray[milId]).subscribe((data) => {
@@ -88,7 +88,7 @@ export class MilestoneEditPage {
         }, () => { return console.log("Finished!"); });
     };
 
-    createSeenCount = function (proj_Id) {
+    createSeenCount  (proj_Id) {
         
         var seenData;
         var subcription = this.postService.postProjectNewSeen(proj_Id).subscribe((data) => {
@@ -100,7 +100,7 @@ export class MilestoneEditPage {
         }, (error) => { return alert(error); }, () => { return console.log("Finished! "); });
     };
 
-   deleteMilestone = function (milId) {
+   deleteMilestone  (milId) {
         
         var subcribe = this.setService.deleteMilestone(milId).subscribe((data) => {
             this.milEditData = JSON.parse(data);
@@ -118,7 +118,7 @@ export class MilestoneEditPage {
     };
 
 
-    search = function (ev) {
+    search  (ev) {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
@@ -126,7 +126,7 @@ export class MilestoneEditPage {
         }
     }
 
-    showAlert = function (mes) {
+    showAlert  (mes) {
         var alert = this.alertCtrl.create({
             title: 'Error!',
             subTitle: mes,
@@ -134,7 +134,7 @@ export class MilestoneEditPage {
         });
         alert.present();
     };
-    showToast = function (mes) {
+    showToast  (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");
         });

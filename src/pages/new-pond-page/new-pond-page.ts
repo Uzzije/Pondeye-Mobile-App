@@ -35,6 +35,7 @@ export class NewPondPage {
     // get sample data only
     private pondId;
     private tags = [];
+    private pondData;
     constructor(private nav: NavController,  private userService: UserService,  private newPondService: PondService, private params: NavParams, private setService: SettingsService, 
                 private postService: PostService, public actionSheetCtrl: ActionSheetController,
               public platform: Platform, public loadingCtrl: 
@@ -42,7 +43,7 @@ export class NewPondPage {
                 
    }
 
-   createPondEntry = function (name_of_pond, purpose) {
+   createPondEntry  (name_of_pond, purpose) {
         if (name_of_pond && purpose) {
             console.log('tags of pond ', this.tags);
             this.loader = this.loadingCtrl.create({
@@ -73,7 +74,7 @@ export class NewPondPage {
         }
     };
 
-    search = function (ev) {
+    search  (ev) {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
@@ -81,7 +82,7 @@ export class NewPondPage {
         }
     }
 
-    showAlert = function (mes) {
+    showAlert  (mes) {
         var alert = this.alertCtrl.create({
             title: 'Error!',
             subTitle: mes,
@@ -89,7 +90,7 @@ export class NewPondPage {
         });
         alert.present();
     };
-    showToast = function (mes) {
+    showToast (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");
         });

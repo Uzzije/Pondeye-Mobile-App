@@ -101,7 +101,7 @@ export class LoginPage {
         this.nav.setRoot(PasswordResetPage);
     };
 
-    showAlert = function (mes) {
+    showAlert  (mes) {
         var alert = this.alertCtrl.create({
             title: 'Error!',
             subTitle: mes,
@@ -109,7 +109,7 @@ export class LoginPage {
         });
         alert.present();
     };
-    showToast = function (mes) {
+    showToast  (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");
         });

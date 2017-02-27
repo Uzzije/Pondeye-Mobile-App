@@ -14,6 +14,8 @@ import {NotificationService} from '../../services/notification-service';
 import {ProjectPage} from '../project-page/project-page';
 import {PondPage} from '../pond-page/pond-page';
 import {SearchResultPage} from '../search-result-page/search-result-page';
+import {PondService} from '../../services/pond-service';
+
 
 /*
  Generated class for the LoginPage page.
@@ -34,9 +36,10 @@ export class NotificationsPage implements OnInit{
     private noNotification = false;
     private dataNotif;
     private notifications;
+    private postData;
     // get sample data only
     private projID;
-    constructor(private nav: NavController,  private params: NavParams, private setService: SettingsService, private postService: PostService, public actionSheetCtrl: ActionSheetController,
+    constructor(private nav: NavController,  private pondService: PondService, private params: NavParams, private setService: SettingsService, private postService: PostService, public actionSheetCtrl: ActionSheetController,
               public platform: Platform, public loadingCtrl: 
               LoadingController, public notificationService: NotificationService, public alertCtrl: AlertController, public newPostService: NewPostServices) {
             // set sample data
@@ -71,7 +74,7 @@ export class NotificationsPage implements OnInit{
             this.loader.dismiss();
         });
     };
-  acceptPondRequest = function (pondRequestId) {
+  acceptPondRequest (pondRequestId) {
        
         this.loader = this.loadingCtrl.create({
             content: "Accepting Notification..",
@@ -95,7 +98,7 @@ export class NotificationsPage implements OnInit{
         });
     };
 
-  denyPondRequest = function (pondRequestId) {
+  denyPondRequest(pondRequestId) {
        
         var subcription = this.pondService.denyUserFromPond(pondRequestId).subscribe((data) => {
             this.postData = JSON.parse(data);
@@ -108,10 +111,10 @@ export class NotificationsPage implements OnInit{
             }
         }, (error) => { return alert(error); }, () => { return console.log("Finished! " + this.dataNotif); });
     };
-  viewUser = function (id) {
+  viewUser(id) {
         this.nav.push(UserPage, { id: id });
     };
-  viewProject = function (isDeleted, projId) {
+  viewProject (isDeleted, projId) {
         if (!isDeleted) {
             this.nav.push(ProjectPage, { id: projId });
         }
@@ -119,7 +122,7 @@ export class NotificationsPage implements OnInit{
             this.showToast("Project is no longer available!");
         }
     };
-  viewPond = function (isDeleted, pondId) {
+  viewPond(isDeleted, pondId) {
         if (!isDeleted) {
             this.nav.push(PondPage, { id: pondId });
         }
@@ -127,7 +130,7 @@ export class NotificationsPage implements OnInit{
             this.showToast("Pond is no longer available!");
         }
     };
-  viewMilestone = function (milIsDeleted, id) {
+  viewMilestone(milIsDeleted, id) {
         if (!milIsDeleted) {
             this.nav.push( MilestonePage, { id: id });
         }
@@ -135,7 +138,7 @@ export class NotificationsPage implements OnInit{
             this.showToast("Milestone is no longer available!");
         }
     };
-    search = function (ev) {
+    search (ev) {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
@@ -143,7 +146,7 @@ export class NotificationsPage implements OnInit{
         }
     }
 
-    showAlert = function (mes) {
+    showAlert  (mes) {
         var alert = this.alertCtrl.create({
             title: 'Error!',
             subTitle: mes,
@@ -151,7 +154,7 @@ export class NotificationsPage implements OnInit{
         });
         alert.present();
     };
-    showToast = function (mes) {
+    showToast  (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");
         });

@@ -65,7 +65,7 @@ export class ProjectPage {
         });
     };
 
-    createSeenCount = function (proj_Id) {
+    createSeenCount  (proj_Id) {
         
         var seenData;
         var subcription = this.postService.postProjectNewSeen(proj_Id).subscribe((data) => {
@@ -77,7 +77,7 @@ export class ProjectPage {
         }, (error) => { return alert(error); }, () => { return console.log("Finished! "); });
     };
 
-    createFollow = function (proj_Id) {
+    createFollow  (proj_Id) {
         
         var subcription = this.postService.postNewFollow(proj_Id).subscribe((data) => {
             var followData = JSON.parse(data);
@@ -91,7 +91,7 @@ export class ProjectPage {
         }, (error) => { return alert(error); }, () => { return console.log("Finished! "); });
     };
 
-    viewMilestone = function (feedId) {
+    viewMilestone  (feedId) {
         this.nav.push(MilestonePage, { id: feedId }).then((data) => {
             console.log(data, " viewmil data");
         });
@@ -99,11 +99,11 @@ export class ProjectPage {
     };
 
     // on click, go to user timeline
-    viewUser = function (userId) {
+    viewUser  (userId) {
         this.nav.setRoot(UserPage, { id: userId });
     };
 
-    search = function (ev) {
+    search  (ev) {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
@@ -111,7 +111,7 @@ export class ProjectPage {
         }
     }
 
-    showAlert = function (mes) {
+    showAlert  (mes) {
         var alert = this.alertCtrl.create({
             title: 'Error!',
             subTitle: mes,
@@ -119,7 +119,7 @@ export class ProjectPage {
         });
         alert.present();
     };
-    showToast = function (mes) {
+    showToast  (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");
         });

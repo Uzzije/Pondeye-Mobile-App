@@ -64,11 +64,11 @@ export class PondsPage {
         });
     };
 
-    viewPond = function (pondId) {
+    viewPond  (pondId) {
         this.nav.push(PondPage, { id: pondId });
     };
 
-    search = function (ev) {
+    search  (ev) {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
@@ -76,7 +76,7 @@ export class PondsPage {
         }
     }
 
-    showAlert = function (mes) {
+    showAlert  (mes) {
         var alert = this.alertCtrl.create({
             title: 'Error!',
             subTitle: mes,
@@ -84,7 +84,7 @@ export class PondsPage {
         });
         alert.present();
     };
-    showToast = function (mes) {
+    showToast  (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");
         });

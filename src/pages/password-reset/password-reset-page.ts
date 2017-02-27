@@ -13,7 +13,9 @@ declare var window;
   templateUrl: 'password-reset-page.html',
 })
 export class PasswordResetPage {
-  
+  private loader: any;
+  private getData: any;
+  private resetCodeData: any;
   constructor(private nav: NavController,  private authService: AuthenticateService,
             public actionSheetCtrl: ActionSheetController,
               public platform: Platform, public loadingCtrl: 
@@ -21,7 +23,7 @@ export class PasswordResetPage {
   }
 
 // login and go to home page
-    reset = function (email, newPassword, confPassword, passToken) {
+    reset  (email, newPassword, confPassword, passToken) {
             if (Network.connection === 'none') {
                 var alert_1 = this.showAlert("Hey! Pondeye requires internet connection to work!");
             }
@@ -61,7 +63,7 @@ export class PasswordResetPage {
                 }
             }
         };
-    sendResetCode = function (email) {
+    sendResetCode  (email) {
         if (email) {
             this.loader = this.loadingCtrl.create({
                 content: "Sending Code...",
@@ -100,7 +102,7 @@ export class PasswordResetPage {
         this.nav.setRoot(LoginPage);
     };
 
-    showAlert = function (mes, title="Error!") {
+    showAlert  (mes, title="Error!") {
         var alert = this.alertCtrl.create({
             title: title,
             subTitle: mes,
@@ -108,7 +110,7 @@ export class PasswordResetPage {
         });
         alert.present();
     };
-    showToast = function (mes) {
+    showToast  (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");
         });

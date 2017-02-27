@@ -9,7 +9,7 @@
 <ion-content> 
     <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, motivations, and people" (search)="search($event)"></ion-searchbar> 
         <ion-toolbar *ngIf="newUser" text-wrap>
-            <ion-title text-wrap text-center>Thanks for testing out Pondeye!</ion-title>
+            <ion-title text-wrap>Thanks for testing out Pondeye!</ion-title>
         </ion-toolbar>
     <ion-card>
         <button ion-button full (click)="goToFeed()">Go to Feed</button>

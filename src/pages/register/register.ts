@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivityPage} from "../activity/activity";
-import {NavController, ActionSheetController, Platform, Content} from 'ionic-angular';
+import {NavController, AlertController, ActionSheetController, Platform, Content} from 'ionic-angular';
 
 import {PostService} from '../../services/post-service';
 import {UserPage} from "../user/user";
@@ -25,15 +25,15 @@ export class RegisterPage {
  private edlast_name = false;
  private edpassword = false;
  private edconf_password = false;
-
+ private getData;
   constructor(public nav: NavController, private authService: AuthenticateService, 
   public postService: PostService, public actionSheetCtrl: ActionSheetController,
-              public platform: Platform) {
+              public alertCtrl: AlertController,, public platform: Platform) {
   }
 
 
   // sign up and go to home page
-    signUp = function (username, userPassword, confirmPassword, email, first_name, last_name) {
+    signUp  (username, userPassword, confirmPassword, email, first_name, last_name) {
         
         if (this.indentificationMatch(username, userPassword)) {
             console.log("don't navigat");
@@ -91,7 +91,7 @@ export class RegisterPage {
             }
         }
     };
-    emailIsValid = function (email) {
+    emailIsValid  (email) {
         if (email && email.indexOf('@') > -1 && (email.indexOf('@') === email.lastIndexOf('@'))
             && (email.indexOf('.') > email.indexOf('@'))) {
             return true;
@@ -100,7 +100,7 @@ export class RegisterPage {
             return false;
         }
     };
-    confirmPassword = function (password, confirm_password) {
+    confirmPassword  (password, confirm_password) {
         if (password === '' || confirm_password === '' || password !== confirm_password) {
             return false;
         }
@@ -109,7 +109,7 @@ export class RegisterPage {
         }
     };
     
-     indentificationMatch = function (username, password) {
+     indentificationMatch  (username, password) {
         var currUser = localStorage.getItem("username");
         var currPassword = localStorage.getItem("password");
         if (currUser && currPassword) {
@@ -127,7 +127,7 @@ export class RegisterPage {
     };
 
 
-    showAlert = function (mes) {
+    showAlert  (mes) {
         var alert = this.alertCtrl.create({
             title: 'Error!',
             subTitle: mes,

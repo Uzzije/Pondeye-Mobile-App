@@ -66,7 +66,7 @@ export class MilestonePage {
         });
     };
 
-    createVouch = function (mil_Id) {
+    createVouch  (mil_Id) {
         
         console.log("create vouch id ", mil_Id);
         var subcription = this.postService.postNewVouch(mil_Id).subscribe((data) => {
@@ -82,13 +82,13 @@ export class MilestonePage {
             var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
         }, () => { return console.log("Finished!"); });
     };
-    viewMilestone = function (feedId) {
+    viewMilestone  (feedId) {
         this.nav.setRoot(MilestonePage, { id: feedId }).then((data) => {
             console.log(data, " viewmil data");
         });
         console.log(feedId, " feed id");
     };
-    createSeenCount = function (milId) {
+    createSeenCount  (milId) {
         
         var seenData;
         var subcription = this.postService.postMilestoneNewSeen(this.milID).subscribe((data) => {
@@ -101,14 +101,14 @@ export class MilestonePage {
         }, () => { return console.log("Finished! "); });
     };
     // on click, go to user timeline
-    viewUser = function (userId) {
+    viewUser  (userId) {
         this.nav.setRoot(UserPage, { id: userId });
     };
-    viewProject = function (id) {
+    viewProject  (id) {
         this.nav.push(ProjectPage, { id: id });
     };
 
-    search = function (ev) {
+    search  (ev) {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
@@ -116,7 +116,7 @@ export class MilestonePage {
         }
     }
 
-    showAlert = function (mes) {
+    showAlert  (mes) {
         var alert = this.alertCtrl.create({
             title: 'Error!',
             subTitle: mes,
@@ -124,7 +124,7 @@ export class MilestonePage {
         });
         alert.present();
     };
-    showToast = function (mes) {
+    showToast  (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");
         });

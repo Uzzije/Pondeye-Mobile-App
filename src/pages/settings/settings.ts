@@ -35,23 +35,23 @@ export class SettingsPage {
               LoadingController, public alertCtrl: AlertController, public newPostService: NewPostServices) {
    }
 
-   navToMilEdit = function () {
+   navToMilEdit  () {
         this.nav.push(MilestoneEditPage);
     };
-   navToPersonalInfoEdit = function () {
+   navToPersonalInfoEdit  () {
         this.nav.push(PersonalInfoEditPage);
     };
-   navToPondEdit = function () {
+   navToPondEdit  () {
         this.nav.push(PondEditPage);
     };
-   navToProjEdit = function () {
+   navToProjEdit  () {
         this.nav.push(ProjectEditPage);
     };
-   navToPictureSetEdit = function () {
+   navToPictureSetEdit  () {
         this.nav.push(PictureEditPage);
     };
 
-    search = function (ev) {
+    search  (ev) {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
@@ -59,7 +59,7 @@ export class SettingsPage {
         }
     }
 
-    showAlert = function (mes) {
+    showAlert  (mes) {
         var alert = this.alertCtrl.create({
             title: 'Error!',
             subTitle: mes,
@@ -67,16 +67,16 @@ export class SettingsPage {
         });
         alert.present();
     };
-    showToast = function (mes) {
+    showToast  (mes) {
         this.platform.ready().then(function () {
             window.plugins.toast.show(mes, "short", "top");
         });
     };
 
-    createPost = function () {
+    createPost  () {
         this.nav.setRoot(NewPostPage);
     };
-    createPicture = function () {
+    createPicture  () {
         this.takePicture();
     };
      takePicture (){ 

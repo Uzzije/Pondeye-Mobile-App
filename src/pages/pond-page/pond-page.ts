@@ -37,6 +37,7 @@ export class PondPage {
     private noMotif = false;
     // get sample data only
     private pondId;
+    private pondReq;
     constructor(private nav: NavController,   private userService: UserService, private pondService: PondService, private params: NavParams, private setService: SettingsService, private postService: PostService, public actionSheetCtrl: ActionSheetController,
               public platform: Platform, public loadingCtrl: 
               LoadingController, public alertCtrl: AlertController, public newPostService: NewPostServices) {
@@ -68,10 +69,10 @@ export class PondPage {
             this.loader.dismiss();
         });
     };
-   viewPond = function (pondId) {
+   viewPond  (pondId) {
         this.nav.push(UserPage, { id: pondId });
     };
-    sendPondRequest = function (pondId) {
+    sendPondRequest  (pondId) {
         
         var subcription = this.pondService.pondRequest(this.pondId).subscribe((data) => {
             this.pondReq = JSON.parse(data);
@@ -83,15 +84,15 @@ export class PondPage {
             }
         }, (error) => { return alert(error); }, () => { return console.log("Finished! "); });
     };
-  viewUser = function (id) {
+  viewUser  (id) {
         this.nav.push(UserPage, { id: id });
     };
 
-    viewProfile = function (id) {
+    viewProfile  (id) {
         this.nav.setRoot(UserPage, { id: id });
     };
 
-    search = function (ev) {
+    search  (ev) {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
@@ -99,7 +100,7 @@ export class PondPage {
         }
     }
 
-    showAlert = function (mes) {
+    showAlert  (mes) {
         var alert = this.alertCtrl.create({
             title: 'Error!',
             subTitle: mes,
@@ -107,7 +108,7 @@ export class PondPage {
         });
         alert.present();
     };
-    showToast = function (mes) {
+    showToast  (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");
         });

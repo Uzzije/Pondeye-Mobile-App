@@ -38,6 +38,7 @@ export class PictureEditPage {
   private picSetList;
   private hasSet;
   private base64Image;
+  private fileUpload;
   ngOnInit(): void {
         
         var subcription = this.setService.getPictureEditData().subscribe((data) => {
@@ -62,7 +63,7 @@ export class PictureEditPage {
         });
     }
 
-    updatePictureSetBefore = function (picId) {
+    updatePictureSetBefore  (picId) {
         
         this.fileUpload = this.base64Image;
         var subcribe = this.setService.updatePictureSetBefore(picId, this.fileUpload).subscribe((data) => {
@@ -80,7 +81,7 @@ export class PictureEditPage {
         }, () => { return console.log("Finished! "); });
     }
 
-    search = function (ev) {
+    search  (ev) {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
@@ -88,7 +89,7 @@ export class PictureEditPage {
         }
     }
 
-    deletePictureSetBefore = function (picId) {
+    deletePictureSetBefore  (picId) {
         
         this.fileUpload = this.base64Image;
         var subcribe = this.setService.deletePictureSetBefore(picId, this.fileUpload).subscribe((data) => {
@@ -105,7 +106,7 @@ export class PictureEditPage {
         }, () => { return console.log("Finished! "); });
     }
 
-    deletePictureSetAfter = function (picId) {
+    deletePictureSetAfter  (picId) {
         
         this.takePicture();
         this.fileUpload = this.base64Image;
@@ -122,7 +123,7 @@ export class PictureEditPage {
             var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
         }, () => { return console.log("Finished! "); });
     };
-    deletePictureSet = function (picSetId) {
+    deletePictureSet  (picSetId) {
         
         var subcribe = this.setService.deletePictureSet(picSetId).subscribe((data) => {
             this.pictureSetData = JSON.parse(data);
@@ -138,7 +139,7 @@ export class PictureEditPage {
             var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
         }, () => { return console.log("Finished! "); });
     };
-    hideMilView = function (picSetId) {
+    hideMilView  (picSetId) {
         for (var el = 0; el < this.picSetList.length; el++) {
             if (this.picSetList[el].id == picSetId) {
                 this.picSetList[el].hidden == true;
@@ -146,10 +147,10 @@ export class PictureEditPage {
             }
         }
     };
-    updatePictureSetAfter = function (picId) {
+    updatePictureSetAfter  (picId) {
         this.takeEditPicture(picId);
     };
-    showAlert = function (mes) {
+    showAlert  (mes) {
         var alert = this.alertCtrl.create({
             title: 'Error!',
             subTitle: mes,
@@ -157,12 +158,12 @@ export class PictureEditPage {
         });
         alert.present();
     };
-    showToast = function (mes) {
+    showToast  (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");
         });
     };
-    takeEditPicture = function (picId) {
+    takeEditPicture  (picId) {
         
             Camera.getPicture({
             destinationType: Camera.DestinationType.DATA_URL,

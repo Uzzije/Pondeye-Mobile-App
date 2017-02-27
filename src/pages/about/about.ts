@@ -19,7 +19,7 @@ declare var window: any;
 })
 export class AboutPage {
   private newUser;
-
+  private queryWord = "";
   constructor(private nav: NavController,  private params: NavParams, private setService: SettingsService, private postService: PostService, public actionSheetCtrl: ActionSheetController,
               public platform: Platform, public loadingCtrl: 
               LoadingController, public alertCtrl: AlertController, public newPostService: NewPostServices) {

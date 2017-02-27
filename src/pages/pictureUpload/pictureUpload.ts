@@ -14,6 +14,7 @@ import {SearchResultPage} from '../search-result-page/search-result-page';
  See http://ionicframework.com/docs/v2/components/#navigation for more info on
  Ionic pages and navigation.
  */
+declare var window: any;
 @Component({
   selector: 'page-picture-upload',
   templateUrl: 'pictureUpload.html',
@@ -77,6 +78,7 @@ export class NewPictureUploadPage {
                     var alert_2 = this.showAlert(this.milestoneListData.error);
                 }
                 else {
+                    this.showToast("Picture Uploaded!");
                     this.nav.pop();
                 }
             }, (error) => {
@@ -108,7 +110,11 @@ export class NewPictureUploadPage {
             console.log(this.queryWord, " query word");
         }
     }
-
+    showToast  (mes) {
+        this.platform.ready().then(() => {
+            window.plugins.toast.show(mes, "short", "top");
+        });
+    };
     takePicture (){ 
           Camera.getPicture({
             destinationType:  Camera.DestinationType.DATA_URL,

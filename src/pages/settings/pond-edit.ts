@@ -70,7 +70,7 @@ export class PondEditPage {
             this.loader.dismiss();
         });
     };
-    updateIndividualPondSet = function (nextId) {
+    updateIndividualPondSet  (nextId) {
         
         if (this.pondNameArray[nextId] && this.pupModelArray[nextId]) {
             var pondMember = this.pondMemberArray[nextId];
@@ -86,7 +86,7 @@ export class PondEditPage {
             }, (error) => { return alert(error); }, () => { return console.log("Finished! "); });
         }
     };
-    deletePondSet = function (pondId) {
+    deletePondSet  (pondId) {
         
         var subcribe = this.setService.deletePondSet(pondId).subscribe((data) => {
             this.pondEditData = JSON.parse(data);
@@ -100,7 +100,7 @@ export class PondEditPage {
         }, (error) => { return alert(error); }, () => { return console.log("Finished! "); });
     }
 
-    search = function (ev) {
+    search  (ev) {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
@@ -108,7 +108,7 @@ export class PondEditPage {
         }
     }
 
-    showAlert = function (mes) {
+    showAlert  (mes) {
         var alert = this.alertCtrl.create({
             title: 'Error!',
             subTitle: mes,
@@ -116,12 +116,12 @@ export class PondEditPage {
         });
         alert.present();
     };
-    showToast = function (mes) {
+    showToast  (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");
         });
     };
-    takeEditPicture = function (picId) {
+    takeEditPicture  (picId) {
         
             Camera.getPicture({
             destinationType: Camera.DestinationType.DATA_URL,

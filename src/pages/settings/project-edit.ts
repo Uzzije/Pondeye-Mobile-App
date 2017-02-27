@@ -69,7 +69,7 @@ export class ProjectEditPage {
             this.loader.dismiss();
         });
     };
-    updateProject = function (projId) {
+    updateProject  (projId) {
         
         console.log("tags printed out ", this.tagModelArray[projId]);
         var subcribe = this.setService.updateProject(projId, this.modelArray[projId], this.tagModelArray[projId]).subscribe((data) => {
@@ -82,7 +82,7 @@ export class ProjectEditPage {
             }
         }, (error) => { return alert(error); }, () => { return console.log("Finished!"); });
     };
-    deleteProject = function (projId) {
+    deleteProject  (projId) {
         
         var subcribe = this.setService.deleteProject(projId).subscribe((data) => {
             this.projEditData = JSON.parse(data);
@@ -95,7 +95,7 @@ export class ProjectEditPage {
             }
         }, (error) => { return alert(error); }, () => { return console.log("Finished!"); });
     };
-    search = function (ev) {
+    search  (ev) {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
@@ -103,7 +103,7 @@ export class ProjectEditPage {
         }
     }
 
-    showAlert = function (mes) {
+    showAlert  (mes) {
         var alert = this.alertCtrl.create({
             title: 'Error!',
             subTitle: mes,
@@ -111,7 +111,7 @@ export class ProjectEditPage {
         });
         alert.present();
     };
-    showToast = function (mes) {
+    showToast  (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");
         });

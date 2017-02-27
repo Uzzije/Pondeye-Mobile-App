@@ -49,9 +49,9 @@ export class UserPage {
   private statusOfUser;
   private profUserId;
   private yourProfile;
-  private userName;
+  private userName = localStorage.getItem('username');
   private selectedPond;
-  private cover_url = '../../assets/img/cover.jpg';
+  private cover_url = 'assets/img/cover.jpg';
   constructor(private nav: NavController, private userService: UserService, private pondService: PondService, 
               private navParams: NavParams, private setService: SettingsService, private postService: PostService, 
               public actionSheetCtrl: ActionSheetController,

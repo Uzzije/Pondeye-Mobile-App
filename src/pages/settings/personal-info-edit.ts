@@ -35,6 +35,7 @@ export class PersonalInfoEditPage {
     private firstName;
     private lastName;
     private email;
+    private milestoneList = [];
     constructor(private nav: NavController, private setService: SettingsService, private postService: PostService, public actionSheetCtrl: ActionSheetController,
               public platform: Platform, public loadingCtrl: 
               LoadingController, public alertCtrl: AlertController, public newPostService: NewPostServices) {
@@ -67,7 +68,7 @@ export class PersonalInfoEditPage {
            this.loader.dismiss();
         });
     };
-    hideMilView = function (milId) {
+    hideMilView  (milId) {
         for (var el = 0; el < this.milestoneList.length; el++) {
             if (this.milestoneList[el].id == milId) {
                 this.milestoneList[el].hidden == true;
@@ -90,7 +91,7 @@ export class PersonalInfoEditPage {
             var alert =this.showAlert("Oops. Something Went Wrong! Restart the app!");
         }, () => { return console.log("Finished!"); });
     };
-    updatePassword = function (oldPassword, newPassword, confirmPassword) {
+    updatePassword  (oldPassword, newPassword, confirmPassword) {
         
         if (newPassword == confirmPassword) {
             var subcribe = this.setService.updatedPersonalPassword(newPassword, oldPassword).subscribe((data) => {
@@ -113,7 +114,7 @@ export class PersonalInfoEditPage {
         }
     };
 
-    search = function (ev) {
+    search  (ev) {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
@@ -121,7 +122,7 @@ export class PersonalInfoEditPage {
         }
     }
 
-    showAlert = function (mes) {
+    showAlert  (mes) {
         var alert = this.alertCtrl.create({
             title: 'Error!',
             subTitle: mes,
@@ -129,7 +130,7 @@ export class PersonalInfoEditPage {
         });
         alert.present();
     };
-    showToast = function (mes) {
+    showToast  (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");
         });

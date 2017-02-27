@@ -37,6 +37,11 @@ export class NewPostPage implements OnInit{
   private projAndPond;
   private tags = [];
   private base64Image;
+  private loader: any;
+  private projComTime;
+  private projComDate;
+  private milComTime;
+  private milComDate;
   constructor(private nav: NavController,  private params: NavParams, private setService: SettingsService, 
               private postService: PostService, public actionSheetCtrl: ActionSheetController,
               public platform: Platform, public loadingCtrl: 
@@ -74,7 +79,7 @@ export class NewPostPage implements OnInit{
         }
     }
 
-    addNewProject = function (name_of_project) {
+    addNewProject(name_of_project) {
         
         this.loader = this.loadingCtrl.create({
             content: "Adding Goal...",
@@ -106,7 +111,7 @@ export class NewPostPage implements OnInit{
         });
     };
     
-    addNewMilestone = function (milestone_name) {
+    addNewMilestone (milestone_name) {
         
         this.loader = this.loadingCtrl.create({
             content: "Adding Milestone...",
@@ -135,7 +140,7 @@ export class NewPostPage implements OnInit{
         });
     }
 
-    search = function (ev) {
+    search(ev) {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
@@ -143,7 +148,7 @@ export class NewPostPage implements OnInit{
         }
     }
 
-    showAlert = function (mes) {
+    showAlert(mes) {
         var alert = this.alertCtrl.create({
             title: 'Error!',
             subTitle: mes,
