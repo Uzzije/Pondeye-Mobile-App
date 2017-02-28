@@ -83,12 +83,12 @@ function sendNotificationToUser(){
     var now = new Date().getTime();
     _5_sec_from_now = new Date(now + 5 * 1000);
         // Schedule notification for tomorrow to remember about the meeting
-        if(device.platform == "Android"){
+        if(device.platform === "Android"){
             cordova.plugins.notification.local.schedule({
                 id: 10,
                 text: "New Notification!",
                 at: _5_sec_from_now,
-                icon: "file:///assets/icon/icon.png",
+                icon: "assets/icon/icon.png",
                 data: { }
             });
         }else{
@@ -96,7 +96,7 @@ function sendNotificationToUser(){
                 id: 10,
                 text: "New Notification!",
                 at: _5_sec_from_now,
-                icon: "file:///assets/icon/icon.png",
+                icon: "file://assets/icon/icon.png",
                 data: { }
             });
         }

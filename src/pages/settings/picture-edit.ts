@@ -164,7 +164,9 @@ export class PictureEditPage {
         });
     };
     takeEditPicture  (picId) {
-        
+            this.loader = this.loadingCtrl.create({
+                content: "processing picture...",
+            });
             Camera.getPicture({
             destinationType: Camera.DestinationType.DATA_URL,
             mediaType: Camera.MediaType.PICTURE,
@@ -176,17 +178,22 @@ export class PictureEditPage {
             var subcribe = this.setService.updatePictureSetAfter(picId, this.fileUpload).subscribe((data) => {
                 this.pictureSetData = JSON.parse(data);
                 if (this.pictureSetData.status === false) {
+                    this.loader.dismiss();
                     var alert_6 = this.showAlert(this.pictureSetData.error);
                 }
                 else {
+                    this.loader.dismiss();
                     this.showToast("Picture Set Updated");
                 }
+
             }, (error) => {
                 console.log(error);
+                this.loader.dismiss();
                 var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
             }, () => { return console.log("Finished! "); });
         }, function (err) {
             console.log(err);
+            this.loader.dismiss();
         });
     };
     // create a new post
@@ -197,6 +204,10 @@ export class PictureEditPage {
         this.takePicture();
     };
      takePicture (){ 
+           this.loader = this.loadingCtrl.create({
+            content: "processing picture...",
+            });
+          this.loader.present();
           Camera.getPicture({
             destinationType:  Camera.DestinationType.DATA_URL,
             mediaType: Camera.MediaType.PICTURE,
@@ -205,9 +216,11 @@ export class PictureEditPage {
         }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
             console.log('base64Image pic ', this.base64Image);
+            this.loader.dismiss();
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {
             console.log(err);
+            this.loader.dismiss();
         });
     }
     

@@ -169,7 +169,11 @@ export class NewPostPage implements OnInit{
     createPicture = () => {
         this.takePicture();
     };
-     takePicture (){ 
+      takePicture (){ 
+         this.loader = this.loadingCtrl.create({
+            content: "processing picture...",
+            });
+          this.loader.present();
           Camera.getPicture({
             destinationType:  Camera.DestinationType.DATA_URL,
             mediaType: Camera.MediaType.PICTURE,
@@ -178,9 +182,11 @@ export class NewPostPage implements OnInit{
         }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
             console.log('base64Image pic ', this.base64Image);
+            this.loader.dismiss();
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {
             console.log(err);
+            this.loader.dismiss();
         });
     }
 

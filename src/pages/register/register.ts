@@ -7,6 +7,9 @@ import {UserPage} from "../user/user";
 import {LoginPage} from '../login/login';
 import {AboutPage} from '../about/about';
 import {AuthenticateService} from '../../services/authenticate-service';
+import {TermsAndConditionPage} from '../terms-and-condition/terms-and-condition';
+
+
 /*
  Generated class for the LoginPage page.
 
@@ -28,7 +31,7 @@ export class RegisterPage {
  private getData;
   constructor(public nav: NavController, private authService: AuthenticateService, 
   public postService: PostService, public actionSheetCtrl: ActionSheetController,
-              public alertCtrl: AlertController,, public platform: Platform) {
+              public alertCtrl: AlertController, public platform: Platform) {
   }
 
 
@@ -91,6 +94,9 @@ export class RegisterPage {
             }
         }
     };
+    goToTerms(){
+        this.nav.push(TermsAndConditionPage);
+    }
     emailIsValid  (email) {
         if (email && email.indexOf('@') > -1 && (email.indexOf('@') === email.lastIndexOf('@'))
             && (email.indexOf('.') > email.indexOf('@'))) {

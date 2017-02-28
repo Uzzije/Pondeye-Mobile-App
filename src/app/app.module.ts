@@ -42,6 +42,7 @@ import {PondEditPage} from '../pages/settings/pond-edit';
 import {PictureEditPage} from '../pages/settings/picture-edit';
 import {NewPictureUploadPage} from '../pages/pictureUpload/pictureUpload';
 import {PersonalInfoEditPage} from '../pages/settings/personal-info-edit';
+import {TermsAndConditionPage} from '../pages/terms-and-condition/terms-and-condition';
 
 // end import pages
 
@@ -56,6 +57,7 @@ import {PersonalInfoEditPage} from '../pages/settings/personal-info-edit';
     PasswordResetPage,
     UserPage,
     LogoutPage,
+    TermsAndConditionPage
 
     NewPostPage,
     MilestonePage,
@@ -91,7 +93,8 @@ import {PersonalInfoEditPage} from '../pages/settings/personal-info-edit';
     PasswordResetPage,
     UserPage,
     LogoutPage,
-
+    TermsAndConditionPage
+    
     NewPostPage,
     MilestonePage,
     ProjectPage,

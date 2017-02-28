@@ -198,19 +198,25 @@ export class UserPage {
     createPicture = () => {
         this.takePicture();
     };
-    takePicture = () => {
-        
-        Camera .getPicture({
-            destinationType: Camera .DestinationType.DATA_URL,
-            mediaType: Camera .MediaType.PICTURE,
-            encodingType: Camera .EncodingType.JPEG,
+  takePicture (){ 
+         this.loader = this.loadingCtrl.create({
+            content: "processing picture...",
+            });
+          this.loader.present();
+          Camera.getPicture({
+            destinationType:  Camera.DestinationType.DATA_URL,
+            mediaType: Camera.MediaType.PICTURE,
+            encodingType: Camera.EncodingType.JPEG,
             correctOrientation: true
-        }).then(function (imageData) {
+        }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            this.nav.setRoot(NewPictureUploadPage, { 'fileName': this.base64Image });
+            console.log('base64Image pic ', this.base64Image);
+            this.loader.dismiss();
+            this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {
             console.log(err);
+            this.loader.dismiss();
         });
-    };
+    }
 
 }
