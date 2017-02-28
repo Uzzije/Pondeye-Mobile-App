@@ -18,17 +18,17 @@ export class PondService {
   private platformUrl;
   private timezone;
 
-    getListOfPonds = function () {
+    getListOfPonds  () {
         var username = localStorage.getItem("username");
         return this._http.get(this.platformUrl + ("/social/api/get-ponds-data/?username=" + username))
             .map(this.processData).catch(this.processError);
     };
-    getIndividualPond = function (pondId) {
+    getIndividualPond  (pondId) {
         var username = localStorage.getItem("username");
         return this._http.get(this.platformUrl + ("/social/api/get-pond-data/?username=" + username + "&pond_id=" + pondId))
             .map(this.processData).catch(this.processError);
     };
-    newPondEntry = function (name_of_pond, purpose, tags) {
+    newPondEntry  (name_of_pond, purpose, tags) {
         var username = localStorage.getItem("username");
         var data = "username=" + username + "&name_of_pond=" + name_of_pond + "&purpose=" + purpose + "&tags=" + tags;
         var headers = new Headers();
@@ -36,7 +36,7 @@ export class PondService {
         return this._http.post(this.platformUrl + '/social/api/new-pond-entry/', data, { headers: headers })
             .map(this.processData).catch(this.processError);
     };
-    pondRequest = function (pondId) {
+    pondRequest  (pondId) {
         var username = localStorage.getItem("username");
         var data = "username=" + username + "&pond_id=" + pondId;
         var headers = new Headers();
@@ -44,7 +44,7 @@ export class PondService {
         return this._http.post(this.platformUrl + '/social/api/pond-request/', data, { headers: headers })
             .map(this.processData).catch(this.processError);
     };
-    addUserToPond = function (pondId, userId) {
+    addUserToPond  (pondId, userId) {
         var username = localStorage.getItem("username");
         var data = "username=" + username + "&pond_id=" + pondId + "&user_id=" + userId;
         var headers = new Headers();
@@ -52,7 +52,7 @@ export class PondService {
         return this._http.post(this.platformUrl + '/social/api/add-user-to-pond/', data, { headers: headers })
             .map(this.processData).catch(this.processError);
     };
-    denyUserFromPond = function (pondRequestId) {
+    denyUserFromPond  (pondRequestId) {
         var username = localStorage.getItem("username");
         var data = "username=" + username + "&pond_request_id=" + pondRequestId;
         var headers = new Headers();
@@ -60,7 +60,7 @@ export class PondService {
         return this._http.post(this.platformUrl + '/social/api/deny-user-from-pond/', data, { headers: headers })
             .map(this.processData).catch(this.processError);
     };
-    acceptPondRequest = function (pondRequestId) {
+    acceptPondRequest  (pondRequestId) {
         var username = localStorage.getItem("username");
         var data = "username=" + username + "&pond_request_id=" + pondRequestId;
         var headers = new Headers();
@@ -69,12 +69,12 @@ export class PondService {
             .map(this.processData).catch(this.processError);
     };
 
-    processData = function (res) {
+    processData  (res) {
         var body = JSON.stringify(res.json());
         console.log("body " + body);
         return body || {};
     };
-    processError = function (error) {
+    processError  (error) {
         // In a real world app, we might use a remote logging infrastructure
         var errMsg;
         if (error instanceof  Response) {

@@ -15,12 +15,12 @@ export class PictureUploadService {
   private platformUrl;
 
 
-    getMilestonePostData = function () {
+    getMilestonePostData  () {
         var username = localStorage.getItem("username");
         return this._http.get(this.platformUrl + ("/social/api/new-picture-entry/?username=" + username))
             .map(this.processData).catch(this.processError);
     };
-    milPictureUpload = function (picture, type_of_picture, milId) {
+    milPictureUpload  (picture, type_of_picture, milId) {
         var username = localStorage.getItem("username");
         console.log("upload file ", picture);
         var new_pic = encodeURIComponent(picture);
@@ -32,7 +32,7 @@ export class PictureUploadService {
         return this._http.post(this.platformUrl + '/social/api/new-picture-entry/', data, { headers: headers })
             .map(this.processData).catch(this.processError);
     };
-    profilePictureUpload = function (base64Image, user_id) {
+    profilePictureUpload  (base64Image, user_id) {
         var username = localStorage.getItem("username");
         var new_pic = encodeURIComponent(base64Image);
         var data = "username=" + username + "&picture=" + new_pic + "&user_id=" + user_id;
@@ -41,12 +41,12 @@ export class PictureUploadService {
         return this._http.post(this.platformUrl + '/api/add-profile-picture/', data, { headers: headers })
             .map(this.processData).catch(this.processError);
     };
-    processData = function (res) {
+    processData  (res) {
         var body = JSON.stringify(res.json());
         console.log("body " + body);
         return body || {};
     };
-    processError = function (error) {
+    processError  (error) {
         // In a real world app, we might use a remote logging infrastructure
         var errMsg;
         if (error instanceof  Response) {

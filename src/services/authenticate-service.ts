@@ -25,7 +25,7 @@ export class AuthenticateService {
   private edconf_password = false;
 
 
-    authenticate = function (username, password) {
+    authenticate  (username, password) {
         var data = "username=" + username + "&password=" + password;
         console.log("data: " + data);
         var headers = new Headers();
@@ -34,14 +34,14 @@ export class AuthenticateService {
             .map(this.processData).catch(this.processError);
     };
 
-    regAuthenticate = function (username, password, conf_password, email, first_name, last_name) {
+    regAuthenticate  (username, password, conf_password, email, first_name, last_name) {
         var data = "username=" + username + "&password=" + password + "&email=" + email + "&first_name=" + first_name + "&last_name=" + last_name;
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this.platformUrl + '/api/register/', data, { headers: headers })
             .map(this.processData).catch(this.processError);
     };
-    passwordResetService = function (email, newPassword, passToken) {
+    passwordResetService  (email, newPassword, passToken) {
         console.log("emai ", email);
         var data = "token=" + passToken + "&password=" + newPassword + "&email=" + email;
         var headers = new Headers();
@@ -49,7 +49,7 @@ export class AuthenticateService {
         return this._http.post(this.platformUrl + '/api/reset-password/', data, { headers: headers })
             .map(this.processData).catch(this.processError);
     };
-    sendActivationCode = function (email) {
+    sendActivationCode  (email) {
         var data = "email=" + email;
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -57,12 +57,12 @@ export class AuthenticateService {
             .map(this.processData).catch(this.processError);
     };
 
-  processData = function (res) {
+  processData  (res) {
         var body = JSON.stringify(res.json());
         console.log("body " + body);
         return body || {};
   }
-    processError = function (error) {
+    processError  (error) {
         // In a real world app, we might use a remote logging infrastructure
         var errMsg;
         if (error instanceof  Response) {

@@ -17,14 +17,14 @@ export class UserService {
   private platformUrl;
   private timezone;
 
-   getUserInformation = function (userId) {
+   getUserInformation  (userId) {
         var username = localStorage.getItem("username");
         var user;
         return this._http.get(this.platformUrl + ("/api/profile-view/?username=" + username + "&other_user_id=" + userId))
             .map(this.processData).catch(this.processError);
    }
 
-   markProjectDone = function (projId) {
+   markProjectDone  (projId) {
         var username = localStorage.getItem("username");
         var data = "username=" + username + "&&proj_id=" + projId;
         var headers = new Headers();
@@ -33,7 +33,7 @@ export class UserService {
             .map(this.processData).catch(this.processError);
     }
 
-   markMilestoneDone = function (milId) {
+   markMilestoneDone  (milId) {
         var username = localStorage.getItem("username");
         var data = "username=" + username + "&mil_id=" + milId;
         var headers = new Headers();
@@ -42,12 +42,12 @@ export class UserService {
             .map(this.processData).catch(this.processError);
     }
 
-    processData = function (res) {
+    processData  (res) {
         var body = JSON.stringify(res.json());
         console.log("body " + body);
         return body || {};
     }
-    processError = function (error) {
+    processError  (error) {
         // In a real world app, we might use a remote logging infrastructure
         var errMsg;
         if (error instanceof  Response) {

@@ -29,11 +29,11 @@ export class AboutPage {
 
   }
 
-  goToFeed = function () {
+  goToFeed  () {
         this.nav.setRoot(ActivityPage);
     };
 
-  search = function (ev) {
+  search  (ev) {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
@@ -41,7 +41,7 @@ export class AboutPage {
         }
     }
 
-    showAlert = function (mes) {
+    showAlert  (mes) {
         var alert = this.alertCtrl.create({
             title: 'Error!',
             subTitle: mes,
@@ -49,7 +49,7 @@ export class AboutPage {
         });
         alert.present();
     };
-    showToast = function (mes) {
+    showToast  (mes) {
         this.platform.ready().then(function () {
             window.plugins.toast.show(mes, "short", "top");
         });
@@ -58,10 +58,10 @@ export class AboutPage {
         this.nav.push(TermsAndConditionPage)
     }
     // create a new post
-    createPost = function () {
+    createPost  () {
         this.nav.setRoot(NewPostPage);
     };
-    createPicture = function () {
+    createPicture  () {
         this.takePicture();
     };
      takePicture (){ 

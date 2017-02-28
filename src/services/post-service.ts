@@ -18,14 +18,14 @@ export class PostService {
   private platformUrl;
   private timezone;
 
-    getUserFeed = function () {
+    getUserFeed  () {
         var headers = new Headers();
         var username = localStorage.getItem("username");
         return this._http.get(this.platformUrl + ("/social/api/news-feed?username=" + username + "&timezone=" + this.timezone))
             .map(this.processData).catch(this.processError);
     };
 
-    postNewFollow = function (proj_id) {
+    postNewFollow  (proj_id) {
         var username = localStorage.getItem("username");
         var data = "username=" + username + "&proj_id=" + proj_id;
         var headers = new Headers();
@@ -33,7 +33,7 @@ export class PostService {
         return this._http.post(this.platformUrl + "/social/api/create-follow/", data, { headers: headers })
             .map(this.processData).catch(this.processError);
     };
-    postNewVouch = function (mil_id) {
+    postNewVouch  (mil_id) {
         console.log("the best id ", mil_id);
         var username = localStorage.getItem("username");
         var data = "username=" + username + "&mil_id=" + mil_id;
@@ -42,17 +42,17 @@ export class PostService {
         return this._http.post(this.platformUrl + "/social/api/create-vouch/", data, { headers: headers })
             .map(this.processData).catch(this.processError);
     };
-    getMilestonePost = function (milID) {
+    getMilestonePost  (milID) {
         var username = localStorage.getItem("username");
         return this._http.get(this.platformUrl + ("/social/api/individual-milestone/?username=" + username + "&mil_id=" + milID + "&timezone=" + this.timezone))
             .map(this.processData).catch(this.processError);
     };
-    getProjectPost = function (projectID) {
+    getProjectPost  (projectID) {
         var username = localStorage.getItem("username");
         return this._http.get(this.platformUrl + ("/social/api/individual-project?username=" + username + "&proj_id=" + projectID + "&timezone=" + this.timezone))
             .map(this.processData).catch(this.processError);
     };
-    postProjectNewSeen = function (proj_id) {
+    postProjectNewSeen  (proj_id) {
         var username = localStorage.getItem("username");
         var data = "username=" + username + "&proj_id=" + proj_id;
         var headers = new Headers();
@@ -60,7 +60,7 @@ export class PostService {
         return this._http.post(this.platformUrl + "/social/api/create-project-seen-count/", data, { headers: headers })
             .map(this.processData).catch(this.processError);
     };
-    postMilestoneNewSeen = function (mil_id) {
+    postMilestoneNewSeen  (mil_id) {
         var username = localStorage.getItem("username");
         var data = "username=" + username + "&mil_id=" + mil_id;
         var headers = new Headers();
@@ -68,12 +68,12 @@ export class PostService {
         return this._http.post(this.platformUrl + "/social/api/create-milestone-seen-count/", data, { headers: headers })
             .map(this.processData).catch(this.processError);
     };
-  processData = function (res) {
+  processData  (res) {
         var body = JSON.stringify(res.json());
         console.log("body " + body);
         return body || {};
     };
-    processError = function (error) {
+    processError  (error) {
         // In a real world app, we might use a remote logging infrastructure
         var errMsg;
         if (error instanceof  Response) {

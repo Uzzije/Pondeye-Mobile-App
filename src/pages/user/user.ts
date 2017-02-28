@@ -15,7 +15,7 @@ import {ProjectPage} from '../project-page/project-page';
 import {SearchResultPage} from '../search-result-page/search-result-page';
 import {PondService} from '../../services/pond-service';
 import {UserService} from '../../services/user-service';
-
+import {PictureUploadService} from '../../services/pictureUploadService';
 /*
  Generated class for the LoginPage page.
 
@@ -53,7 +53,7 @@ export class UserPage {
   private selectedPond;
   private cover_url = 'assets/img/cover.jpg';
   constructor(private nav: NavController, private userService: UserService, private pondService: PondService, 
-              private navParams: NavParams, private setService: SettingsService, private postService: PostService, 
+              private picUploadService: PictureUploadService, private navParams: NavParams, private setService: SettingsService, private postService: PostService, 
               public actionSheetCtrl: ActionSheetController,
               public platform: Platform, public loadingCtrl: 
               LoadingController, public alertCtrl: AlertController, public newPostService: NewPostServices) {
@@ -104,7 +104,7 @@ export class UserPage {
         });
     };
 
-  changProfilePicture = function (user_id) {
+  changProfilePicture (user_id) {
         
         //this.takeProfilePicture();
         if (this.base64Image) {
@@ -123,7 +123,7 @@ export class UserPage {
         }
     };
 
-    markProjectDone = function (projId) {
+    markProjectDone (projId) {
         
         var subscribe = this.userService.markProjectDone(projId);
         subscribe.subscribe((data) => {
@@ -137,7 +137,7 @@ export class UserPage {
         }, (error) => { return alert(error); }, () => { return console.log("Finished! "); });
     };
 
-    markMilestoneDone = function (milId) {
+    markMilestoneDone (milId) {
         
         console.log("lay it down for gospel ");
         var subscribe = this.userService.markMilestoneDone(milId);
@@ -155,7 +155,7 @@ export class UserPage {
 
     addUsertoPond () {
         var subscribe = this.pondService.addUserToPond(this.selectedPond, this.profUserId);
-        subscribe.subscribe(function (data) {
+        subscribe.subscribe( (data) => {
             var statusData = JSON.parse(data);
             if (statusData.status === false) {
                 var alert_5 = this.showAlert(statusData.error);
@@ -164,12 +164,15 @@ export class UserPage {
                 this.aval_pond = statusData.aval_pond;
                 this.showToast("Added to Pond!");
             }
-        }, function (error) { 
-            return alert(error); }, function () { return console.log("Finished! "); 
+        }, (error) => { 
+            alert(error); }, 
+            () => 
+                { 
+                console.log("Finished! "); 
         });
     }
 
-   search = function (ev) {
+   search (ev) {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
@@ -177,7 +180,7 @@ export class UserPage {
         }
     }
 
-    showAlert = function (mes) {
+    showAlert(mes) {
         var alert = this.alertCtrl.create({
             title: 'Error!',
             subTitle: mes,
@@ -186,7 +189,7 @@ export class UserPage {
         alert.present();
     }
 
-    showToast (mes) {
+    showToast  (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");
         });
@@ -198,6 +201,7 @@ export class UserPage {
     createPicture = () => {
         this.takePicture();
     };
+
   takePicture (){ 
          this.loader = this.loadingCtrl.create({
             content: "processing picture...",
@@ -213,7 +217,7 @@ export class UserPage {
             console.log('base64Image pic ', this.base64Image);
             this.loader.dismiss();
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
-        }, function (err) {
+        },  (err) => {
             console.log(err);
             this.loader.dismiss();
         });

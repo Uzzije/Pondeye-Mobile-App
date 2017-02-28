@@ -14,18 +14,18 @@ export class SearchService {
     this.platformUrl = CURRENTURL;
   }
   private platformUrl;
-    getsearchResult = function (queryWord) {
+    getsearchResult  (queryWord) {
         console.log(queryWord , " searching!");
         var username = localStorage.getItem("username");
         return this._http.get(this.platformUrl + ("/social/api/get-search-results?username=" + username + "&query_word=" + queryWord))
             .map(this.processData).catch(this.processError);
     }
-    processData = function (res) {
+    processData  (res) {
         var body = JSON.stringify(res.json());
         console.log("body " + body);
         return body || {};
     }
-    processError = function (error) {
+    processError  (error) {
         // In a real world app, we might use a remote logging infrastructure
         var errMsg;
         if (error instanceof  Response) {

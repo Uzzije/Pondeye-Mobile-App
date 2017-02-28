@@ -57,7 +57,7 @@ import {TermsAndConditionPage} from '../pages/terms-and-condition/terms-and-cond
     PasswordResetPage,
     UserPage,
     LogoutPage,
-    TermsAndConditionPage
+    TermsAndConditionPage,
 
     NewPostPage,
     MilestonePage,
@@ -93,8 +93,8 @@ import {TermsAndConditionPage} from '../pages/terms-and-condition/terms-and-cond
     PasswordResetPage,
     UserPage,
     LogoutPage,
-    TermsAndConditionPage
-    
+    TermsAndConditionPage,
+
     NewPostPage,
     MilestonePage,
     ProjectPage,

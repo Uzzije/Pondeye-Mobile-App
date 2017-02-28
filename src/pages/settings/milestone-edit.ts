@@ -133,7 +133,8 @@ export class MilestoneEditPage {
             buttons: ['OK']
         });
         alert.present();
-    };
+    }
+
     showToast  (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");

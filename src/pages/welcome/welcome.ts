@@ -19,11 +19,11 @@ export class WelcomePage {
   constructor(private nav: NavController) {
   }
 
-    goToSignUp = function () {
+    goToSignUp  () {
         this.nav.setRoot(RegisterPage);
     };
     // to go login page
-    login = function () {
+    login  () {
         if (localStorage.getItem("username")) {
             this.nav.setRoot(ActivityPage);
         }

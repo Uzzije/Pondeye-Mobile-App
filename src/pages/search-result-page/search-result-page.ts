@@ -73,20 +73,20 @@ export class SearchResultPage {
     };
 
      // view pond
-    viewPond = function (pondId) {
+    viewPond  (pondId) {
         this.nav.push(PondPage, { id: pondId });
     };
-    viewMilestone = function (id) {
+    viewMilestone  (id) {
         this.nav.push(MilestonePage, { id: id });
     };
-    viewProject = function (id) {
+    viewProject  (id) {
         this.nav.push(ProjectPage, { id: id });
     };
-    viewProfile = function (id) {
+    viewProfile  (id) {
         this.nav.push(UserPage, { id: id });
     };
 
-    search = function (ev) {
+    search  (ev) {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
@@ -94,7 +94,7 @@ export class SearchResultPage {
         }
     }
 
-    showAlert = function (mes) {
+    showAlert  (mes) {
         var alert = this.alertCtrl.create({
             title: 'Error!',
             subTitle: mes,
@@ -102,7 +102,7 @@ export class SearchResultPage {
         });
         alert.present();
     };
-    showToast = function (mes) {
+    showToast  (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");
         });

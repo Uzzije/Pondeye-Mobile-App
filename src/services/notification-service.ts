@@ -17,17 +17,17 @@ export class NotificationService {
   private platformUrl;
   private timezone;
 
-    getNotificationService = function () {
+    getNotificationService  () {
         var username = localStorage.getItem("username");
         return this._http.get(this.platformUrl + ("/social/api/get-notification/?username=" + username + "&timezone=" + this.timezone))
             .map(this.processData).catch(this.processError);
     };
-    backgroundNotificationService = function () {
+    backgroundNotificationService  () {
         var username = localStorage.getItem("username");
         return this._http.get(this.platformUrl + ("/social/api/notification-status/?username=" + username))
             .map(this.processData).catch(this.processError);
     };
-    checkProjectandMilestoneService = function () {
+    checkProjectandMilestoneService  () {
         var username = localStorage.getItem("username");
         var data = "username=" + username;
         var headers = new Headers();
@@ -36,12 +36,12 @@ export class NotificationService {
             .map(this.processData).catch(this.processError);
     };
 
-    processData = function (res) {
+    processData  (res) {
         var body = JSON.stringify(res.json());
         console.log("body " + body);
         return body || {};
     };
-    processError = function (error) {
+    processError  (error) {
         // In a real world app, we might use a remote logging infrastructure
         var errMsg;
         if (error instanceof Response ) {

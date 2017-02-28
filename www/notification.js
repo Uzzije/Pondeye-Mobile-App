@@ -5,6 +5,7 @@ var CURRENT_URL = LIVEURL;
 var NOTIFICATIONCOUNTER = 150000;
 var CHECKFAILEDCOUNTER = 100000;
 var clickNotif = localStorage.getItem("clickNotif");
+var type_of_device = '';
 notificationReminder();
 $(document).ready(function() {
     notificationReminder();
@@ -88,7 +89,7 @@ function sendNotificationToUser(){
                 id: 10,
                 text: "New Notification!",
                 at: _5_sec_from_now,
-                icon: "assets/icon/icon.png",
+                icon: "file:///assets/icon/icon.png",
                 data: { }
             });
         }else{
@@ -104,7 +105,8 @@ function sendNotificationToUser(){
 }
  document.addEventListener('deviceready', function () {
         
-            
+    type_of_device = device.platform;
+    console.log('Got device type ', type_of_device);
     // Join BBM Meeting when user has clicked on the notification 
     cordova.plugins.notification.local.on("click", function () {
         console.log("clicked on notifications");
