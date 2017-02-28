@@ -50,13 +50,15 @@ export class NewPostPage implements OnInit{
     ngOnInit (): void {
         var subcription = this.newPostService.getNewPostData().subscribe((data) => {
             this.newPostData = JSON.parse(data);
-            console.log(this.newPostData);
+            //console.log(this.newPostData);
             this.hasProj = this.newPostData.user_project.status;
             this.hasPond = this.newPostData.pond.status;
             this.projAndPond = this.newPostData;
         }, (error) => {
             var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
-        }, () => { return console.log("Finished! " + this.newPostData); });
+        }, () => { 
+            //console.log("Finished! " + this.newPostData); 
+        });
     };
 
     openProjOption = () => {
@@ -86,13 +88,13 @@ export class NewPostPage implements OnInit{
         });
         this.loader.present();
         this.name_of_project = name_of_project;
-        console.log("name of project " + name_of_project);
+        //console.log("name of project " + name_of_project);
         if (this.projComTime) {
             this.milestone_date = this.projComDate + 'T' + this.projComTime;
-            console.log("proj time " + this.projComTime + " mile date: " + this.milestone_date);
+            //console.log("proj time " + this.projComTime + " mile date: " + this.milestone_date);
         }
         else {
-            console.log(" no proj time " + this.projComTime + " no mile date: " + this.milestone_date);
+            //console.log(" no proj time " + this.projComTime + " no mile date: " + this.milestone_date);
         }
         var subcribe = this.newPostService.postNewProject(this.name_of_project, this.public_status, this.milestone_date, this.tags).subscribe((data) => {
             this.newPostData = JSON.parse(data);
@@ -121,7 +123,7 @@ export class NewPostPage implements OnInit{
             this.milestone_mil_date = this.milComDate + 'T' + this.milComTime;
         }
         else {
-            console.log(" no proj time " + this.projComTime + " no mile date: " + this.milestone_date);
+            //console.log(" no proj time " + this.projComTime + " no mile date: " + this.milestone_date);
         }
         var subcribe = this.newPostService.postNewMilestone(milestone_name, this.name_of_mil_proj, this.length_of_time, this.milestone_mil_date).subscribe((data) => {
             this.newPostData = JSON.parse(data);
@@ -144,7 +146,7 @@ export class NewPostPage implements OnInit{
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
-            console.log(this.queryWord, " query word");
+            //console.log(this.queryWord, " query word");
         }
     }
 
@@ -181,7 +183,7 @@ export class NewPostPage implements OnInit{
             correctOrientation: true
         }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            console.log('base64Image pic ', this.base64Image);
+            //console.log('base64Image pic ', this.base64Image);
             this.loader.dismiss();
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {

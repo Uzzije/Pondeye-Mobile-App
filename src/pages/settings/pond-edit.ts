@@ -61,7 +61,7 @@ export class PondEditPage {
                     this.pondNameArray[nextId] = pondName;
                     this.pupModelArray[nextId] = pondPurpose;
                     this.tagModelArray[nextId] = this.pondEditList[item].tag_list;
-                    console.log("tags for pond", this.tagModelArray[nextId]);
+                    //console.log("tags for pond", this.tagModelArray[nextId]);
                     this.showPondArray[nextId] = true;
                 }
             }
@@ -83,7 +83,11 @@ export class PondEditPage {
                 else {
                     this.showToast("Pond Updated!");
                 }
-            }, (error) => { return alert(error); }, () => { return console.log("Finished! "); });
+            }, (error) => { 
+                alert(error); 
+            }, () => { 
+                console.log("Finished! "); 
+            });
         }
     };
     deletePondSet  (pondId) {
@@ -97,14 +101,18 @@ export class PondEditPage {
                 this.showPondArray[pondId] = false;
                 this.showToast("Pond Deleted!");
             }
-        }, (error) => { return alert(error); }, () => { return console.log("Finished! "); });
+        }, (error) => { 
+            alert(error); 
+        }, () => { 
+            console.log("Finished! "); 
+        });
     }
 
     search  (ev) {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
-            console.log(this.queryWord, " query word");
+            //console.log(this.queryWord, " query word");
         }
     }
 
@@ -142,7 +150,9 @@ export class PondEditPage {
             }, (error) => {
                 console.log(error);
                 var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
-            }, () => { return console.log("Finished! "); });
+            }, () => { 
+                console.log("Finished! "); 
+            });
         }, function (err) {
             console.log(err);
         });
@@ -166,7 +176,7 @@ export class PondEditPage {
             correctOrientation: true
         }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            console.log('base64Image pic ', this.base64Image);
+            //console.log('base64Image pic ', this.base64Image);
             this.loader.dismiss();
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {

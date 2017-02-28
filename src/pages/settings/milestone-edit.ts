@@ -47,7 +47,7 @@ export class MilestoneEditPage {
         
         var subcription = this.setService.getUserMilestoneData().subscribe((data) => {
             this.milEditData = JSON.parse(data);
-            console.log(this.milEditData);
+            //console.log(this.milEditData);
             if (this.milEditData.status == false) {
                 var alert_1 = this.showAlert(this.milEditData.error);
             }
@@ -62,18 +62,18 @@ export class MilestoneEditPage {
                 }
             }
         }, (error) => {
-            console.log(error);
+            //console.log(error);
             this.loader.dismiss();
             var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
         }, () => {
-            console.log("Finished! " + this.milEditData);
+            //console.log("Finished! " + this.milEditData);
             this.loader.dismiss();
         });
     };
 
     updateMilestone  (milId) {
         
-        console.log("this mil " + milId + " " + this.modelArray[milId]);
+        //console.log("this mil " + milId + " " + this.modelArray[milId]);
         var subcribe = this.setService.updateMilestone(milId, this.modelArray[milId]).subscribe((data) => {
             this.milEditData = JSON.parse(data);
             if (this.milEditData.status === false) {
@@ -83,9 +83,11 @@ export class MilestoneEditPage {
                 this.showToast("Updated Milestone!");
             }
         }, (error) => {
-            console.log(error);
+            //console.log(error);
             var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
-        }, () => { return console.log("Finished!"); });
+        }, () => { 
+            //console.log("Finished!"); 
+        });
     };
 
     createSeenCount  (proj_Id) {
@@ -93,11 +95,15 @@ export class MilestoneEditPage {
         var seenData;
         var subcription = this.postService.postProjectNewSeen(proj_Id).subscribe((data) => {
             seenData = JSON.parse(data);
-            console.log(seenData);
+            //console.log(seenData);
             if (seenData.status == false) {
                 var alert_2 = this.showAlert(seenData.error);
             }
-        }, (error) => { return alert(error); }, () => { return console.log("Finished! "); });
+        }, (error) => { 
+            alert(error); 
+        }, () => { 
+            // console.log("Finished! "); 
+        });
     };
 
    deleteMilestone  (milId) {
@@ -112,9 +118,11 @@ export class MilestoneEditPage {
                 this.showToast("Milestone Deleted");
             }
         }, (error) => {
-            console.log(error);
+            //console.log(error);
             var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
-        }, () => { return console.log("Finished!"); });
+        }, () => { 
+            //console.log("Finished!"); 
+        });
     };
 
 
@@ -122,7 +130,7 @@ export class MilestoneEditPage {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
-            console.log(this.queryWord, " query word");
+            //console.log(this.queryWord, " query word");
         }
     }
 
@@ -160,11 +168,11 @@ export class MilestoneEditPage {
             correctOrientation: true
         }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            console.log('base64Image pic ', this.base64Image);
+            //console.log('base64Image pic ', this.base64Image);
             this.loader.dismiss();
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {
-            console.log(err);
+            //console.log(err);
             this.loader.dismiss();
         });
     }

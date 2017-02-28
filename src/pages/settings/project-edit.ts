@@ -47,18 +47,18 @@ export class ProjectEditPage {
         this.loader.present();
         var subcription = this.setService.getProjectEditData().subscribe((data) => {
             this.projEditData = JSON.parse(data);
-            console.log(this.projEditData);
+            //console.log(this.projEditData);
             if (this.projEditData.status == false) {
                 var alert_1 = this.showAlert(this.projEditData.error);
             }
             this.projectList = this.projEditData.project_list;
-            console.log("project list ", this.projectList);
+            //console.log("project list ", this.projectList);
             if (this.projectList.length > 0) {
                 this.hasProject = true;
                 for (var item = 0; item < this.projectList.length; item++) {
                     var nextId = this.projectList[item].id;
                     var projValue = this.projectList[item].proj_name;
-                    console.log("project value ", projValue);
+                    //console.log("project value ", projValue);
                     this.modelArray[nextId] = projValue;
                     this.tagModelArray[nextId] = this.projectList[item].tag_list;
                     this.showProjectArray[nextId] = true;
@@ -71,7 +71,7 @@ export class ProjectEditPage {
     };
     updateProject  (projId) {
         
-        console.log("tags printed out ", this.tagModelArray[projId]);
+        //console.log("tags printed out ", this.tagModelArray[projId]);
         var subcribe = this.setService.updateProject(projId, this.modelArray[projId], this.tagModelArray[projId]).subscribe((data) => {
             this.projEditData = JSON.parse(data);
             if (this.projEditData.status === false) {
@@ -99,7 +99,7 @@ export class ProjectEditPage {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
-            console.log(this.queryWord, " query word");
+            //console.log(this.queryWord, " query word");
         }
     }
 
@@ -136,7 +136,7 @@ export class ProjectEditPage {
             correctOrientation: true
         }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            console.log('base64Image pic ', this.base64Image);
+            //console.log('base64Image pic ', this.base64Image);
             this.loader.dismiss();
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {

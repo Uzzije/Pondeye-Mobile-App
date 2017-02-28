@@ -50,7 +50,7 @@ export class PersonalInfoEditPage {
         
         var subcription = this.setService.getPersonalEditData().subscribe((data) => {
            this.personalInfoData = JSON.parse(data);
-            console.log(this.personalInfoData);
+            //console.log(this.personalInfoData);
             if (this.personalInfoData.status == false) {
                 var alert_1 =this.showAlert(this.personalInfoData.error);
             }
@@ -89,7 +89,9 @@ export class PersonalInfoEditPage {
         }, (error) => {
             console.log(error);
             var alert =this.showAlert("Oops. Something Went Wrong! Restart the app!");
-        }, () => { return console.log("Finished!"); });
+        }, () => { 
+            console.log("Finished!"); 
+        });
     };
     updatePassword  (oldPassword, newPassword, confirmPassword) {
         
@@ -104,10 +106,12 @@ export class PersonalInfoEditPage {
                    this.showToast("Information Updated!");
                 }
             }, (error) => {
-                console.log(error);
+                //console.log(error);
                this.loader.dismiss();
                 var alert =this.showAlert("Oops. Something Went Wrong! Restart the app!");
-            }, () => { return console.log("Finished!"); });
+            }, () => { 
+                //console.log("Finished!"); 
+            });
         }
         else {
             var alert_4 = this.showAlert("Password Must Match!");
@@ -155,11 +159,11 @@ export class PersonalInfoEditPage {
             correctOrientation: true
         }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            console.log('base64Image pic ', this.base64Image);
+           // console.log('base64Image pic ', this.base64Image);
             this.loader.dismiss();
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {
-            console.log(err);
+            //console.log(err);
             this.loader.dismiss();
         });
     }

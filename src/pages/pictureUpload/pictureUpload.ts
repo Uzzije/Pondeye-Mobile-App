@@ -50,7 +50,7 @@ export class NewPictureUploadPage {
         
         var subcription = this.picUploadService.getMilestonePostData().subscribe((data) => {
             this.milestoneListData = JSON.parse(data);
-            console.log(this.milestoneListData);
+            //console.log(this.milestoneListData);
             if (this.milestoneListData.status) {
                 this.milPicture = this.milestoneListData.milestone;
             }
@@ -69,7 +69,7 @@ export class NewPictureUploadPage {
    createMilPictureUpload() {
        
         this.fileUpload = this.base64Image;
-        console.log('file uploda ', this.fileUpload);
+        //console.log('file uploda ', this.fileUpload);
         if (this.type_of_picture && this.fileUpload, this.milId) {
             var subscribe = this.picUploadService.milPictureUpload(this.fileUpload, this.type_of_picture, this.milId);
             subscribe.subscribe((data) => {
@@ -107,7 +107,7 @@ export class NewPictureUploadPage {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.push( SearchResultPage, { queryWord: queryWord });
-            console.log(this.queryWord, " query word");
+            //console.log(this.queryWord, " query word");
         }
     }
     showToast  (mes) {
@@ -127,7 +127,7 @@ export class NewPictureUploadPage {
             correctOrientation: true
         }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            console.log('base64Image pic ', this.base64Image);
+            //console.log('base64Image pic ', this.base64Image);
             this.loader.dismiss();
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {

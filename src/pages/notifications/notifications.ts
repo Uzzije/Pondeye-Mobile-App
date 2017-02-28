@@ -54,7 +54,7 @@ export class NotificationsPage implements OnInit{
        
         var subcription = this.notificationService.getNotificationService().subscribe((data) => {
             this.dataNotif = JSON.parse(data);
-            console.log(this.dataNotif);
+            //console.log(this.dataNotif);
             if (this.dataNotif.status == false) {
                 var alert_1 = this.showAlert(this.dataNotif.error);
             }
@@ -70,7 +70,7 @@ export class NotificationsPage implements OnInit{
                 }
             }
         }, (error) => { this.loader.dismiss(); var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!"); }, () => {
-            console.log("Finished! " + this.dataNotif);
+            //console.log("Finished! " + this.dataNotif);
             this.loader.dismiss();
         });
     };
@@ -81,7 +81,7 @@ export class NotificationsPage implements OnInit{
         });
         var subcription = this.pondService.acceptPondRequest(pondRequestId).subscribe((data) => {
             this.postData = JSON.parse(data);
-            console.log(this.postData);
+            //console.log(this.postData);
             if (this.postData.status == false) {
                 var alert_2 = this.showAlert(this.postData.error);
             }
@@ -93,7 +93,7 @@ export class NotificationsPage implements OnInit{
             this.loader.dismiss();
             var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
         }, () => {
-            console.log("Finished! " + this.dataNotif);
+            //console.log("Finished! " + this.dataNotif);
             this.loader.dismiss();
         });
     };
@@ -109,7 +109,11 @@ export class NotificationsPage implements OnInit{
             else {
                 this.showToast("Request Noted!");
             }
-        }, (error) => { return alert(error); }, () => { return console.log("Finished! " + this.dataNotif); });
+        }, (error) => { 
+            alert(error); 
+        }, () => { 
+            //console.log("Finished! " + this.dataNotif); 
+        });
     };
   viewUser(id) {
         this.nav.push(UserPage, { id: id });
@@ -142,7 +146,7 @@ export class NotificationsPage implements OnInit{
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
-            console.log(this.queryWord, " query word");
+            //console.log(this.queryWord, " query word");
         }
     }
 
@@ -179,7 +183,7 @@ export class NotificationsPage implements OnInit{
             correctOrientation: true
         }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            console.log('base64Image pic ', this.base64Image);
+            //console.log('base64Image pic ', this.base64Image);
             this.loader.dismiss();
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {

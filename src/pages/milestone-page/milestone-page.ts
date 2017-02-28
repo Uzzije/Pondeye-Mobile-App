@@ -68,10 +68,10 @@ export class MilestonePage {
 
     createVouch  (mil_Id) {
         
-        console.log("create vouch id ", mil_Id);
+        //console.log("create vouch id ", mil_Id);
         var subcription = this.postService.postNewVouch(mil_Id).subscribe((data) => {
             var vouchData = JSON.parse(data);
-            console.log(vouchData);
+            //console.log(vouchData);
             if (vouchData.status == false) {
                 var alert_2 = this.showAlert(vouchData.error);
             }
@@ -80,13 +80,15 @@ export class MilestonePage {
             }
         }, (error) => {
             var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
-        }, () => { return console.log("Finished!"); });
+        }, () => { 
+            console.log("Finished!"); 
+        });
     };
     viewMilestone  (feedId) {
         this.nav.setRoot(MilestonePage, { id: feedId }).then((data) => {
-            console.log(data, " viewmil data");
+            //console.log(data, " viewmil data");
         });
-        console.log(feedId, " feed id");
+        //console.log(feedId, " feed id");
     };
     createSeenCount  (milId) {
         
@@ -98,7 +100,9 @@ export class MilestonePage {
             }
         }, (error) => {
             var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
-        }, () => { return console.log("Finished! "); });
+        }, () => { 
+            console.log("Finished! "); 
+        });
     };
     // on click, go to user timeline
     viewUser  (userId) {
@@ -112,7 +116,7 @@ export class MilestonePage {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
-            console.log(this.queryWord, " query word");
+            //console.log(this.queryWord, " query word");
         }
     }
 
@@ -149,7 +153,7 @@ export class MilestonePage {
             correctOrientation: true
         }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            console.log('base64Image pic ', this.base64Image);
+            //console.log('base64Image pic ', this.base64Image);
             this.loader.dismiss();
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {

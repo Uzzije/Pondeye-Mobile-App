@@ -45,7 +45,7 @@ export class NewPondPage {
 
    createPondEntry  (name_of_pond, purpose) {
         if (name_of_pond && purpose) {
-            console.log('tags of pond ', this.tags);
+            //console.log('tags of pond ', this.tags);
             this.loader = this.loadingCtrl.create({
                 content: "Creating new pond...",
             }); 
@@ -78,7 +78,7 @@ export class NewPondPage {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
-            console.log(this.queryWord, " query word");
+            //console.log(this.queryWord, " query word");
         }
     }
 
@@ -115,7 +115,7 @@ export class NewPondPage {
             correctOrientation: true
         }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            console.log('base64Image pic ', this.base64Image);
+            //console.log('base64Image pic ', this.base64Image);
             this.loader.dismiss();
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {

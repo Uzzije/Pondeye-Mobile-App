@@ -58,7 +58,7 @@ export class PondPage {
             }
             else {
                 this.pond = this.pondData.pond_info;
-                console.log(this.pond.tags);
+                //console.log(this.pond.tags);
                 if(this.pond.tags.length == 0){
                     this.noMotif = true;
                     console.log("its true");
@@ -82,7 +82,11 @@ export class PondPage {
             else {
                 this.showToast("Request Sent!");
             }
-        }, (error) => { return alert(error); }, () => { return console.log("Finished! "); });
+        }, (error) => { 
+            alert(error); 
+        }, () => { 
+            console.log("Finished! "); 
+        });
     };
   viewUser  (id) {
         this.nav.push(UserPage, { id: id });
@@ -96,7 +100,7 @@ export class PondPage {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
-            console.log(this.queryWord, " query word");
+            //console.log(this.queryWord, " query word");
         }
     }
 
@@ -133,7 +137,7 @@ export class PondPage {
             correctOrientation: true
         }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            console.log('base64Image pic ', this.base64Image);
+            //console.log('base64Image pic ', this.base64Image);
             this.loader.dismiss();
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {

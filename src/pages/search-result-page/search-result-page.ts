@@ -51,7 +51,7 @@ export class SearchResultPage {
     ngOnInit(): void {
         
         var subcription = this.searchService.getsearchResult(this.queryWord).subscribe((data) => {
-            console.log("search word ", this.queryWord);
+            //console.log("search word ", this.queryWord);
             this.resultData = JSON.parse(data);
             if (this.resultData.status == false) {
                 var alert_1 = this.showAlert(this.resultData.error);
@@ -90,7 +90,7 @@ export class SearchResultPage {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
-            console.log(this.queryWord, " query word");
+            //console.log(this.queryWord, " query word");
         }
     }
 
@@ -127,7 +127,7 @@ export class SearchResultPage {
             correctOrientation: true
         }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            console.log('base64Image pic ', this.base64Image);
+            //console.log('base64Image pic ', this.base64Image);
             this.loader.dismiss();
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {

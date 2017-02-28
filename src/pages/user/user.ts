@@ -88,39 +88,75 @@ export class UserPage {
                 this.statusOfUser = this.userDetails.status_of_user;
                 this.profUserId = this.userDetails.user_id;
                 this.yourProfile = this.userDetails.is_own_profile;
-                console.log(this.userDetails);
-                console.log("profile pic, ", this.profilePicStorage);
+                //console.log(this.userDetails);
+                //console.log("profile pic, ", this.profilePicStorage);
                 if (this.yourProfile) {
                     localStorage.setItem("profile_url", this.profilePicStorage);
                 }
                 else {
                     this.userName = this.userDetails.user_name;
                 }
-                console.log(localStorage.getItem("profile_url"));
+                //console.log(localStorage.getItem("profile_url"));
             }
-        }, (error) => { this.loader.dismiss(); var alert = this.showAlert(error); }, () => {
-            console.log("Finished! ");
+        }, (error) => { 
+            this.loader.dismiss(); var alert = this.showAlert(error); 
+        }, () => {
+            //console.log("Finished! ");
             this.loader.dismiss();
         });
     };
 
   changProfilePicture (user_id) {
-        
-        //this.takeProfilePicture();
+      
         if (this.base64Image) {
+            this.loader = this.loadingCtrl.create({
+            content: "changing picture...",
+        });
+        this.loader.present();
             var subscribe = this.picUploadService.profilePictureUpload(this.base64Image, user_id);
             subscribe.subscribe((data) => {
                 var statusData = JSON.parse(data);
                 if (statusData.status === false) {
+                    this.loader.dismiss();
                     var alert_2 = this.showAlert(statusData.error);
                 }
                 else {
+                    this.loader.dismiss();
                     this.profilePic = statusData.url;
                     this.showToast("Information Updated!");
-                    console.log(this.profilePic);
+                    //console.log(this.profilePic);
                 }
-            }, (error) => { return alert(error); }, () => { return console.log("Finished! "); });
+            }, (error) => { 
+                this.loader.dismiss();
+                alert(error); 
+            }, 
+            () => { 
+                this.loader.dismiss();
+                //console.log("Finished! "); 
+            });
         }
+    };
+
+    takeProfilePicture(user_id) {
+        this.loader = this.loadingCtrl.create({
+            content: "one sec...",
+        });
+        this.loader.present();
+        Camera.getPicture({
+            destinationType: Camera.DestinationType.DATA_URL,
+            targetWidth: 400,
+            targetHeight: 400,
+            mediaType:Camera.MediaType.PICTURE,
+            encodingType:Camera.EncodingType.JPEG
+        }).then((imageData) => {
+            this.base64Image = "data:image/jpeg;base64," + imageData;
+            this.loader.dismiss();
+            this.changProfilePicture(user_id);
+            
+        }, function (err) {
+            this.loader.dismiss();
+            //console.log(err);
+        });
     };
 
     markProjectDone (projId) {
@@ -134,12 +170,16 @@ export class UserPage {
             else {
                 this.showToast("Completion Noted!");
             }
-        }, (error) => { return alert(error); }, () => { return console.log("Finished! "); });
+        }, (error) => { 
+            alert(error); 
+        }, () => { 
+            console.log("Finished! "); 
+        });
     };
 
     markMilestoneDone (milId) {
         
-        console.log("lay it down for gospel ");
+        //console.log("lay it down for gospel ");
         var subscribe = this.userService.markMilestoneDone(milId);
         subscribe.subscribe((data) => {
             var statusData = JSON.parse(data);
@@ -176,7 +216,7 @@ export class UserPage {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
-            console.log(this.queryWord, " query word");
+            //console.log(this.queryWord, " query word");
         }
     }
 
@@ -214,11 +254,11 @@ export class UserPage {
             correctOrientation: true
         }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            console.log('base64Image pic ', this.base64Image);
+            //console.log('base64Image pic ', this.base64Image);
             this.loader.dismiss();
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         },  (err) => {
-            console.log(err);
+            //console.log(err);
             this.loader.dismiss();
         });
     }

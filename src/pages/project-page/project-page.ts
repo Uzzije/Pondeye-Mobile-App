@@ -53,7 +53,7 @@ export class ProjectPage {
             }
             else {
                 this.followCount = this.projData.follow_count;
-                console.log("follow, count", this.followCount);
+                //console.log("follow, count", this.followCount);
                 this.milestones = this.projData.mil_list;
                 if(this.projData.motif.length == 0){
                     this.noMotif = true;
@@ -70,7 +70,7 @@ export class ProjectPage {
         var seenData;
         var subcription = this.postService.postProjectNewSeen(proj_Id).subscribe((data) => {
             seenData = JSON.parse(data);
-            console.log(seenData);
+            //console.log(seenData);
             if (seenData.status == false) {
                 var alert_2 = this.showAlert(seenData.error);
             }
@@ -81,7 +81,7 @@ export class ProjectPage {
         
         var subcription = this.postService.postNewFollow(proj_Id).subscribe((data) => {
             var followData = JSON.parse(data);
-            console.log(followData);
+            //console.log(followData);
             if (followData.status == false) {
                 var alert_3 = this.showAlert(followData.error);
             }
@@ -93,9 +93,9 @@ export class ProjectPage {
 
     viewMilestone  (feedId) {
         this.nav.push(MilestonePage, { id: feedId }).then((data) => {
-            console.log(data, " viewmil data");
+            //console.log(data, " viewmil data");
         });
-        console.log(feedId, " feed id");
+        //console.log(feedId, " feed id");
     };
 
     // on click, go to user timeline
@@ -107,7 +107,7 @@ export class ProjectPage {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
-            console.log(this.queryWord, " query word");
+            //console.log(this.queryWord, " query word");
         }
     }
 
@@ -144,7 +144,7 @@ export class ProjectPage {
             correctOrientation: true
         }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            console.log('base64Image pic ', this.base64Image);
+            //console.log('base64Image pic ', this.base64Image);
             this.loader.dismiss();
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {

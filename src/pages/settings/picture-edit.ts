@@ -49,7 +49,7 @@ export class PictureEditPage {
             else {
                 this.picSetList = this.pictureSetData.user_picture_set;
                 for (var one = 0; one < this.picSetList.length; one++) {
-                    console.log(this.picSetList[one]);
+                    //console.log(this.picSetList[one]);
                 }
                 this.hasSet = this.pictureSetData.has_set;
             }
@@ -78,14 +78,16 @@ export class PictureEditPage {
         }, (error) => {
             console.log(error);
             var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
-        }, () => { return console.log("Finished! "); });
+        }, () => { 
+            console.log("Finished! "); 
+        });
     }
 
     search  (ev) {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.setRoot(SearchResultPage, { queryWord: queryWord });
-            console.log(this.queryWord, " query word");
+            //console.log(this.queryWord, " query word");
         }
     }
 
@@ -103,7 +105,9 @@ export class PictureEditPage {
         }, (error) => {
             console.log(error);
             var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
-        }, () => { return console.log("Finished! "); });
+        }, () => { 
+            console.log("Finished! "); 
+        });
     }
 
     deletePictureSetAfter  (picId) {
@@ -121,7 +125,9 @@ export class PictureEditPage {
         }, (error) => {
             console.log(error);
             var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
-        }, () => { return console.log("Finished! "); });
+        }, () => { 
+            console.log("Finished! "); 
+        });
     };
     deletePictureSet  (picSetId) {
         
@@ -137,7 +143,9 @@ export class PictureEditPage {
         }, (error) => {
             console.log(error);
             var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
-        }, () => { return console.log("Finished! "); });
+        }, () => { 
+            console.log("Finished! "); 
+        });
     };
     hideMilView  (picSetId) {
         for (var el = 0; el < this.picSetList.length; el++) {
@@ -190,7 +198,9 @@ export class PictureEditPage {
                 console.log(error);
                 this.loader.dismiss();
                 var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
-            }, () => { return console.log("Finished! "); });
+            }, () => { 
+                console.log("Finished! "); 
+            });
         }, function (err) {
             console.log(err);
             this.loader.dismiss();
@@ -215,7 +225,7 @@ export class PictureEditPage {
             correctOrientation: true
         }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            console.log('base64Image pic ', this.base64Image);
+            //console.log('base64Image pic ', this.base64Image);
             this.loader.dismiss();
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {

@@ -40,7 +40,7 @@ export class ActivityPage implements OnInit {
               LoadingController, public alertCtrl: AlertController, public newPostService: NewPostServices) {
     // set sample data
     this.followCountList[0] = "say";
-   console.log(this.followCountList, + "list follow");
+   //console.log(this.followCountList, + "list follow");
     this.loader = loadingCtrl.create({
       content: "Getting ponders fitness activities...",
     });
@@ -59,7 +59,7 @@ export class ActivityPage implements OnInit {
             this.feeds = this.feedData.all_feeds;
             if (this.feeds) {
                 this.hasFeed = true;
-                console.log("feed length ", this.feeds.length);
+                //console.log("feed length ", this.feeds.length);
                 for (var item = 0; item < this.feeds.length; item++) {
                     this.nextFeed = this.feeds[item];
                     this.nextId = this.nextFeed.id;
@@ -131,26 +131,28 @@ export class ActivityPage implements OnInit {
     }
 
     createVouch (mil_Id) {
-        console.log("create vouch id ", mil_Id);
+        //console.log("create vouch id ", mil_Id);
         this.postService.postNewVouch(mil_Id).subscribe(data => {
             var vouchData = JSON.parse(data);
-            console.log(vouchData);
+            //console.log(vouchData);
             if (vouchData.status == false) {
                 let alert_2 = this.showAlert(vouchData.error);
             }
             else {
                 this.vouchCountList[mil_Id] = vouchData.count;
-                console.log(" vouch count", this.vouchCountList[mil_Id]);
+                //console.log(" vouch count", this.vouchCountList[mil_Id]);
             }
         }, error => {
             let alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
-        }, () => { return console.log("Finished! " + this.feedData); });
+        }, () => { 
+            //console.log("Finished! " + this.feedData); 
+        });
     }
 
     createFollow (proj_Id){
         this.postService.postNewFollow(proj_Id).subscribe(data => {
             var followData = JSON.parse(data);
-            console.log(followData);
+            //console.log(followData);
             if (followData.status == false) {
                 let alert_3 = this.showAlert(followData.error);
             }
@@ -159,12 +161,14 @@ export class ActivityPage implements OnInit {
             }
         }, error => {
             let alert = this.showAlert("Oops. Something Went Wrong! Check your connection!");
-        }, () => { return console.log("Finished! " + this.feedData); });
+        }, () => { 
+            //console.log("Finished! " + this.feedData); 
+        });
     }
 
     viewMilestone (feedId) {
         this.nav.push(MilestonePage, { id: feedId });
-        console.log(feedId, " feed id");
+        // console.log(feedId, " feed id");
     }
 
     /*
@@ -179,7 +183,7 @@ export class ActivityPage implements OnInit {
         var queryWord = ev.target.value;
         if (queryWord.length > 0) {
             this.nav.push( SearchResultPage, { queryWord: queryWord });
-            console.log(this.queryWord, " query word");
+           // console.log(this.queryWord, " query word");
         }
     }
     // on click, go to user timeline
@@ -208,7 +212,7 @@ export class ActivityPage implements OnInit {
             correctOrientation: true
         }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            console.log('base64Image pic ', this.base64Image);
+            //console.log('base64Image pic ', this.base64Image);
             this.loader.dismiss();
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {
