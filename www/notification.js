@@ -84,7 +84,7 @@ function sendNotificationToUser(){
     var now = new Date().getTime();
     _5_sec_from_now = new Date(now + 5 * 1000);
         // Schedule notification for tomorrow to remember about the meeting
-        if(device.platform === "Android"){
+        if(type_of_device === "Android"){
             cordova.plugins.notification.local.schedule({
                 id: 10,
                 text: "New Notification!",
