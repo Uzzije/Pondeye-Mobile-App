@@ -1,7 +1,7 @@
 {
   "name": "pondeye",
   "author": "Uzoma Emuchay",
-  "homepage": "http://ionicframework.com/",
+  "homepage": "https://github.com/Uzzije",
   "private": true,
   "scripts": {
     "build": "ionic-app-scripts build --dev",
@@ -40,7 +40,8 @@
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
-    "cordova-plugin-console@~1.0.4"
+    "cordova-plugin-console@~1.0.4",
+    "cordova-plugin-camera"
   ],
   "cordovaPlatforms": []
 }

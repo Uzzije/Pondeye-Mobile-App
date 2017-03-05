@@ -138,23 +138,17 @@ export class UserPage {
     };
 
     takeProfilePicture(user_id) {
-        this.loader = this.loadingCtrl.create({
-            content: "one sec...",
-        });
-        this.loader.present();
         Camera.getPicture({
-            destinationType: Camera.DestinationType.DATA_URL,
+            destinationType: Camera.DestinationType.FILE_URI,
             targetWidth: 400,
             targetHeight: 400,
             mediaType:Camera.MediaType.PICTURE,
             encodingType:Camera.EncodingType.JPEG
         }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            this.loader.dismiss();
             this.changProfilePicture(user_id);
             
         }, function (err) {
-            this.loader.dismiss();
             //console.log(err);
         });
     };
@@ -242,24 +236,18 @@ export class UserPage {
         this.takePicture();
     };
 
-  takePicture (){ 
-         this.loader = this.loadingCtrl.create({
-            content: "processing picture...",
-            });
-          this.loader.present();
+    takePicture (){ 
           Camera.getPicture({
-            destinationType:  Camera.DestinationType.DATA_URL,
+            destinationType:  Camera.DestinationType.FILE_URI,
             mediaType: Camera.MediaType.PICTURE,
             encodingType: Camera.EncodingType.JPEG,
             correctOrientation: true
         }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
             //console.log('base64Image pic ', this.base64Image);
-            this.loader.dismiss();
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
-        },  (err) => {
-            //console.log(err);
-            this.loader.dismiss();
+        }, function (err) {
+            console.log(err);
         });
     }
 

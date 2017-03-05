@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivityPage} from "../activity/activity";
-import {NavController, AlertController, ActionSheetController, Platform, Content} from 'ionic-angular';
+import {NavController, AlertController, LoadingController, ActionSheetController, Platform, Content} from 'ionic-angular';
 
 import {PostService} from '../../services/post-service';
 import {UserPage} from "../user/user";
@@ -29,9 +29,11 @@ export class RegisterPage {
  private edpassword = false;
  private edconf_password = false;
  private getData;
+ private loader;
   constructor(public nav: NavController, private authService: AuthenticateService, 
   public postService: PostService, public actionSheetCtrl: ActionSheetController,
-              public alertCtrl: AlertController, public platform: Platform) {
+              public alertCtrl: AlertController, public loadingCtrl: 
+                LoadingController, public platform: Platform) {
   }
 
 
@@ -75,6 +77,10 @@ export class RegisterPage {
                 this.edconf_password = true;
             }
             if (last_name && username && this.confirmPassword(userPassword, confirmPassword) && this.emailIsValid(email) && first_name) {
+                 this.loader = this.loadingCtrl.create({
+                     content: "Grabbing your request...",
+                 });
+                this.loader.present();
                 this.authService.regAuthenticate(username, userPassword, confirmPassword, email, first_name, last_name)
                     .subscribe((data) => {
                     this.getData = JSON.parse(data);
@@ -83,14 +89,26 @@ export class RegisterPage {
                         if (this.getData.success == "created") {
                             localStorage.setItem("username", username);
                             localStorage.setItem("password", userPassword);
+                            this.loader.dismiss()
                             this.nav.setRoot(AboutPage, { 'newUser': true });
                         }
                         else {
                             console.log(this.getData.success + " slide please");
+                            this.loader.dismiss()
                             var alert_1 = this.showAlert(this.getData.success);
                         }
+                    }else{
+                        this.loader.dismiss()
+                        var alert_1 = this.showAlert(this.getData.success);
                     }
-                }, (error) => { return alert(error); }, () => { return console.log("Finished! " + this.getData.success); });
+                }, (error) => { 
+                    this.loader.dismiss();
+                    alert(error); 
+                }, 
+                    () => { 
+                        this.loader.dismiss()
+                        console.log("Finished! " + this.getData.success); 
+                    });
             }
         }
     };
@@ -128,6 +146,7 @@ export class RegisterPage {
         }
         return false;
     };
+
     login = () => {
         this.nav.setRoot(LoginPage);
     };

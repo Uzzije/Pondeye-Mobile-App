@@ -201,23 +201,18 @@ export class ActivityPage implements OnInit {
         this.takePicture();
     }
      takePicture (){ 
-         this.loader = this.loadingCtrl.create({
-            content: "processing picture...",
-            });
-          this.loader.present();
           Camera.getPicture({
-            destinationType:  Camera.DestinationType.DATA_URL,
+            destinationType:  Camera.DestinationType.FILE_URI,
             mediaType: Camera.MediaType.PICTURE,
             encodingType: Camera.EncodingType.JPEG,
             correctOrientation: true
         }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            //console.log('base64Image pic ', this.base64Image);
-            this.loader.dismiss();
+            console.log('base64Image pic ', this.base64Image);
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {
             console.log(err);
-            this.loader.dismiss();
         });
+        
     }
 }

@@ -83,5 +83,6 @@ export class AboutPage {
             console.log(err);
             this.loader.dismiss();
         });
+        this.loader.dismiss();
     }
 }

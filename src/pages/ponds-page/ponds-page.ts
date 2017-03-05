@@ -103,7 +103,7 @@ export class PondsPage {
             });
           this.loader.present();
           Camera.getPicture({
-            destinationType:  Camera.DestinationType.DATA_URL,
+            destinationType:  Camera.DestinationType.FILE_URI,
             mediaType: Camera.MediaType.PICTURE,
             encodingType: Camera.EncodingType.JPEG,
             correctOrientation: true
@@ -116,5 +116,6 @@ export class PondsPage {
             console.log(err);
             this.loader.dismiss();
         });
+        this.loader.dismiss();
     }
 }
