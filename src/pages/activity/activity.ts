@@ -202,7 +202,7 @@ export class ActivityPage implements OnInit {
     }
      takePicture (){ 
           Camera.getPicture({
-            destinationType:  Camera.DestinationType.FILE_URI,
+            destinationType:  Camera.DestinationType.DATA_URL,
             mediaType: Camera.MediaType.PICTURE,
             encodingType: Camera.EncodingType.JPEG,
             correctOrientation: true
