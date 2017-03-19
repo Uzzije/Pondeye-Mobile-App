@@ -5,4 +5,5 @@ platforms/
 plugins/
 .DS_Store
 .idea/
+my-release-key.keystore
 

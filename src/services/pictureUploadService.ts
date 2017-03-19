@@ -20,11 +20,34 @@ export class PictureUploadService {
         return this._http.get(this.platformUrl + ("/social/api/new-picture-entry/?username=" + username))
             .map(this.processData).catch(this.processError);
     };
-    milPictureUpload  (picture, type_of_picture, milId) {
+    getProgressPostData() {
+        /*
+            Get the progress information for pondeye's progress page
+        */
+        var username = localStorage.getItem("username");
+        return this._http.get(this.platformUrl + ("/social/api/new-picture-entry/?username=" + username))
+            .map(this.processData).catch(this.processError);
+    }
+    progressPictureUpload (picture, goalId, name_of_progress) {
         var username = localStorage.getItem("username");
         console.log("upload file ", picture);
         var new_pic = encodeURIComponent(picture);
-        var data = "username=" + username + "&picture=" + new_pic + "&type_of_picture=" + type_of_picture + "&milestone_name=" + milId;
+        var data = "username=" + username + "&picture=" + new_pic + "&project_id=" + goalId + 
+                    "&progress_name=" + name_of_progress;
+        console.log(new_pic);
+        var headers = new Headers()
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        headers.append('Content-Transfer-Encoding', 'base64');
+        return this._http.post(this.platformUrl + '/social/api/new-picture-entry/', data, { headers: headers })
+            .map(this.processData).catch(this.processError);
+    };
+
+    milPictureUpload  (picture, type_of_picture, name_of_progress) {
+        var username = localStorage.getItem("username");
+        console.log("upload file ", picture);
+        var new_pic = encodeURIComponent(picture);
+        var data = "username=" + username + "&picture=" + new_pic + "&type_of_picture=" + type_of_picture + 
+                    "&progress_name=" + name_of_progress;
         console.log(new_pic);
         var headers = new Headers()
         headers.append('Content-Type', 'application/x-www-form-urlencoded');

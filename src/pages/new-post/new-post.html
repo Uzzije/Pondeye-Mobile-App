@@ -94,12 +94,8 @@
 		 <ion-item>
 			<ion-label class="item item-input">
 				<button ion-button color="light" (click)="addNewProject(goalName.value)" large>Add Project</button>
+				<button ion-button color="light" (click)="createProjectPicture()" large>Add Picture</button>
 			</ion-label>
 		 </ion-item>
-	</ion-list>
-	<ion-fab bottom right>
-		<button ion-fab mini (click)="createPicture()">
-			<ion-icon name="md-camera"></ion-icon>
-		</button>
-	</ion-fab>	
+	</ion-list>	
 </ion-content>

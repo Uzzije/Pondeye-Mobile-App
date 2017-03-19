@@ -3,8 +3,8 @@ import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-import {CURRENTURL} from './service-util/URLS'
-import {TIMEZONE} from './service-util/timezone-local'
+import {CURRENTURL} from './service-util/URLS';
+import {TIMEZONE} from './service-util/timezone-local';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
 @Injectable()

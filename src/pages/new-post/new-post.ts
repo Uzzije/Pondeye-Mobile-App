@@ -96,7 +96,14 @@ export class NewPostPage implements OnInit{
         else {
             //console.log(" no proj time " + this.projComTime + " no mile date: " + this.milestone_date);
         }
-        var subcribe = this.newPostService.postNewProject(this.name_of_project, this.public_status, this.milestone_date, this.tags).subscribe((data) => {
+        let projectpicture = this.base64Image;
+        if(this.base64Image){
+            projectpicture = this.base64Image
+        }else{
+            projectpicture = "";
+        }
+        var subcribe = this.newPostService.postNewProject(this.name_of_project, this.public_status, 
+            this.milestone_date, this.tags, projectpicture).subscribe((data) => {
             this.newPostData = JSON.parse(data);
             if (this.newPostData.status === false) {
                 var alert_1 = this.showAlert(this.newPostData.error);
@@ -168,23 +175,22 @@ export class NewPostPage implements OnInit{
     createPost = () => {
         this.nav.push(NewPostPage);
     };
-    createPicture = () => {
-        this.takePicture();
+    createProjectPicture = () => {
+        this.addProjectPic();
     };
 
-    takePicture (){ 
+    addProjectPic (){ 
         Camera.getPicture({
         destinationType:  Camera.DestinationType.DATA_URL,
         mediaType: Camera.MediaType.PICTURE,
         encodingType: Camera.EncodingType.JPEG,
         correctOrientation: true
         }).then((imageData) => {
-        this.base64Image = "data:image/jpeg;base64," + imageData;
-        //console.log('base64Image pic ', this.base64Image);
-            this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
+           this.base64Image = "data:image/jpeg;base64," + imageData;
+           //console.log('base64Image pic ', this.base64Image);
+           //this.uploadProjectPicture();
         }, function (err) {
             console.log(err);
         });
     }
-
 }

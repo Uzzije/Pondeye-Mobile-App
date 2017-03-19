@@ -22,9 +22,10 @@ export class NewPostServices {
         return this._http.get(this.platformUrl + ("/api/get-new-post-info/?username=" + username))
             .map(this.processData).catch(this.processError);
     }
-    postNewProject  (name_of_project, public_status, milestone_date, tags) {
+    postNewProject  (name_of_project, public_status, milestone_date, tags, picturedata) {
         var username = localStorage.getItem("username");
-        var data = "username=" + username + "&timezone=" + this.timezone + "&name_of_project=" + name_of_project + "&public_status=" + public_status + "&milestone_date=" + milestone_date + "&tags=" + tags;
+        var data = "username=" + username + "&timezone=" + this.timezone + "&name_of_project=" + 
+        name_of_project + "&public_status=" + public_status + "&milestone_date=" + milestone_date + "&tags=" + tags + "&projectpic="+picturedata;
         var headers = new  Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this.platformUrl + '/api/create-new-project/', data, { headers: headers })

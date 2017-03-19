@@ -17,7 +17,7 @@ import {SearchResultPage} from '../search-result-page/search-result-page';
 declare var window: any;
 @Component({
   selector: 'page-picture-upload',
-  templateUrl: 'pictureUpload.html',
+  templateUrl: 'progressUpload.html',
 })
 
 export class NewPictureUploadPage {
@@ -33,7 +33,11 @@ export class NewPictureUploadPage {
   private fileUpload = "";
   private milPicture = "";
   private milId = "";
-  private milestoneListData;
+  private nameOfProgress = "";
+  private progressListData;
+  private projId;
+  private projects;
+  private hasProj;
   // set sample data
   constructor(private nav: NavController,  private params: NavParams, private picUploadService: PictureUploadService, 
               private postService: PostService, public actionSheetCtrl: ActionSheetController,
@@ -48,21 +52,24 @@ export class NewPictureUploadPage {
   }
    ngOnInit(): void {
         
-        var subcription = this.picUploadService.getMilestonePostData().subscribe((data) => {
-            this.milestoneListData = JSON.parse(data);
-            //console.log(this.milestoneListData);
-            if (this.milestoneListData.status) {
-                this.milPicture = this.milestoneListData.milestone;
+        var subcription = this.picUploadService.getProgressPostData().subscribe((data) => {
+            this.progressListData = JSON.parse(data);
+            //console.log(this.progressListData);
+            if (this.progressListData.status) {
+                this.milPicture = this.progressListData.progress;
+                this.projects = this.progressListData.projects;
+                this.hasProj = true;
             }
             else {
-                var alert_1 = this.showAlert(this.milestoneListData.error);
+                var alert_1 = this.showAlert(this.progressListData.error);
+                this.hasProj = false;
             }
         }, (error) => {
             console.log(error);
             this.loader.dismiss();
             var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
         }, () => {
-            console.log("Finished! " + this.milestoneListData);
+            console.log("Finished! " + this.progressListData);
             this.loader.dismiss();
         });
     };
@@ -70,21 +77,32 @@ export class NewPictureUploadPage {
        
         this.fileUpload = this.base64Image;
         //console.log('file uploda ', this.fileUpload);
-        if (this.type_of_picture && this.fileUpload, this.milId) {
-            var subscribe = this.picUploadService.milPictureUpload(this.fileUpload, this.type_of_picture, this.milId);
+        if (this.projId && this.fileUpload) {
+            this.loader = this.loadingCtrl.create({
+                    content:  "Creating New Progress..",
+            });
+            this.loader.present();
+            var subscribe = this.picUploadService.progressPictureUpload(this.fileUpload, this.projId, this.nameOfProgress);
             subscribe.subscribe((data) => {
-                this.milestoneListData = JSON.parse(data);
-                if (this.milestoneListData.status === false) {
-                    var alert_2 = this.showAlert(this.milestoneListData.error);
+                this.progressListData = JSON.parse(data);
+                this.loader.dismiss();
+                if (this.progressListData.status === false) {
+                    var alert_2 = this.showAlert(this.progressListData.error);
                 }
                 else {
-                    this.showToast("Picture Uploaded!");
+                    this.showToast("Progress Created!");
                     this.nav.pop();
                 }
             }, (error) => {
+                this.loader.dismiss();
                 console.log(error);
                 var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
-            }, () => { return console.log("Finished! "); });
+            }, () => { 
+                console.log("Finished! "); 
+                this.loader.dismiss();  
+          });
+        }else{
+            this.showAlert("Make sure you select a goal!");
         }
     };
     // create a new post
