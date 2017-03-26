@@ -1,392 +1,119 @@
-    <ion-header>
-    <ion-navbar color="primary">
-
+<ion-header>
+  <ion-navbar color="primary">
     <button ion-button menuToggle>
-
-
-    <ion-icon name="menu"></ion-icon>
-
+      <ion-icon name="menu"></ion-icon>
     </button>
-
     <ion-title text-wrap>{{ userName }}</ion-title>
-    </ion-navbar></ion-header><ion-content>
-    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, motivations, and people" (search)="search($event)"></ion-searchbar>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, motivations, and people" (search)="search($event)"></ion-searchbar>
     <div text-center class="user-profile" [ngStyle]="{'background-image': 'url(' + cover_url + ')'}">
-
-    <div class="bg-dark">
-
-
-    <ion-grid>
-
-
-
-    <ion-row class="middle-align">
-
-
-
-
-    <ion-col *ngIf="yourProfile">
-
-
-
-
-
-    <button ion-button color="light" class="action" (click)="takeProfilePicture(profUserId)">
-
-
-
-
-
-
-    <ion-icon name="md-camera"></ion-icon>
-
-
-
-
-
-    </button>
-
-
-
-
-    </ion-col>
-
-
-
-
-    <ion-col>
-
-
-
-
-
-    <img class="profile-picture" src="{{ profilePic }}">
-
-
-
-
-    </ion-col>
-
-
-
-    </ion-row>
-
-
-
-    <ion-row>
-
-
-
-
-    <ion-col>
-
-
-
-
-
-    <h4 color="light">{{ firstName }} {{ lastName }}</h4>
-
-
-
-
-    </ion-col>
-
-
-
-    </ion-row>
-
-
-
-    <ion-row>
-
-
-
-
-    <ion-col>
-
-
-
-
-
-    <span class="number">{{ completedMilCount }}</span>
-
-
-
-
-
-    <span class="desc">Completed Milestones</span>
-
-
-
-
-    </ion-col>
-
-
-
-
-    <ion-col>
-
-
-
-
-
-    <span class="number">{{ completedProjCount }}</span>
-
-
-
-
-
-    <span class="desc">Completed Goals</span>
-
-
-
-
-    </ion-col>
-
-
-
-    </ion-row>
-
-
-
-    <ion-row>
-
-
-
-
-    <ion-col>
-
-
-
-
-
-    <span class="number">{{ failedProjCount }}</span>
-
-
-
-
-
-    <span class="desc">Failed Goals</span>
-
-
-
-
-    </ion-col>
-
-
-
-
-    <ion-col>
-
-
-
-
-
-    <span class="number">{{ failedMilCount }}</span>
-
-
-
-
-
-    <span class="desc">Failed Milestones</span>
-
-
-
-
-    </ion-col>
-
-
-
-    </ion-row>
-
-
-    </ion-grid>
-
-    </div>
+      <div class="bg-dark">
+        <ion-grid>
+          <ion-row class="middle-align">
+              <ion-col *ngIf="yourProfile">
+                <button ion-button color="light" class="action" (click)="takeProfilePicture(profUserId)">
+                  <ion-icon name="md-camera"></ion-icon>
+                </button>
+                </ion-col>
+                <ion-col>
+                  <img class="profile-picture" src="{{ profilePic }}">
+                </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <h4 color="light">{{ firstName }} {{ lastName }}</h4>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+              <ion-col>
+                <span class="number">{{ completedMilCount }}</span>
+                <span class="desc">Completed Milestones</span>
+              </ion-col>
+              <ion-col>
+                <span class="number">{{ completedProjCount }}</span>
+                <span class="desc">Completed Goals</span>
+              </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <span class="number">{{ failedProjCount }}</span>
+              <span class="desc">Failed Goals</span>
+            </ion-col>
+            <ion-col>
+                <span class="number">{{ failedMilCount }}</span>
+                <span class="desc">Failed Milestones</span>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
     </div>
     <ion-item text-wrap>
-
-
-    <h2 color="secondary" text-center text-wrap>Work Ethic Rank</h2>
-
-
-    <p text-center text-wrap color="primary">{{ statusOfUser
-    }}</p>
+      <h2 color="secondary" text-center text-wrap>Work Ethic Rank</h2>
+      <p text-center text-wrap color="primary">{{ statusOfUser }}</p>
     </ion-item>
     <hr>
-
     <ion-item *ngIf="!yourProfile">
-
-
-
-    <ion-label>Choose Pond to Add {{ firstName }} to</ion-label>
-
-
-
-    <ion-select [(ngModel)]="selectedPond" (ionChange)="addUsertoPond()">
-
-
-
-
-    <ion-option value="{{ pond.id }}" *ngFor="let pond of aval_pond">{{ pond.blurb }}</ion-option>
-
-
-
-    </ion-select>
-
+        <ion-label>Choose Pond to Add {{ firstName }} to</ion-label>
+        <ion-select [(ngModel)]="selectedPond" (ionChange)="addUsertoPond()">
+            <ion-option value="{{ pond.id }}" *ngFor="let pond of aval_pond">{{ pond.blurb }}</ion-option>
+        </ion-select>
     </ion-item>
-
     <ion-item *ngIf="currentProjects" class="posts">
-
-
-    <h4>Upcoming Goals</h4>
-
-
-    <div class="item-post border-bottom" *ngFor="let curr_proj of currentProjects">
-
-
-
-    <ion-item class="no-border" text-wrap>
-
-
-
-
-    <ion-avatar item-left>
-
-
-
-
-
-    <img src="{{ profilePic }}">
-
-
-
-
-    </ion-avatar>
-
-
-
-
-    <p (click)="viewProject(curr_proj.id)">{{ curr_proj.blurb }}</p>
-
-
-
+        <h4>Upcoming Goals</h4>
+        <div class="item-post border-bottom" *ngFor="let curr_proj of currentProjects">
+            <ion-item class="no-border" text-wrap>
+                <ion-avatar item-left>
+                    <img src="{{ profilePic }}">
+                </ion-avatar>
+                <p (click)="viewProject(curr_proj.id)">{{ curr_proj.blurb }}</p>
+            </ion-item>
+            <ion-item *ngIf="yourProfile">
+                <button ion-button color="green" (click)="markProjectDone(curr_proj.id)">Complete</button>
+            </ion-item>
+            </div>
     </ion-item>
-
-
-
-    <ion-item *ngIf="yourProfile">
-
-
-
-
-    <button ion-button color="green" (click)="markProjectDone(curr_proj.id)">Complete</button>
-
-
-    </ion-item>
-
-
-    </div>
-
-    </ion-item>
-
     <ion-item *ngIf="!currentProjects" class="posts">
-
-    <h4>Upcoming Goals</h4>
-
-    <div class="item-post border-bottom">
-
-
-    <ion-item class="no-border" text-wrap>
-
-
-
-    <p>No Upcoming Goals!</p>
-
-
-    </ion-item>
-
-    </div>
+      <h4>Upcoming Goals</h4>
+      <div class="item-post border-bottom">
+          <ion-item class="no-border" text-wrap>
+              <p>No Upcoming Goals!</p>
+          </ion-item>
+      </div>
     </ion-item>
     <ion-item *ngIf="currentMilestone" class="posts">
-
-    <h4>Upcoming Milestones</h4>
-
-    <div class="item-post border-bottom" *ngFor="let curr_mil of currentMilestone">
-
-
-    <ion-item class="no-border" text-wrap>
-
-
-
-    <ion-avatar item-left>
-
-
-
-
-    <img src="{{ profilePic }}">
-
-
-
-    </ion-avatar>
-
-
-
-    <p (click)="viewMilestone(curr_mil.id)">{{ curr_mil.blurb }}</p>
-
-
-    </ion-item>
-
-
-    <ion-item *ngIf="yourProfile">
-
-
-
-    <button ion-button color="green" (click)="markMilestoneDone(curr_mil.id)">Complete</button>
-
-
-    </ion-item>
-
-    </div>
-    </ion-item>
-    <ion-item *ngIf="!currentMilestone" class="posts">
-
-    <h1>Upcoming Milestones</h1>
-
-    <div class="item-post border-bottom">
-
-
-    <ion-item class="no-border" text-wrap>
-
-
-
-    <p>No Upcoming Milestones!</p>
-
-
-    </ion-item>
-
-    </div>
-    </ion-item>
-
-    <ion-fab bottom right>
-
-    <button ion-fab mini (click)="createPost()">
-
-
-    <ion-icon name="add"></ion-icon>
-
-    </button>
-
-    <br>
-
-    <button ion-fab mini (click)="createPicture()">
-
-
-    <ion-icon name="md-camera"></ion-icon>
-
-    </button>
-    </ion-fab>
-    </ion-content>
-    <ion-footer>
-      <hr>
-    </ion-footer>
+        <h4>Upcoming Milestones</h4>
+        <div class="item-post border-bottom" *ngFor="let curr_mil of currentMilestone">
+            <ion-item class="no-border" text-wrap>
+                <ion-avatar item-left>
+                    <img src="{{ profilePic }}">
+                </ion-avatar>
+                <p (click)="viewMilestone(curr_mil.id)">{{ curr_mil.blurb }}</p>
+            </ion-item>
+            <ion-item *ngIf="yourProfile">
+                <button ion-button color="green" (click)="markMilestoneDone(curr_mil.id)">Complete</button>
+            </ion-item>
+        </div>
+      </ion-item>
+      <ion-item *ngIf="!currentMilestone" class="posts">
+        <h1>Upcoming Milestones</h1>
+            <div class="item-post border-bottom">
+              <ion-item class="no-border" text-wrap>
+                  <p>No Upcoming Milestones!</p>
+              </ion-item>
+            </div>
+      </ion-item>
+      <ion-fab bottom right>
+        <button ion-fab mini (click)="createPost()">
+            <ion-icon name="add"></ion-icon>
+        </button>
+        <br>
+        <button ion-fab mini (click)="createPicture()">
+            <ion-icon name="md-camera"></ion-icon>
+        </button>
+      </ion-fab>
+  </ion-content>
+<ion-footer>
+  <hr>
+</ion-footer>

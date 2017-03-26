@@ -69,7 +69,7 @@ export class MilestonePage {
     createVouch  (mil_Id) {
         
         //console.log("create vouch id ", mil_Id);
-        var subcription = this.postService.postNewVouch(mil_Id).subscribe((data) => {
+        var subcription = this.postService.postNewVouch(mil_Id, "blah").subscribe((data) => {
             var vouchData = JSON.parse(data);
             //console.log(vouchData);
             if (vouchData.status == false) {

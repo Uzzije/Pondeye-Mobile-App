@@ -24,8 +24,9 @@ export class NewPostServices {
     }
     postNewProject  (name_of_project, public_status, milestone_date, tags, picturedata) {
         var username = localStorage.getItem("username");
+        var new_pic = encodeURIComponent(picturedata);
         var data = "username=" + username + "&timezone=" + this.timezone + "&name_of_project=" + 
-        name_of_project + "&public_status=" + public_status + "&milestone_date=" + milestone_date + "&tags=" + tags + "&projectpic="+picturedata;
+        name_of_project + "&public_status=" + public_status + "&milestone_date=" + milestone_date + "&tags=" + tags + "&projectpic="+new_pic;
         var headers = new  Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this.platformUrl + '/api/create-new-project/', data, { headers: headers })

@@ -52,6 +52,7 @@ export class UserPage {
   private userName = localStorage.getItem('username');
   private selectedPond;
   private cover_url = 'assets/img/cover.jpg';
+  private user_stats = {};
   constructor(private nav: NavController, private userService: UserService, private pondService: PondService, 
               private picUploadService: PictureUploadService, private navParams: NavParams, private setService: SettingsService, private postService: PostService, 
               public actionSheetCtrl: ActionSheetController,
@@ -88,6 +89,7 @@ export class UserPage {
                 this.statusOfUser = this.userDetails.status_of_user;
                 this.profUserId = this.userDetails.user_id;
                 this.yourProfile = this.userDetails.is_own_profile;
+                this.user_stats = this.userDetails.user_stats;
                 //console.log(this.userDetails);
                 //console.log("profile pic, ", this.profilePicStorage);
                 if (this.yourProfile) {

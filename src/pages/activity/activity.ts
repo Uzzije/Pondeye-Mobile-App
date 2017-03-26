@@ -27,6 +27,7 @@ export class ActivityPage implements OnInit {
   private  vouchCountList = [];
   private followCountList = [];
   private idList = [];
+  private impressCountList = [];
   private queryWord = "";
   private loader: any;
   private base64Image;
@@ -63,12 +64,15 @@ export class ActivityPage implements OnInit {
                 for (var item = 0; item < this.feeds.length; item++) {
                     this.nextFeed = this.feeds[item];
                     this.nextId = this.nextFeed.id;
-                    if (this.nextFeed.is_milestone_feed) {
+                    if(this.nextFeed.is_project_feed){
                         this.vouchCountList[this.nextId] = this.nextFeed.vouch_count;
-                    }
-                    if (this.nextFeed.is_project_feed) {
-                        
                         this.followCountList[this.nextId] = this.nextFeed.follow_count;
+                    }
+                    if(this.nextFeed.is_progress_feed){
+                        for(var item = 0; item < this.nextFeed.list_of_progress.length; item++){
+                            var progress = this.nextFeed.list_of_progress[item];
+                            this.impressCountList[progress.id] = this.nextFeed.impress_count;
+                        } 
                     }
                 }
             }
@@ -130,9 +134,9 @@ export class ActivityPage implements OnInit {
         alert.present();
     }
 
-    createVouch (mil_Id) {
+    createVouch (mil_Id, userResponse) {
         //console.log("create vouch id ", mil_Id);
-        this.postService.postNewVouch(mil_Id).subscribe(data => {
+        this.postService.postNewVouch(mil_Id, userResponse).subscribe(data => {
             var vouchData = JSON.parse(data);
             //console.log(vouchData);
             if (vouchData.status == false) {
@@ -166,6 +170,22 @@ export class ActivityPage implements OnInit {
         });
     }
 
+    createImpression(progressId, progressSetId){
+        this.postService.postNewImpression(progressId, progressSetId).subscribe(data => {
+            var impressData = JSON.parse(data);
+            //console.log(followData);
+            if (impressData.status == false) {
+                let alert_3 = this.showAlert(impressData.error);
+            }
+            else {
+                this.impressCountList[progressId] = impressData.count;
+            }
+        }, error => {
+            let alert = this.showAlert("Oops. Something Went Wrong! Check your connection!");
+        }, () => { 
+            //console.log("Finished! " + this.feedData); 
+        });
+    }
     viewMilestone (feedId) {
         this.nav.push(MilestonePage, { id: feedId });
         // console.log(feedId, " feed id");

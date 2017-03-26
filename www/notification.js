@@ -6,6 +6,7 @@ var NOTIFICATIONCOUNTER = 150000;
 var CHECKFAILEDCOUNTER = 100000;
 var clickNotif = localStorage.getItem("clickNotif");
 var type_of_device = '';
+var notification_list = [];
 notificationReminder();
 $(document).ready(function() {
     notificationReminder();

@@ -8,55 +8,7 @@
 </ion-header>
 <ion-content>	
 	<ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, and people" (search)="search($event)"></ion-searchbar>
-	<div class="item item-input-inset">
-		<button ion-button class="no-round" (click)="openProjOption()" no-margin block color="secondary">New Goal</button>
-	</div>
-	<div class="item item-input-inset">
-		<button ion-button class="no-round" (click)="openMilOption()" no-margin block color="grey">New Milestone</button>
-	</div>
-	<ion-list *ngIf="showMilstone" class="list-no-border">
-		<span *ngIf="hasProj">	
-			<ion-item>
-				<label class="item item-input"></label>
-					<ion-textarea #milName placeholder="What's the Milestone?"></ion-textarea>	
-			</ion-item>
-			<ion-item>
-				<ion-label>What goal is this for?</ion-label>
-				<ion-select [(ngModel)]="name_of_mil_proj" >
-					<ion-option value="{{proj.id}}" *ngFor="let proj of projAndPond.user_project.projects">{{proj.name}}</ion-option>
-				</ion-select>	 
-			</ion-item>	 	
-			<ion-item>
-				<ion-label>Date of Completion</ion-label>
-				<ion-datetime [(ngModel)]="milComDate" displayFormat="MMM DD YYYY"></ion-datetime>	 
-			</ion-item>	
-			<ion-item>
-				<ion-label>Time of Completion</ion-label>
-					<ion-datetime [(ngModel)]="milComTime" displayFormat="h:mm A" pickerFormat="h mm A"></ion-datetime>	 
-			</ion-item>	
-			<ion-item>
-				<ion-label>How long will this take to complete?</ion-label>
-				<ion-select [(ngModel)]="length_of_time">
-					<ion-option value="-1">Less Than an Hour</ion-option>
-					<ion-option value="1">An Hour</ion-option>
-					<ion-option value="2">Two Hours</ion-option>
-					<ion-option value="3">Three Hours</ion-option>
-					<ion-option value="4">Four Hours</ion-option>
-					<ion-option value="5">Five Hours</ion-option>
-				</ion-select>
-			</ion-item>
-			<ion-item>
-				<label class="item item-input">
-					<button ion-button color="light" (click)="addNewMilestone(milName.value)" large>Add Milestone</button>
-				</label>
-			</ion-item>
-		</span>
-		 <ion-list *ngIf="!hasProj">
-			<p>Can't create milestone without a project.</p>
-		 </ion-list>
-	</ion-list>
-	
-	<ion-list *ngIf="showProject" class="list-no-border">	
+	<ion-list class="list-no-border">	
 		<ion-item>
 			<ion-textarea #goalName placeholder="My Goal is to..."></ion-textarea>
 		</ion-item>

@@ -36,9 +36,6 @@ export class SettingsPage {
               LoadingController, public alertCtrl: AlertController, public newPostService: NewPostServices) {
    }
 
-   navToMilEdit  () {
-        this.nav.push(MilestoneEditPage);
-    };
    navToPersonalInfoEdit  () {
         this.nav.push(PersonalInfoEditPage);
     };
