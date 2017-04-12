@@ -1,7 +1,7 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/v2/theming/
 @import "ionic.globals";
-
+@import url('https://fonts.googleapis.com/css?family=Raleway');
 // Shared Variables
 // --------------------------------------------------
 // To customize the look and feel of this app, you can override
@@ -12,6 +12,11 @@
 $text-color: #000;
 $background-color: #fff;
 $list-border-color: #EAEAEA;
+$card-ios-background-color: #EEEEEE;
+$card-md-background-color: #EEEEEE;
+$card-md-background-color: #EEEEEE;
+$general-font: 'Open Sans', sans-serif;
+
 
 // Named Color Variables
 // --------------------------------------------------
@@ -33,7 +38,8 @@ $colors: (
   border-color: #F3F3F3,
   facebook-color: #3B5998,
   chat-bg: #D2D9DF,
-  chat-bubble: #D7F1FE
+  chat-bubble: #D7F1FE,
+  green: green,
 );
 
 // App Theme

@@ -1,236 +1,72 @@
 <ion-header>
-<ion-navbar color="primary">
-
-<button ion-button menuToggle>
-
-
-<ion-icon name="menu"></ion-icon>
-
-</button>
-
-<ion-title>Search Results</ion-title>
-</ion-navbar></ion-header><ion-content>
-<ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, motivations, and people" (search)="search($event)"></ion-searchbar>
-<ion-list class="list-full-border">
-<ion-item-sliding *ngFor="let res of dataResult">
-
-
-<ion-item *ngIf="res.is_person" (click)="viewProfile(res.id)">
-
-
-
-<ion-avatar item-left>
-
-
-
-
-<img class="profile-picture" src="{{ res.profile_pic_url }}" alt=""/>
-
-
-
-</ion-avatar>
-
-
-
-<div text-wrap text-wrap>
-
-
-
-
-<div>
-
-
-
-
-
-<h3 color="primary">Ponder</h3>
-
-
-
-
-</div>
-
-
-
-
-<h3 color="primary">{{ res.first_name }} {{ res.last_name }}</h3>
-
-
-
-</div>
-
-
-</ion-item>
-
-
-<ion-item *ngIf="res.is_project" (click)="viewProject(res.id)" text-wrap>
-
-
-
-<div>
-
-
-
-
-<h3 color="primary">Goal</h3>
-
-
-
-</div>
-
-
-
-<div>
-
-
-
-
-<h3 color="primary">{{ res.name_of_project }}</h3>
-
-
-
-</div>
-
-
-
-<ion-avatar item-left>
-
-
-
-
-<img class="profile-picture" src="{{ res.owner_profile_pic }}" alt=""/>
-
-
-
-</ion-avatar>
-
-
-
-<div text-wrap>
-
-
-
-
-<h3 color="primary">{{ res.blurb }}</h3>
-
-
-
-</div>
-
-
-</ion-item>
-
-
-<ion-item *ngIf="res.is_milestone" (click)="viewMilestone(res.id)" text-wrap>
-
-
-
-<div>
-
-
-
-
-<h3 color="primary">Milestone</h3>
-
-
-
-</div>
-
-
-
-<ion-avatar item-left>
-
-
-
-
-<img class="profile-picture" src="{{ res.owner_profile_pic }}" alt=""/>
-
-
-
-</ion-avatar>
-
-
-
-<div>
-
-
-
-
-<h3 color="primary">{{ res.blurb }}</h3>
-
-
-
-</div>
-
-
-</ion-item>
-
-
-<ion-item *ngIf="res.is_pond" (click)="viewPond(res.id)" text-wrap>
-
-
-
-<div>
-
-
-
-
-<h3 color="primary">Pond</h3>
-
-
-
-</div>
-
-
-
-<ion-avatar item-left>
-
-
-
-
-<img class="profile-picture" src="{{ res.owner_profile_pic }}" alt=""/>
-
-
-
-</ion-avatar>
-
-
-
-<div>
-
-
-
-
-<h3 color="primary">{{ res.blurb }}</h3>
-
-
-
-</div>
-
-
-</ion-item>
-
-</ion-item-sliding>
-</ion-list>
-<ion-item padding *ngIf="noResult" text-wrap>
-
-<p>Sorry we could not find what you were looking for</p>
-</ion-item>
-<ion-fab bottom right>
-
-<button ion-fab mini (click)="createPost()">
-
-
-<ion-icon name="add"></ion-icon>
-
-</button>
-
-<br>
-
-<button ion-fab mini (click)="createPicture()">
-
-
-<ion-icon name="md-camera"></ion-icon>
-
-</button>
-</ion-fab></ion-content>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Search Results</ion-title>
+        </ion-navbar></ion-header><ion-content>
+        <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, motivations, and people" (search)="search($event)"></ion-searchbar>
+        <ion-list class="list-full-border">
+            <ion-item-sliding *ngFor="let res of dataResult">
+                <ion-item *ngIf="res.is_person" (click)="viewProfile(res.id)">
+                    <ion-avatar item-left>
+                        <img class="profile-picture" src="{{ res.profile_pic_url }}" alt=""/>
+                    </ion-avatar>
+                    <div text-wrap text-wrap>
+                        <div>       
+                            <h3 color="primary">Ponder</h3>
+                        </div>
+                        <h3 color="primary">{{ res.first_name }} {{ res.last_name }}</h3>
+                    </div>
+                </ion-item>
+                <ion-item *ngIf="res.is_project" (click)="viewProject(res.id)" text-wrap>
+                <div>
+                    <h3 color="primary">Goal</h3>
+                </div>
+                <div>
+                    <h3 color="primary">{{ res.name_of_project }}</h3>
+                </div>
+                <ion-avatar item-left>
+                    <img class="profile-picture" src="{{ res.owner_profile_pic }}" alt=""/>
+                </ion-avatar>
+                <div text-wrap>
+                    <h3 color="primary">{{ res.blurb }}</h3>
+                </div>
+            </ion-item>
+            <ion-item *ngIf="res.is_milestone" (click)="viewMilestone(res.id)" text-wrap>
+                <div>
+                    <h3 color="primary">Milestone</h3>
+                </div>
+                <ion-avatar item-left>
+                    <img class="profile-picture" src="{{ res.owner_profile_pic }}" alt=""/>
+                </ion-avatar>
+                <div>
+                    <h3 color="primary">{{ res.blurb }}</h3>
+                </div>
+            </ion-item>
+            <ion-item *ngIf="res.is_pond" (click)="viewPond(res.id)" text-wrap>
+                <div>
+                    <h3 color="primary">Pond</h3>
+                </div>
+                <ion-avatar item-left>
+                    <img class="profile-picture" src="{{ res.owner_profile_pic }}" alt=""/>
+                </ion-avatar>
+                <div>
+                    <h3 color="primary">{{ res.blurb }}</h3>
+                </div>
+            </ion-item>
+        </ion-item-sliding>
+    </ion-list>
+    <ion-item padding *ngIf="noResult" text-wrap>
+        <p>Sorry we could not find what you were looking for</p>
+    </ion-item>
+    <ion-fab bottom right>
+        <button ion-fab mini (click)="createPost()">
+            <ion-icon name="add"></ion-icon>
+        </button>
+        <br>
+        <button ion-fab mini (click)="createPicture()">
+            <ion-icon name="md-camera"></ion-icon>
+        </button>
+    </ion-fab>
+</ion-content>

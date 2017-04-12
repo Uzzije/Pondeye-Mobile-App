@@ -7,7 +7,7 @@
     </ion-navbar>
 </ion-header>
 <ion-content>		
-    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, motivations, and people" (search)="search($event)"></ion-searchbar>		
+    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, people" (search)="search($event)"></ion-searchbar>		
     <ion-list *ngFor="let mil of milestoneList">				
         <ion-item *ngIf="showMilestoneArray[mil.id]" text-wrap>					
             <label>Finish by: {{ mil.time }}</label>				

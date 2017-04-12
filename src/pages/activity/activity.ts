@@ -69,9 +69,10 @@ export class ActivityPage implements OnInit {
                         this.followCountList[this.nextId] = this.nextFeed.follow_count;
                     }
                     if(this.nextFeed.is_progress_feed){
-                        for(var item = 0; item < this.nextFeed.list_of_progress.length; item++){
-                            var progress = this.nextFeed.list_of_progress[item];
-                            this.impressCountList[progress.id] = this.nextFeed.impress_count;
+                        console.log("next progr ", this.nextFeed.list_of_progress.length);
+                        for(var prog = 0; prog < this.nextFeed.list_of_progress.length; prog++){
+                            var progress = this.nextFeed.list_of_progress[prog];
+                            this.impressCountList[progress.id] = progress.impress_count;
                         } 
                     }
                 }
@@ -134,16 +135,17 @@ export class ActivityPage implements OnInit {
         alert.present();
     }
 
-    createVouch (mil_Id, userResponse) {
+    createVouch (proj_Id, userResponse) {
         //console.log("create vouch id ", mil_Id);
-        this.postService.postNewVouch(mil_Id, userResponse).subscribe(data => {
+        console.log("user response", userResponse);
+        this.postService.postNewVouch(proj_Id, userResponse).subscribe(data => {
             var vouchData = JSON.parse(data);
             //console.log(vouchData);
             if (vouchData.status == false) {
                 let alert_2 = this.showAlert(vouchData.error);
             }
             else {
-                this.vouchCountList[mil_Id] = vouchData.count;
+                this.vouchCountList[proj_Id] = vouchData.count;
                 //console.log(" vouch count", this.vouchCountList[mil_Id]);
             }
         }, error => {
@@ -171,6 +173,7 @@ export class ActivityPage implements OnInit {
     }
 
     createImpression(progressId, progressSetId){
+        console.log("impress count ", progressSetId);
         this.postService.postNewImpression(progressId, progressSetId).subscribe(data => {
             var impressData = JSON.parse(data);
             //console.log(followData);
@@ -207,9 +210,6 @@ export class ActivityPage implements OnInit {
         }
     }
     // on click, go to user timeline
-    viewUser (userId) {
-        this.nav.push( UserPage, { id: userId });
-    }
     viewProfile(id) {
         this.nav.push( UserPage, { id: id });
     }

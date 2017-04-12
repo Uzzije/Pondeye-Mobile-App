@@ -1,216 +1,80 @@
 <ion-header> 
     <ion-navbar color="primary"> 
-    
-    <button ion-button menuToggle> 
-    
-    
-    <ion-icon name="menu"></ion-icon> 
-    
-    </button> 
-    
-    <ion-title>Notifications</ion-title> 
-</ion-navbar></ion-header>
+      <button ion-button menuToggle> 
+        <ion-icon name="menu"></ion-icon> 
+      </button> 
+      <ion-title>Notifications</ion-title> 
+    </ion-navbar>
+</ion-header>
 <ion-content> 
-  <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, motivations, and people" (search)="search($event)"></ion-searchbar> 
+  <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, people" (search)="search($event)"></ion-searchbar> 
   <ion-list class="notifications-list"> 
-  
-  <ion-item *ngFor="let notification of notifications" text-wrap> 
-  
-  
-  <div *ngIf="notification.is_let_down" (click)="viewMilestone(notification.mil_is_deleted, notification.id)" class="notification-content"> 
-  
-  
-  
-  <span color="gray" *ngIf="notification.count >= 0"> 
-  
-  
-  
-  You let down {{ notification.count }} persons with milestone {{ notification.blurb }} 
-  
-  
-  
-  </span> 
-  
-  
-  
-  <span color="gray" *ngIf="notification.count < 0"> 
-  
-  
-  
-  
-  
-  
-  
-  {{ notification.first_name }} {{ notification.last_name }} failed to complete milestone: 
-  
-  
-  
-  
-  
-  
-  
-  {{ notification.blurb }} 
-  
-  
-  
-  </span> 
-  
-  
-  
-  <p class="post-time"> 
-  
-  
-  
-  
-  {{ notification.created_view }} 
-  
-  
-  
-  </p> 
-  
-  
-  </div> 
-  
-  
-  <div *ngIf="notification.is_milestone_vouch" (click)="viewMilestone(notification.mil_is_deleted, notification.id)" class="notification-content"> 
-  
-  
-  
-  <span> 
-  
-  
-  
-  
-  {{ notification.count }} person believes that you will get this milestone: {{ notification.blurb }} completed! 
-  
-  
-  
-  </span> 
-  
-  
-  </div> 
-  
-  
-  <div *ngIf="notification.is_new_ponder" class="notification-content"> 
-  
-  
-  
-  <span>New Pond Member!</span> 
-  
-  
-  
-  <span (click)="viewUser(notification.user_id)"> 
-  
-  
-  
-  
-  
-  {{ notification.first_name }} {{ notification.last_name }} 
-  
-  
-  
-  </span> 
-  
-  
-  
-  <span (click)="viewPond(notification.is_deleted, notification.pond_id)">Added to {{ notification.blurb }}</span> 
-  
-  
-  </div> 
-  
-  
-  <div *ngIf="notification.is_interests" class="notification-content"> 
-  
-  
-  
-  <span (click)="viewUser(notification.user_id)">{{ notification.first_name }} {{notification.last_name }}</span> 
-  
-  
-  
-  <span (click)="viewProject(notification.is_deleted, notification.proj_id)">is interested in this goal: {{ notification.blurb }}</span> 
-  
-  
-  </div> 
-  
-  
-  <div *ngIf="notification.is_mil_quit" class="notification-content"> 
-  
-  
-  
-  <span color="gray">{{ notification.blurb }}</span> 
-  
-  
-  </div> 
-  
-  
-  <div *ngIf="notification.is_proj_quit" class="notification-content"> 
-  
-  
-  
-  <span color="gray">{{ notification.blurb }}</span> 
-  
-  
-  </div> 
-  
-  
-  <div *ngIf="notification.is_pond_request" class="notification-content"> 
-  
-  
-  
-  <span (click)="viewUser(notification.id)"> 
-  
-  
-  
-  
-  {{ notification.first_name }} {{ notification.last_name }} wants to join {{ notification.blurb }} 
-  
-  
-  
-  
-  
-  <span *ngIf="notification.request_accepted">REQUEST GRANTED!</span><span *ngIf="notification.request_denied">REQUEST REJECTED!</span> 
-  
-  
-  
-  </span> 
-  
-  
-  
-  <button *ngIf="!notification.request_responded_to" (click)="acceptPondRequest(notification.request_id)" ion-button color="primary">Accept</button> 
-  
-  
-  
-  <button *ngIf="!notification.request_responded_to" (click)="denyPondRequest(notification.request_id)" ion-button color="danger">Deny</button> 
-  
-  
-  </div> 
-  
-  </ion-item> 
-  
-  <ion-item *ngIf="noNotification" text-wrap> 
-  
-  
-  <p>You have 0 notification!</p> 
-  
-  </ion-item> 
+    <ion-item *ngFor="let notification of notifications" text-wrap> 
+      <div *ngIf="notification.is_let_down" (click)="viewMilestone(notification.mil_is_deleted, notification.id)" class="notification-content"> 
+        <span color="gray" *ngIf="notification.count >= 0"> 
+            You let down {{ notification.count }} persons with milestone {{ notification.blurb }} 
+        </span>   
+        <span color="gray" *ngIf="notification.count < 0"> 
+          {{ notification.first_name }} {{ notification.last_name }} failed to complete milestone: {{ notification.blurb }} 
+        </span> 
+        <p class="post-time"> 
+          {{ notification.created_view }} 
+        </p> 
+      </div> 
+      <div *ngIf="notification.is_new_ponder" class="notification-content"> 
+        <span>New Pond Member!</span> 
+          <span (click)="viewUser(notification.user_id)"> 
+            {{ notification.first_name }} {{ notification.last_name }} 
+          </span> 
+          <span (click)="viewPond(notification.is_deleted, notification.pond_id)">Added to {{ notification.blurb }}</span>
+      </div> 
+      <div *ngIf="notification.is_interests" class="notification-content"> 
+        <span (click)="viewUser(notification.user_id)">{{ notification.first_name }} {{notification.last_name }}</span> 
+        <span (click)="viewProject(notification.is_deleted, notification.proj_id)">is interested in this goal: {{ notification.blurb }}</span> 
+      </div> 
+      <div *ngIf="notification.is_proj_quit" class="notification-content"> 
+        <span color="gray">{{ notification.blurb }}</span>
+      </div> 
+      <div *ngIf="notification.is_pond_request" class="notification-content"> 
+        <span (click)="viewUser(notification.id)"> 
+            {{ notification.first_name }} {{ notification.last_name }} wants to join {{ notification.blurb }} 
+            <span *ngIf="notification.request_accepted">REQUEST GRANTED!</span>
+            <span *ngIf="notification.request_denied">REQUEST REJECTED!</span> 
+        </span> 
+        <button *ngIf="!notification.request_responded_to" (click)="acceptPondRequest(notification.request_id)" ion-button color="primary">
+          Accept
+        </button> 
+        <button *ngIf="!notification.request_responded_to" (click)="denyPondRequest(notification.request_id)" ion-button color="danger">
+          Deny
+        </button> 
+      </div>
+      <div *ngIf="notification.project_liked" class="notification-content"> 
+        <span (click)="viewProject(notification.is_deleted, notification.id)" color="gray">{{ notification.blurb }}</span>
+      </div>
+      <div *ngIf="notification.project_viewed" class="notification-content"> 
+        <span (click)="viewProject(notification.is_deleted, notification.id)" color="gray">{{ notification.blurb }}</span>
+      </div>
+      <div *ngIf="notification.progress_viewed" class="notification-content"> 
+        <span (click)="viewProject(notification.is_deleted, notification.id)" color="gray">{{ notification.blurb }}</span>
+      </div>
+      <div *ngIf="notification.new_progress" class="notification-content"> 
+        <span (click)="viewProject(notification.is_deleted, notification.id)" color="gray">{{ notification.blurb }}</span>
+      </div>
+      <div *ngIf="notification.is_project_vouch" class="notification-content"> 
+        <span (click)="viewProject(notification.is_deleted, notification.id)" color="gray">{{ notification.blurb }}</span>
+      </div>
+    </ion-item> 
+    <ion-item *ngIf="noNotification" text-wrap> 
+      <p>You have 0 notification!</p> 
+    </ion-item> 
   </ion-list> 
-  
   <ion-fab bottom right> 
-  
-  <button ion-fab mini (click)="createPost()"> 
-  
-  
-  <ion-icon name="add"></ion-icon> 
-  
-  </button> 
-  
-  <br> 
-  
-  <button ion-fab mini (click)="createPicture()"> 
-  
-  
-  <ion-icon name="md-camera"></ion-icon> 
-  
-  </button> 
+    <button ion-fab mini (click)="createPost()"> 
+      <ion-icon name="add"></ion-icon> 
+    </button> 
+    <br> 
+    <button ion-fab mini (click)="createPicture()"> 
+      <ion-icon name="md-camera"></ion-icon> 
+    </button> 
   </ion-fab>
 </ion-content>

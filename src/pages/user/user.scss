@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:700');
+@import url('https://fonts.googleapis.com/css?family=Arima+Madurai:500');
+$font-writing: 'Open Sans Condensed', sans-serif;
+$font-writing-insight: 'Arima Madurai', cursive;
 page-user {
 
   .user-profile {
@@ -44,3 +48,32 @@ page-user {
     }
   }
 }
+.font-writing {
+    font-weight: bold;
+    color: #fff;
+    font-family: $font-writing;
+    font-size: 16px;
+
+}
+.font-writing-header {
+    font-weight: bold;
+    font-family: $font-writing;
+    font-size: 16px;
+
+}
+.font-writing-insight{
+  font-weight: bold;
+  color: #fff;
+  font-family: $font-writing-insight;
+  font-size: 16px;
+}
+.insight-number{
+  font-weight: bold;
+  color: #fff;
+  font-size: 16px;
+  font-family: $font-writing-insight;
+}
+ion-content{
+  background-image: $card-ios-background-color
+}
+

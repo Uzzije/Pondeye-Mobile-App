@@ -10,6 +10,7 @@ import {NewPostServices} from '../../services/new-post-service';
 import {SettingsService} from '../../services/settings-service';
 import {NewPictureUploadPage} from '../pictureUpload/pictureUpload'
 import {SearchResultPage} from '../search-result-page/search-result-page';
+import {ProjectPage} from '../project-page/project-page';
 /*
  Generated class for the LoginPage page.
 
@@ -116,7 +117,9 @@ export class ProjectEditPage {
             window.plugins.toast.show(mes, "short", "top");
         });
     };
-
+    viewProject (feedId) {
+        this.nav.push(ProjectPage, { id: feedId });
+    }
     // create a new post
     createPost = () => {
         this.nav.push(NewPostPage);

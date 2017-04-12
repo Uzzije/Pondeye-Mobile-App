@@ -3,31 +3,36 @@
         <button menuToggle ion-button>      
             <ion-icon name="menu"></ion-icon>    
         </button>    
-        <ion-title>Picture Set</ion-title>  
+        <ion-title>Progress Entries</ion-title>  
     </ion-navbar>
 </ion-header>
 <ion-content>	
-    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, motivations, and people" (search)="search($event)"></ion-searchbar>
-    <div class="item-post" *ngFor="let eachSet of picSetList">     
-        <ion-card>       
-            <ion-item class="no-border">          
-                    <p>{{ eachSet.blurb }}</p>        
-            </ion-item>        
-            <ion-card-content text-wrap no-padding class="post-body">            
-                <img class="full-image" src="{{ eachSet.before_picture.url }}">        
-                </ion-card-content>        
-                <ion-card-content  *ngIf="eachSet.hasAfterPicture" text-wrap no-padding class="post-body">            
-                    <img class="full-image" src="{{ eachSet.after_picture.url }}">        
-            </ion-card-content>        
-            <ion-item>          
-                <button ion-button color="secondary"  *ngIf="eachSet.hasAfterPicture" (click)="updatePictureSetAfter(eachSet.after_picture.id)">Update After Picture</button>          
-                <button ion-button color="danger" (click)="deletePictureSet(eachSet.id)">Delete Set</button>        
-            </ion-item>    
-        </ion-card>    	
-        <br><br><br>    
+    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, and people..." (search)="search($event)"></ion-searchbar>
+    <div class="item-post" *ngFor="let eachSet of picSetList">   
+        <ion-label *ngIf="eachSet.list_of_progress_pictures" padding>{{ eachSet.name_of_project }}</ion-label>
+        <div class="item-post" *ngFor="let eachPic of eachSet.list_of_progress_pictures"> 
+            <ion-card *ngIf="showPicture[eachPic.progress_id]">       
+                <img class="full-image" src="{{ eachPic.image_url }}">  
+                <ion-item padding text-wrap> 
+                    <span>
+                        <ion-icon style="font-size: 24px;"  name="md-heart" color="secondary"></ion-icon> 
+                    </span>
+                    This progress impressed {{ eachPic.impressed_by }} ponder(s)
+                    <br>
+                </ion-item> 
+                <ion-item>                                     
+                <ion-textarea placeholder="Describe Progress" [(ngModel)]="progressSet[eachPic.progress_id]"></ion-textarea>           
+                </ion-item>
+                <ion-list>          
+                    <button ion-button outline color="primary" (click)="updateProgressSet(eachPic.progress_id)">Update Picture</button>          
+                    <button ion-button outline color="danger" (click)="deletePictureSet(eachPic.progress_id)">Delete Set</button>        
+                </ion-list>    
+             </ion-card>    	
+         </div>   
+         <br><br><br> 
     </div>    
     <ion-item *ngIf="!hasSet" text-wrap>      
-        <p>I have not added a picture to your fitness yet. ( Click on the camera button at the bottom right to begin )</p>    
+        <p>You have not captured any fitness yet. ( Click on the camera button at the bottom right to begin )</p>    
     </ion-item>  
     <ion-fab bottom right>    
         <button ion-fab mini (click)="createPost()">      

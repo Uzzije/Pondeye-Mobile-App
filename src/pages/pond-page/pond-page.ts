@@ -25,6 +25,7 @@ declare var window: any;
 @Component({
   selector: 'pond-page',
   templateUrl: 'pond-page.html',
+  styles: ['pond-page.scss']
 })
 export class PondPage {
     private queryWord = "";

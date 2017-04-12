@@ -109,7 +109,7 @@ export class NewPostPage implements OnInit{
                 var alert_1 = this.showAlert(this.newPostData.error);
             }
             else {
-                this.nav.pop();
+                this.nav.setRoot(ActivityPage);
             }
         }, (error) => {
             this.loader.dismiss();

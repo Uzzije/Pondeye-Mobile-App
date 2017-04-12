@@ -7,7 +7,7 @@
     </ion-navbar>
 </ion-header>
 <ion-content>	
-    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, motivations, and people" (search)="search($event)"></ion-searchbar>   
+    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals,people..." (search)="search($event)"></ion-searchbar>   
     <ion-list class="list-no-border" *ngFor="let pel of pondEditList" padding>		 
         <div *ngIf="showPondArray[pel.id]">			 
             <ion-toolbar> 
@@ -45,8 +45,8 @@
             </ion-item>									
             <ion-item>					
                 <label class="item item-input">							
-                    <button ion-button color="secondary" (click)="updateIndividualPondSet(pel.id)">Update Pond</button>							
-                    <button ion-button color="danger" (click)="deletePondSet(pel.id)">Delete Pond</button>					
+                    <button ion-button large outline color="secondary" (click)="updateIndividualPondSet(pel.id)">Update Pond</button>							
+                    <button ion-button large outline color="danger" (click)="deletePondSet(pel.id)">Delete Pond</button>					
                 </label>  				
             </ion-item>		 
         </div>		 	

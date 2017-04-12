@@ -7,12 +7,12 @@
     </ion-navbar>
 </ion-header>
 <ion-content>  
-    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, motivations, and people" (search)="search($event)"></ion-searchbar>  
+    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, people" (search)="search($event)"></ion-searchbar>  
     <ion-list *ngIf="!noPonds" class="list-full-border">    
         <ion-item-sliding *ngFor="let pond of ponds">      
             <ion-item (click)="viewPond(pond.id)">        
                 <ion-avatar item-left>          
-                    <img class="profile-picture" src="{{ pond.owner_profile_pic }}" alt=""/>        
+                    <ion-icon name="people"></ion-icon>       
                 </ion-avatar>        
                 <div>          
                     <h3 color="primary">{{ pond.name }}</h3>        
@@ -29,7 +29,7 @@
         <ion-item-sliding *ngFor="let pond of ponds">        
             <ion-item (click)="viewPond(pond.id)">          
                 <ion-avatar item-left>            
-                    <img class="profile-picture" src="{{ pond.owner_profile_pic }}" alt=""/>          
+                    <ion-icon name="people"></ion-icon>          
                 </ion-avatar>          
                 <div>            
                     <h3 color="primary">{{ pond.name }}</h3>          

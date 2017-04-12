@@ -33,10 +33,10 @@ export class PostService {
         return this._http.post(this.platformUrl + "/social/api/create-follow/", data, { headers: headers })
             .map(this.processData).catch(this.processError);
     };
-    postNewVouch  (mil_id, userResponse) {
-        console.log("the best id ", mil_id);
+    postNewVouch  (proj_id, userResponse) {
+        console.log("the best id ", proj_id);
         var username = localStorage.getItem("username");
-        var data = "username=" + username + "&mil_id=" + mil_id + "&user_response="+userResponse;
+        var data = "username=" + username + "&proj_id=" + proj_id + "&user_response="+userResponse;
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this.platformUrl + "/social/api/create-vouch/", data, { headers: headers })
@@ -62,7 +62,7 @@ export class PostService {
     };
     postNewImpression(progressId, progressSetId){
         var username = localStorage.getItem("username");
-        var data = "username=" + username + "&progress_id=" + progressId + "&progress_set_id" + progressSetId;
+        var data = "username=" + username + "&progress_id=" + progressId + "&progress_set_id=" + progressSetId;
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this.platformUrl + "/social/api/new-impression/", data, { headers: headers })

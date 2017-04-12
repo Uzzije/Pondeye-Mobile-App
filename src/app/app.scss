@@ -19,7 +19,9 @@
 .gray-bg {
   background-color: color($colors, gray);
 }
-
+.green-bg {
+  background-color: color($colors, green);
+}
 .light-bg {
   background-color: color($colors, light);
 }
@@ -27,11 +29,22 @@
 .white-bg {
   background-color: color($colors, white);
 }
-
+p, h1, h2, h3, span, ion-label {
+    font-family: $general-font;
+    color:  color($colors, gray);
+}
+  textarea {
+    min-height: 150px;
+  }
 .padding-xs {
   padding: 10px;
 }
 
+img {
+  display: block;
+  max-height: 420px;
+  max-width: 100%;
+}
 .round {
   border-radius: 3px;
 }
@@ -102,7 +115,7 @@ ion-badge {
 
 // card style
 .card {
-  background: #FFF;
+  background: $card-md-background-color;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 

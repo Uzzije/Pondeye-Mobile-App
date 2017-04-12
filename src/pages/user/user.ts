@@ -51,7 +51,10 @@ export class UserPage {
   private yourProfile;
   private userName = localStorage.getItem('username');
   private selectedPond;
+  private all_projects;
+  private showStats;
   private cover_url = 'assets/img/cover.jpg';
+  private background_url = 'assets/img/user/blur-stats-view.jpg';
   private user_stats = {};
   constructor(private nav: NavController, private userService: UserService, private pondService: PondService, 
               private picUploadService: PictureUploadService, private navParams: NavParams, private setService: SettingsService, private postService: PostService, 
@@ -90,6 +93,8 @@ export class UserPage {
                 this.profUserId = this.userDetails.user_id;
                 this.yourProfile = this.userDetails.is_own_profile;
                 this.user_stats = this.userDetails.user_stats;
+                this.all_projects = this.userDetails.all_projects;
+                this.userName = this.userDetails.user_name;
                 //console.log(this.userDetails);
                 //console.log("profile pic, ", this.profilePicStorage);
                 if (this.yourProfile) {
@@ -107,6 +112,10 @@ export class UserPage {
             this.loader.dismiss();
         });
     };
+
+    viewProject (feedId) {
+        this.nav.push(ProjectPage, { id: feedId });
+     }
 
   changProfilePicture (user_id) {
       
@@ -253,4 +262,7 @@ export class UserPage {
         });
     }
 
+    toggleStatShow (){
+        this.showStats = !this.showStats;
+    }
 }

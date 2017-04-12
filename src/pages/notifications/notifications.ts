@@ -48,6 +48,7 @@ export class NotificationsPage implements OnInit{
             content: "Getting ponder's notifications...",
             });
             this.loader.present();
+            localStorage.setItem("notification_length", "0");
    }
 
   ngOnInit(): void {

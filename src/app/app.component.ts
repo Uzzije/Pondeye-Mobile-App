@@ -120,6 +120,13 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     this.userProfilePic = CURRENTURL + localStorage.getItem("profile_url");
+    if(localStorage.getItem("notification_length")){
+        this.pages[4]['count'] = parseInt(localStorage.getItem("notification_length"))
+        this.hasNotif = parseInt(localStorage.getItem("notification_length"));
+    }else{
+        this.hasNotif = 0;
+    }
+    
     this.nav.setRoot(page.component);
   }
     openProfilePage(){

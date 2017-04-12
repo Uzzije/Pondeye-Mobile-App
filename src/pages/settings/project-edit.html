@@ -7,7 +7,7 @@
       </ion-navbar>
 </ion-header>
 <ion-content>	
-    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, motivations, and people" (search)="search($event)"></ion-searchbar>  
+    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals,people..." (search)="search($event)"></ion-searchbar>  
     <ion-list class="list-full-border">			
         <span *ngIf="hasProject">				
             <div *ngFor="let proj of projectList">							
@@ -33,12 +33,15 @@
                     </ion-select>							
                 </ion-item>							
                 <ion-item *ngIf="showProjectArray[proj.id]">										
-                    <button ion-button (click)="deleteProject(proj.id)"  color="danger">											
+                    <button ion-button outline (click)="deleteProject(proj.id)"  color="danger">											
                         Delete										
                     </button>										
-                    <button ion-button (click)="updateProject(proj.id)"  color="secondary">											
+                    <button ion-button outline (click)="updateProject(proj.id)"  color="primary">											
                         Update										
-                    </button>							
+                    </button>	
+                    <button ion-button outline (click)="viewProject(proj.id)"  color="green">											
+                        View Goal										
+                    </button>					
                 </ion-item>								
                 <br><br><br>						
             </div>				

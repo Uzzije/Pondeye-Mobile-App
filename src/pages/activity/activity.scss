@@ -1,3 +1,10 @@
-page-activity {
-
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400i');
+$font-stack: 'Open Sans', sans-serif;
+$font-stack-two: 'Roboto', sans-serif;
+.feed-message{
+    font-family: $font-stack;
+}
+.progress-message{
+    font-family: $font-stack-two;
 }

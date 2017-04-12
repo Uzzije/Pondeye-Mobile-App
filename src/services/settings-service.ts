@@ -89,6 +89,7 @@ export class SettingsService {
         return this._http.post(this.platformUrl + '/social/api/picture-set-edit/', data, { headers: headers })
             .map(this.processData).catch(this.processError);
     };
+
    updatePictureSetBefore  (picId, picture_file) {
         var username = localStorage.getItem("username");
         var data = "username=" + username + "&change_picture_before=" + picId + "&picture=" + picture_file;
@@ -113,12 +114,20 @@ export class SettingsService {
         return this._http.post(this.platformUrl + '/social/api/picture-set-edit/', data, { headers: headers })
             .map(this.processData).catch(this.processError);
     };
-   deletePictureSet  (picSetId) {
+   updateProgressSetService(picId, text_word){
         var username = localStorage.getItem("username");
-        var data = "username=" + username + "&pic_set_id=" + picSetId;
+        var data = "username=" + username + "&pic_id=" + picId + "&change_text=" + text_word;
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        return this._http.post(this.platformUrl + '/social/api/picture-set-delete/', data, { headers: headers })
+        return this._http.post(this.platformUrl + '/social/api/picture-set-edit/', data, { headers: headers })
+            .map(this.processData).catch(this.processError);
+    }
+   deletePictureSet  (picSetId) {
+        var username = localStorage.getItem("username");
+        var data = "username=" + username + "&pic_id=" + picSetId + "&change_text=" + "";
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this.platformUrl + '/social/api/picture-set-edit/', data, { headers: headers })
             .map(this.processData).catch(this.processError);
     };
    deletePondSet  (pondId) {

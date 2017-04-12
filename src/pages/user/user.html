@@ -7,7 +7,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
-  <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, motivations, and people" (search)="search($event)"></ion-searchbar>
+  <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, people.." (search)="search($event)"></ion-searchbar>
     <div text-center class="user-profile" [ngStyle]="{'background-image': 'url(' + cover_url + ')'}">
       <div class="bg-dark">
         <ion-grid>
@@ -28,31 +28,78 @@
           </ion-row>
           <ion-row>
               <ion-col>
-                <span class="number">{{ completedMilCount }}</span>
-                <span class="desc">Completed Milestones</span>
+                <span class="desc font-writing-insight">Following
+                    <span *ngIf="yourProfile">your</span>
+                    <span *ngIf="!yourProfile">{{ firstName }}'s</span>
+                    Goals
+                </span>
+                <span class="number"><ion-badge color="gray">{{ user_stats.total_goal_followers }} ponders</ion-badge></span>
               </ion-col>
               <ion-col>
-                <span class="number">{{ completedProjCount }}</span>
-                <span class="desc">Completed Goals</span>
+                <span class="desc font-writing-insight">% of Goals Completed</span>
+                <span class="number"> 
+                  <ion-badge color="gray">{{ user_stats.consistency_percentage }}%</ion-badge>
+                  {{ user_stats.consistency_grade }}
+                </span>
               </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <span class="number">{{ failedProjCount }}</span>
-              <span class="desc">Failed Goals</span>
-            </ion-col>
-            <ion-col>
-                <span class="number">{{ failedMilCount }}</span>
-                <span class="desc">Failed Milestones</span>
-            </ion-col>
-          </ion-row>
+           </ion-row>
         </ion-grid>
       </div>
     </div>
-    <ion-item text-wrap>
-      <h2 color="secondary" text-center text-wrap>Work Ethic Rank</h2>
-      <p text-center text-wrap color="primary">{{ statusOfUser }}</p>
-    </ion-item>
+    <ion-card>
+        <ion-card-header class="font-writing-header">
+          <span *ngIf="yourProfile" item-left>Your</span>
+                    <span *ngIf="!yourProfile" item-left>{{ firstName }}'s</span> Insights
+        </ion-card-header>
+         <ion-list >
+            <ion-item [ngStyle]="{'background-image': 'url(' + background_url + ')'}">
+              <span item-left class="font-writing-insight">Goals Completed</span>
+              <span item-right class="insight-number">{{ user_stats.goal_success_count }}</span>
+            </ion-item>
+            <ion-item [ngStyle]="{'background-image': 'url(' + background_url + ')'}">
+              <span item-left class="font-writing-insight">Failed Goals</span>
+              <span item-right class="insight-number">{{ user_stats.goal_failed_count }}</span>
+            </ion-item>
+            <ion-item [ngStyle]="{'background-image': 'url(' + background_url + ')'}">
+              <span item-left class="font-writing-insight">Total Goals Attempted</span>
+              <span item-right class="insight-number">{{ user_stats.total }}</span>
+            </ion-item>
+            <ion-item [ngStyle]="{'background-image': 'url(' + background_url + ')'}">
+              <ion-col>
+              <span item-left class="font-writing-insight">Times 
+                <span *ngIf="yourProfile" item-left>You Impressed</span>
+                    <span *ngIf="!yourProfile" item-left>{{ firstName }}'s Impressed</span>
+                </span>
+              </ion-col>
+              <span class="insight-number" item-right>{{ user_stats.total_times_impressed }}</span>
+            </ion-item>
+            <ion-item [ngStyle]="{'background-image': 'url(' + background_url + ')'}">
+              <span item-left class="font-writing-insight">Accurate Votes on Goals</span>
+              <span item-right class="insight-number">{{ user_stats.correct_vouch_percentage }}%</span>
+            </ion-item>
+         </ion-list>
+         <ion-card-header *ngIf="yourProfile" class="font-writing-header">
+          Comparison to Others
+         </ion-card-header>
+         <ion-list *ngIf="yourProfile" [ngStyle]="{'background-image': 'url(' + background_url + ')'}">
+            <ion-item text-wrap [ngStyle]="{'background-image': 'url(' + background_url + ')'}">
+              <span text-center text-wrap class="font-writing">Work Ethic</span>
+              <div text-wrap class="font-writing-insight">Your Work Ethic is Better Than {{ user_stats.work_ethic_consis_rank }}% of Ponders</div>
+            </ion-item>
+            <ion-item text-wrap [ngStyle]="{'background-image': 'url(' + background_url + ')'}">
+              <span text-center text-wrap class="font-writing">Insightfulness</span>
+              <div text-wrap class="font-writing-insight">
+                Your Voting Record is More Insightful Than {{ user_stats.work_ethic_correct_vouch }}% of Ponders
+              </div>
+            </ion-item>
+            <ion-item text-wrap [ngStyle]="{'background-image': 'url(' + background_url + ')'}">
+              <span text-center text-wrap class="font-writing">Consistency</span>
+              <div text-wrap class="font-writing-insight">
+                You are More Consistent in Finishing Your Goals Than {{ user_stats.work_ethic_consis_rank }}% of Ponders
+              </div>
+            </ion-item>
+         </ion-list>
+    </ion-card>
     <hr>
     <ion-item *ngIf="!yourProfile">
         <ion-label>Choose Pond to Add {{ firstName }} to</ion-label>
@@ -60,21 +107,18 @@
             <ion-option value="{{ pond.id }}" *ngFor="let pond of aval_pond">{{ pond.blurb }}</ion-option>
         </ion-select>
     </ion-item>
-    <ion-item *ngIf="currentProjects" class="posts">
+    <ion-item *ngIf="currentProjects && yourProfile" class="posts">
         <h4>Upcoming Goals</h4>
         <div class="item-post border-bottom" *ngFor="let curr_proj of currentProjects">
             <ion-item class="no-border" text-wrap>
-                <ion-avatar item-left>
-                    <img src="{{ profilePic }}">
-                </ion-avatar>
                 <p (click)="viewProject(curr_proj.id)">{{ curr_proj.blurb }}</p>
             </ion-item>
             <ion-item *ngIf="yourProfile">
-                <button ion-button color="green" (click)="markProjectDone(curr_proj.id)">Complete</button>
+                <button ion-button large outline color="green" (click)="markProjectDone(curr_proj.id)">Completed</button>
             </ion-item>
-            </div>
+        </div>
     </ion-item>
-    <ion-item *ngIf="!currentProjects" class="posts">
+    <ion-item *ngIf="!all_projects" class="posts">
       <h4>Upcoming Goals</h4>
       <div class="item-post border-bottom">
           <ion-item class="no-border" text-wrap>
@@ -82,28 +126,24 @@
           </ion-item>
       </div>
     </ion-item>
-    <ion-item *ngIf="currentMilestone" class="posts">
-        <h4>Upcoming Milestones</h4>
-        <div class="item-post border-bottom" *ngFor="let curr_mil of currentMilestone">
+    <ion-item *ngIf="all_projects" class="posts">
+        <h4>Goal Activities</h4>
+        <div class="item-post border-bottom" *ngFor="let all_proj of all_projects">
             <ion-item class="no-border" text-wrap>
-                <ion-avatar item-left>
-                    <img src="{{ profilePic }}">
-                </ion-avatar>
-                <p (click)="viewMilestone(curr_mil.id)">{{ curr_mil.blurb }}</p>
-            </ion-item>
-            <ion-item *ngIf="yourProfile">
-                <button ion-button color="green" (click)="markMilestoneDone(curr_mil.id)">Complete</button>
+                <p (click)="viewProject(all_proj.id)">{{ firstName }} 
+                  {{ all_proj.message }} {{ all_proj.blurb }}</p>
             </ion-item>
         </div>
-      </ion-item>
-      <ion-item *ngIf="!currentMilestone" class="posts">
-        <h1>Upcoming Milestones</h1>
+     </ion-item>
+     <ion-item *ngIf="!all_projects" class="posts">
+        <h1>Goal Activities</h1>
             <div class="item-post border-bottom">
               <ion-item class="no-border" text-wrap>
-                  <p>No Upcoming Milestones!</p>
+                  <p>No Goals Have Been Created!</p>
               </ion-item>
             </div>
       </ion-item>
+
       <ion-fab bottom right>
         <button ion-fab mini (click)="createPost()">
             <ion-icon name="add"></ion-icon>

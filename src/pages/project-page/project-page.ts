@@ -32,6 +32,8 @@ export class ProjectPage {
     private projData;
     private followCount; 
     private noMotif = false;
+    private impressCountList = [];
+    private vouchCountList = [];
     constructor(private nav: NavController,  private params: NavParams, private setService: SettingsService, 
               private postService: PostService, public actionSheetCtrl: ActionSheetController,
               public platform: Platform, public loadingCtrl: 
@@ -58,12 +60,36 @@ export class ProjectPage {
                 if(this.projData.motif.length == 0){
                     this.noMotif = true;
                 }
+                var progressList = this.projData.progresses;
+                for(var prog = 0; prog < progressList.length; prog++){
+                    var nextId = progressList[prog].progress_id;
+                    this.impressCountList[nextId] = progressList[prog].impressed_by;
+                    this.vouchCountList[nextId] = progressList[prog].vouch_count;
+                }
             }
         }, (error) => { this.loader.dismiss(); var alert = this.showAlert(error); }, () => {
             console.log("Finished! ");
             this.loader.dismiss();
         });
     };
+
+   createImpression(progressId, progressSetId){
+        console.log("impress count ", progressSetId);
+        this.postService.postNewImpression(progressId, progressSetId).subscribe(data => {
+            var impressData = JSON.parse(data);
+            //console.log(followData);
+            if (impressData.status == false) {
+                let alert_3 = this.showAlert(impressData.error);
+            }
+            else {
+                this.impressCountList[progressId] = impressData.count;
+            }
+        }, error => {
+            let alert = this.showAlert("Oops. Something Went Wrong! Check your connection!");
+        }, () => { 
+            //console.log("Finished! " + this.feedData); 
+        });
+    }
 
     createSeenCount  (proj_Id) {
         
@@ -91,6 +117,26 @@ export class ProjectPage {
         }, (error) => { return alert(error); }, () => { return console.log("Finished! "); });
     };
 
+        createVouch (proj_Id, userResponse) {
+        //console.log("create vouch id ", mil_Id);
+        console.log("user response", userResponse);
+        this.postService.postNewVouch(proj_Id, userResponse).subscribe(data => {
+            var vouchData = JSON.parse(data);
+            //console.log(vouchData);
+            if (vouchData.status == false) {
+                let alert_2 = this.showAlert(vouchData.error);
+            }
+            else {
+                this.vouchCountList[proj_Id] = vouchData.count;
+                //console.log(" vouch count", this.vouchCountList[mil_Id]);
+            }
+        }, error => {
+            let alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
+        }, () => { 
+            //console.log("Finished! " + this.feedData); 
+        });
+    }
+    
     viewMilestone  (feedId) {
         this.nav.push(MilestonePage, { id: feedId }).then((data) => {
             //console.log(data, " viewmil data");

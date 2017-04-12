@@ -7,6 +7,7 @@ var CHECKFAILEDCOUNTER = 100000;
 var clickNotif = localStorage.getItem("clickNotif");
 var type_of_device = '';
 var notification_list = [];
+var havntReadList = [];
 notificationReminder();
 $(document).ready(function() {
     notificationReminder();
@@ -52,14 +53,14 @@ function notificationReminder(){
         data: {username:localStorage.getItem("username")},
         success: function(response){
             var statusParse = JSON.parse(response);
-            var status = statusParse["status"];
+            var status = statusParse['data']["has_notification"];
             if (status == true){
+                data = statusParse['data']['notifications']
                 console.log("New Notification!");
-                if(!localStorage.getItem("notifClicked")){
-                    sendNotificationToUser();  
-                    localStorage.setItem("notifClicked", "New");
-                    console.log(localStorage.getItem("notifClicked", "New"));
-                }
+                //if(!localStorage.getItem("notifClicked")){
+                    sendNotificationToUser(data);  
+                    localStorage.setItem("notification_length", havntReadList.length);
+                //}
             }
             else{
                 //localStorage.setItem("seenNotif", "seen");
@@ -67,8 +68,12 @@ function notificationReminder(){
                 localStorage.removeItem("notif");
                 console.log("No Notification!");
             }  
+            if(havntReadList.length > 15){
+                havntReadList = [];
+            }
             var tz = jstz.determine();
             localStorage.setItem("pondTimezone", tz.name());
+            
             console.log("TimeZone", localStorage.getItem("pondTimezone"));
         },
         error: function(xhr){
@@ -79,30 +84,35 @@ function notificationReminder(){
 }
 
 
-function sendNotificationToUser(){
+function sendNotificationToUser(data){
     
     console.log("sending push");
     var now = new Date().getTime();
-    _5_sec_from_now = new Date(now + 5 * 1000);
-        // Schedule notification for tomorrow to remember about the meeting
-        if(type_of_device === "Android"){
-            cordova.plugins.notification.local.schedule({
-                id: 10,
-                text: "New Notification!",
-                at: _5_sec_from_now,
-                icon: "file:///assets/icon/icon.png",
-                data: { }
-            });
-        }else{
-                cordova.plugins.notification.local.schedule({
-                id: 10,
-                text: "New Notification!",
-                at: _5_sec_from_now,
-                icon: "file://assets/icon/icon.png",
-                data: { }
-            });
+    for(var i = 0; i < data.length; i++){
+        _5_sec_from_now = new Date(now + 5 * 1000);
+
+            // Schedule notification for tomorrow to remember about the meeting
+            if(!havntReadList.includes(data[i])){
+                havntReadList.push(data[i]);
+                if(type_of_device === "Android"){
+                    cordova.plugins.notification.local.schedule({
+                        id: 10,
+                        text: data[i],
+                        at: _5_sec_from_now,
+                        icon: "file://icon.png",
+                        data: { }
+                    });
+                }else{
+                        cordova.plugins.notification.local.schedule({
+                        id: 10,
+                        text: data[i],
+                        at: _5_sec_from_now,
+                        icon: "file://assets/icon/icon.png",
+                        data: { }
+                    });
+            }
         }
-           
+    }   
 }
  document.addEventListener('deviceready', function () {
         

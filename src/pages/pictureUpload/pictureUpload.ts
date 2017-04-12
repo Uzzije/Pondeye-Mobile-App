@@ -8,6 +8,7 @@ import {NewPostPage} from "../new-post/new-post";
 import {Camera} from 'ionic-native';
 import {PictureUploadService} from '../../services/pictureUploadService';
 import {SearchResultPage} from '../search-result-page/search-result-page';
+import {ActivityPage} from '../activity/activity';
 /*
  Generated class for the LoginPage page.
 
@@ -91,7 +92,7 @@ export class NewPictureUploadPage {
                 }
                 else {
                     this.showToast("Progress Created!");
-                    this.nav.pop();
+                    this.nav.setRoot(ActivityPage);
                 }
             }, (error) => {
                 this.loader.dismiss();

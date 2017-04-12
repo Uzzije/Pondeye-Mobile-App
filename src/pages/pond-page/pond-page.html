@@ -1,199 +1,62 @@
 <ion-header>
-<ion-navbar color="primary">
-
-<button ion-button menuToggle>
-
-
-<ion-icon name="menu"></ion-icon>
-
-</button>
-
-<ion-title>Pond</ion-title>
-</ion-navbar></ion-header><ion-content>
-<ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, motivations, and people" (search)="search($event)"></ion-searchbar>
-<ion-list *ngIf="pond" class="list-full-border">
- <button *ngIf="!pond.is_member" (click)="sendPondRequest(pond.id)" ion-button color="secondary" outline large text-center>Jion Pond</button>
-
-<ion-card class="card">
-
-
-<ion-item *ngIf="pond">
-
-
-
-
-{{ pond.name_of_pond }}
-
-
-</ion-item>
-
-
-<ion-card-content class="item item-text-wrap">
-
-
-
-<ion-title text-center>Purpose</ion-title>
-
-
-
-
-{{
-pond.purpose
-}}
-
-
-</ion-card-content>
-
-</ion-card>
-
-<ion-item text-center text-wrap><ion-label color="secondary">Pond Status</ion-label></ion-item>
-
-<ion-toolbar text-center text-wrap>
-
-
-
-<ion-item color="secondary" text-wrap text-center>{{ pond.pond_status }}</ion-item>
-
-</ion-toolbar>
-
-<ion-item text-center text-wrap>
-
-
-<ion-label *ngIf="pond.tags">Motivations</ion-label>
-
-</ion-item>
-
-<ion-item *ngFor="let tags of pond.tags" text-wrap text-center>
-
-<p>{{ tags }}</p>
-
-</ion-item>
-<ion-item *ngIf="noMotif" text-wrap text-center>
-    <p>No particular motivation stated!</p>
-</ion-item>
-
-<ion-toolbar>
-
-
-
-<ion-title text-center>Pond Members</ion-title>
-
-</ion-toolbar>
-
-<ion-item-sliding *ngFor="let ponder of pond.ponders">
-
-
-<ion-item (click)="viewProfile(ponder.id)">
-
-
-
-<ion-avatar item-left>
-
-
-
-
-<img class="profile-picture" src="{{ ponder.profile_pics_url }}" alt=""/>
-
-
-
-</ion-avatar>
-
-
-
-<div>
-
-
-
-
-<h3 color="primary" text-wrap>{{ ponder.first_name }} {{ ponder.last_name }}
-
-
-
-
-
- <span *ngIf="ponder.is_creator"> (Creator)</span>
-
-
-
-
-</h3>
-
-
-
-</div>
-
-
-</ion-item>
-
-
-<ion-item-options>
-
-
-
-<button ion-button color="light">
-
-
-
-
-<ion-icon name="more"></ion-icon>
-
-
-
-</button>
-
-
-
-<button ion-button color="secondary">
-
-
-
-
-<ion-icon name="call"></ion-icon>
-
-
-
-</button>
-
-
-
-<button ion-button color="primary">
-
-
-
-
-<ion-icon name="text"></ion-icon>
-
-
-
-</button>
-
-
-</ion-item-options>
-
-</ion-item-sliding>
-
-<ion-item>
-
-
-<h3 color="primary" *ngIf="!pond.ponders" text-wrap>Empty Pond</h3>
-
-</ion-item>
-</ion-list>
-<ion-fab bottom right>
-
-<button ion-fab mini (click)="createPost()">
-
-
-<ion-icon name="add"></ion-icon>
-
-</button>
-
-<br>
-
-<button ion-fab mini (click)="createPicture()">
-
-
-<ion-icon name="md-camera"></ion-icon>
-
-</button>
-</ion-fab></ion-content>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Pond</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content class="list-avatar-page">
+    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, people.." (search)="search($event)"></ion-searchbar>
+    <div *ngIf="pond" class="list-full-border">
+        <button *ngIf="!pond.is_member" (click)="sendPondRequest(pond.id)" ion-button color="gray" outline large text-center>
+            Join Pond
+        </button>
+        <ion-card *ngIf="pond" class="card">
+            <ion-title text-center class="font-wrting-pond" color="primary">Name of Pond</ion-title>
+            <ion-item text-wrap>
+                {{ pond.name_of_pond }}
+            </ion-item>
+            <ion-title text-center class="font-wrting-pond" color="primary">Purpose</ion-title>
+            <ion-item class="item item-text-wrap" text-wrap>
+                {{ pond.purpose }}
+            </ion-item>
+        </ion-card>
+        <div text-wrap padding *ngIf="!noMotif">
+            <ion-label class="font-wrting-pond" color="primary" >Motivations</ion-label>  
+                <div>
+                    <ion-badge *ngFor="let tags of pond.tags" color="gray">{{ tags }} </ion-badge>
+                </div><br>
+        </div>          
+        <ion-item *ngIf="noMotif" text-wrap>
+            <p>No particular motivation stated!</p>
+        </ion-item>
+        <ion-list>
+            <ion-list-header><h1 class="font-wrting-pond" color="primary">Pond's Leaderboard</h1></ion-list-header> 
+            <ion-item color="gray">
+                <span item-left>Pond Member</span>
+                <span item-right>Work Ethic Rank</span>
+            </ion-item>
+            <ion-item *ngFor="let ponder of pond.ponders">
+                <ion-avatar item-left>
+                    <img src="{{ ponder.profile_pics_url }}">
+                </ion-avatar>
+                <h2 (click)="viewProfile(ponder.id)">{{ ponder.first_name }}
+                    <span *ngIf="ponder.is_creator"> (Creator)</span>
+                </h2>
+                <p (click)="viewProfile(ponder.id)">{{ ponder.last_name }}</p>
+                <span item-right>{{ ponder.rank }} points</span>
+            </ion-item>
+        </ion-list>
+        <h3 color="primary" *ngIf="!pond.ponders" text-wrap>Empty Pond</h3>
+    </div>
+    <ion-fab bottom right>
+        <button ion-fab mini (click)="createPost()">
+            <ion-icon name="add"></ion-icon>
+        </button>
+        <br>
+        <button ion-fab mini (click)="createPicture()">
+            <ion-icon name="md-camera"></ion-icon>
+        </button>
+    </ion-fab>
+</ion-content>

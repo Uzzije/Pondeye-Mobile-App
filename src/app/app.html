@@ -11,7 +11,7 @@
 
         <ion-list class="list-full-border">
             <button ion-item menuClose icon-left *ngFor="let page of pages" (click)="openPage(page)">
-                <ion-icon name="{{ page.icon }}"></ion-icon>
+                <ion-icon color="primary" name="{{ page.icon }}"></ion-icon>
                 {{ page.title }}
                 <ion-badge color="danger" item-right *ngIf="page.count">{{ page.count }}</ion-badge>
             </button>

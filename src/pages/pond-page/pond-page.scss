@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300');
+$font-writing: 'Open Sans Condensed', sans-serif;
+.list-avatar-page {
+  ion-note {
+    font-size: 12px;
+    align-self: flex-start;
+    margin-top: 14px;
+  }
+}
+.font-writing-pond {
+    font-family: $font-writing
+}
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+$general-font: 'Open Sans', sans-serif;
+p h1 h2 h3 span {
+    font-family: $general-font;
+}
