@@ -1,0 +1,33 @@
+<ion-header>
+	<ion-navbar color="light">
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title>New Progress</ion-title>
+	</ion-navbar>
+</ion-header>
+<ion-content>	
+	<ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, and people" (search)="search($event)"></ion-searchbar>
+	<ion-list class="list-no-border">
+		<span *ngIf="hasProj">	
+			<ion-item>
+				<label class="item item-input"></label>
+					<ion-textarea [(ngModel)]="nameOfProgress" placeholder="What happened in this progress?"></ion-textarea>	
+			</ion-item>
+			<ion-item>
+				<ion-label>For what goal?</ion-label>
+				<ion-select [(ngModel)]="projId" >
+					<ion-option value="{{proj.id}}" *ngFor="let proj of projects">{{proj.name}}</ion-option>
+				</ion-select>	 
+			</ion-item>	 	
+			<ion-item>
+				<label class="item item-input">
+					<button ion-button color="light" (click)="createMilPictureUpload()" large>Add Progress</button>
+				</label>
+			</ion-item>
+		</span>
+		 <ion-list *ngIf="!hasProj">
+			<p>Can't have progress without a goal.</p>
+		 </ion-list>
+	</ion-list>
+</ion-content>
