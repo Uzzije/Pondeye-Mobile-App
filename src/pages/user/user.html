@@ -7,6 +7,9 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, people.." (search)="search($event)"></ion-searchbar>
     <div text-center class="user-profile" [ngStyle]="{'background-image': 'url(' + cover_url + ')'}">
       <div class="bg-dark">
@@ -27,21 +30,26 @@
             </ion-col>
           </ion-row>
           <ion-row>
-              <ion-col>
+              <div item-left>
                 <span class="desc font-writing-insight">Following
-                    <span *ngIf="yourProfile">your</span>
-                    <span *ngIf="!yourProfile">{{ firstName }}'s</span>
+                    <span class="desc font-writing-insight" *ngIf="yourProfile">your</span>
+                    <span class="desc font-writing-insight" *ngIf="!yourProfile">{{ firstName }}'s</span>
                     Goals
                 </span>
                 <span class="number"><ion-badge color="gray">{{ user_stats.total_goal_followers }} ponders</ion-badge></span>
-              </ion-col>
-              <ion-col>
+              </div>
+              <div item-right>
                 <span class="desc font-writing-insight">% of Goals Completed</span>
                 <span class="number"> 
-                  <ion-badge color="gray">{{ user_stats.consistency_percentage }}%</ion-badge>
-                  {{ user_stats.consistency_grade }}
+                  {{ user_stats.consistency_percentage }}%
+                  <ion-badge *ngIf="gradeHigh" color="green">
+                    {{ user_stats.consistency_grade }}
+                  </ion-badge>
+                  <ion-badge *ngIf="!gradeHigh" color="danger">
+                    {{ user_stats.consistency_grade }}
+                  </ion-badge>
                 </span>
-              </ion-col>
+              </div>
            </ion-row>
         </ion-grid>
       </div>
@@ -126,16 +134,18 @@
           </ion-item>
       </div>
     </ion-item>
-    <ion-item *ngIf="all_projects" class="posts">
-        <h4>Goal Activities</h4>
+    <ion-item *ngIf="hasProj" class="posts" text-wrap>
+        <ion-list-header>
+          <h2 class="font-wrting-pond" color="primary">{{ firstName }} {{ lastName }} Activities</h2>
+        </ion-list-header>
         <div class="item-post border-bottom" *ngFor="let all_proj of all_projects">
             <ion-item class="no-border" text-wrap>
-                <p (click)="viewProject(all_proj.id)">{{ firstName }} 
+                <p class="font-writing" (click)="viewProject(all_proj.id)">{{ firstName }} 
                   {{ all_proj.message }} {{ all_proj.blurb }}</p>
             </ion-item>
         </div>
      </ion-item>
-     <ion-item *ngIf="!all_projects" class="posts">
+     <ion-item *ngIf="hasProj" class="posts">
         <h1>Goal Activities</h1>
             <div class="item-post border-bottom">
               <ion-item class="no-border" text-wrap>

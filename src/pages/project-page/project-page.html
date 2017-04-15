@@ -20,24 +20,36 @@
           <div padding>             
             <h2>{{ projData.project_name }}</h2>          
           </div>          
-          <ion-item class="actions">                             
+          <ion-item>                             
                 <span item-left>Seen By <ion-icon name="md-eye" color="primary"></ion-icon></span>                
-                <span item-right color="gray"><ion-badge color="gray">{{ projData.seen_count }} ponder(s)</ion-badge></span> 
+                <ion-badge item-right color="gray">{{ projData.seen_count }} ponder(s)</ion-badge>
           </ion-item>
-          <ion-item>                                            
+          <ion-item *ngIf="!projData?.is_completed_bool && !projData?.is_failed">                                            
                 <button item-left (click)="createFollow(projData?.proj_id)" 
                     ion-button outline class="green">Follow Goal</button> 
                   <ion-badge item-right color="gray">{{  followCount }} follower(s)</ion-badge>       
           </ion-item>        
         </ion-item> 
-        <ion-item>     
+         <ion-item *ngIf="!projData?.is_completed_bool && !projData?.is_failed">     
               <span> Will goal be completed?</span> 
               <ion-badge color="gray" item-right>{{ projData.vouch_count }} Yeses</ion-badge> 
               <div>
                 <button ion-button outline (click)="createVouch(projData?.proj_id, 'yuwcg')">Yes</button>
                 <button ion-button outline (click)="createVouch(projData?.proj_id, 'nuwncg')">No</button>
               </div> 
-          </ion-item>        
+          </ion-item>   
+           <ion-item *ngIf="projData?.is_completed_bool || feed?.is_failed">                 
+                  <span item-left>Goal was followed by</span>                  
+                  <ion-badge item-right color="gray">{{  followCount }} ponders(s)</ion-badge>                          
+           </ion-item>
+           <ion-item *ngIf="projData?.is_completed_bool">                     
+                    <span item-left>Lived up to the hype of</span>        
+                <ion-badge item-right color="gray">{{ projData.vouch_count }} ponders(s)</ion-badge>                          
+           </ion-item>
+           <ion-item *ngIf="projData?.is_failed">    
+                    <span item-left> Let downs</span>
+                    <ion-badge item-right color="gray">{{ projData.vouch_count }} ponders(s)</ion-badge>                          
+           </ion-item>     
         <ion-item *ngIf="projData.user_owns_proj" text-wrap>            
           <p  text-wrap>{{ projData.public_status }}</p>        
         </ion-item>       
@@ -53,7 +65,7 @@
         </ion-item>                
         <ion-toolbar> <ion-title text-center>Progression</ion-title></ion-toolbar>
         <div padding *ngFor="let progress of projData.progresses" text-wrap>
-           <div text-wrap><ion-title>{{ progress.progress_message }}</ion-title></div>
+           <ion-item text-wrap>{{ progress.progress_message }}</ion-item>
           <ion-card text-wrap no-padding class="post-body">            
               <img class="full-image" src="{{ progress.image_url }}">                  
               <ion-card-content>                 
@@ -63,7 +75,10 @@
                   <ion-badge item-right color="gray">{{ impressCountList[progress.progress_id] }} ponders' impressed</ion-badge>       
               </ion-card-content>       
           </ion-card>    
-         </div>     
+         </div> 
+         <ion-item *ngIf="!projData.progresses" text-wrap>
+            <p>No progression captured!</p>
+        </ion-item>      
    </div>    
   <ion-fab bottom right>    
      <button ion-fab mini (click)="createPost()">      

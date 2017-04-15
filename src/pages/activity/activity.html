@@ -41,7 +41,7 @@
         </ion-card-content>
         
         <div *ngIf="feed.is_project_feed" class="actions"> 
-          <ion-item>     
+          <ion-item *ngIf="!feed.is_completed && !feed.is_failed">     
               <span> Will goal be completed?</span> 
               <ion-badge color="gray" item-right>{{ vouchCountList[feed.id] }} Yeses</ion-badge> 
               <div>
@@ -55,11 +55,23 @@
                   </span>        
                   <ion-badge item-right color="gray">{{ feed.seen_count }} ponder(s)</ion-badge>           
            </ion-item> 
-           <ion-item>    
+           <ion-item *ngIf="!feed.is_completed && !feed.is_failed">    
                 <button ion-button color="primary"  (click)="createFollow(feed.id)"  small>                  
                   Follow Goal                            
                 </button>
                     <ion-badge item-right color="gray">  {{ followCountList[feed.id] }} follower(s)</ion-badge>                          
+           </ion-item>
+            <ion-item *ngIf="feed.is_completed || feed.is_failed">                 
+                  Goal was followed by                         
+                  <ion-badge item-right color="gray">  {{ followCountList[feed.id] }} follower(s)</ion-badge>                          
+           </ion-item>
+           <ion-item *ngIf="feed.is_completed">                     
+                    Lived up to the hype of       
+                <ion-badge item-right color="gray">{{ vouchCountList[feed.id] }} ponders(s)</ion-badge>                          
+           </ion-item>
+           <ion-item *ngIf="feed.is_failed">    
+                     Let downs
+                    <ion-badge item-right color="gray">{{ vouchCountList[feed.id] }} ponders(s)</ion-badge>                          
            </ion-item>
           </div>         
           <div *ngIf="feed.is_progress_feed" #imgList>                  
@@ -70,7 +82,7 @@
                 </ion-card-content>
                 <ion-card-content>                 
                   <span (click)="createImpression(progress.id, feed.progress_set_id)">                  
-                      <ion-icon style="font-size: 20px;"  name="md-heart" color="secondary"></ion-icon> 
+                      <ion-icon style="font-size: 26px;"  name="md-heart" color="secondary"></ion-icon> 
                   </span>             
                   <ion-badge item-right color="gray">{{ impressCountList[progress.id] }} ponders' impressed</ion-badge>       
                   <br><br> <hr>

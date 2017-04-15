@@ -53,9 +53,11 @@ export class UserPage {
   private selectedPond;
   private all_projects;
   private showStats;
+  private hasProj = false;
+  private gradeHigh = false;
   private cover_url = 'assets/img/cover.jpg';
   private background_url = 'assets/img/user/blur-stats-view.jpg';
-  private user_stats = {};
+  private user_stats: any;
   constructor(private nav: NavController, private userService: UserService, private pondService: PondService, 
               private picUploadService: PictureUploadService, private navParams: NavParams, private setService: SettingsService, private postService: PostService, 
               public actionSheetCtrl: ActionSheetController,
@@ -95,6 +97,12 @@ export class UserPage {
                 this.user_stats = this.userDetails.user_stats;
                 this.all_projects = this.userDetails.all_projects;
                 this.userName = this.userDetails.user_name;
+                if(this.user_stats.consistency_percentage > 75){
+                    this.gradeHigh = true;
+                }
+                if(this.all_projects.length > 0){
+                    this.hasProj = true;
+                }
                 //console.log(this.userDetails);
                 //console.log("profile pic, ", this.profilePicStorage);
                 if (this.yourProfile) {
@@ -103,6 +111,7 @@ export class UserPage {
                 else {
                     this.userName = this.userDetails.user_name;
                 }
+                
                 //console.log(localStorage.getItem("profile_url"));
             }
         }, (error) => { 
@@ -112,6 +121,15 @@ export class UserPage {
             this.loader.dismiss();
         });
     };
+
+    doRefresh(refresher) {
+        console.log('Begin async operation', refresher);
+
+        setTimeout(() => {
+        console.log('Async operation has ended');
+        refresher.complete();
+        }, 2000);
+    }
 
     viewProject (feedId) {
         this.nav.push(ProjectPage, { id: feedId });
@@ -165,7 +183,6 @@ export class UserPage {
     };
 
     markProjectDone (projId) {
-        
         var subscribe = this.userService.markProjectDone(projId);
         subscribe.subscribe((data) => {
             var statusData = JSON.parse(data);
@@ -180,8 +197,30 @@ export class UserPage {
         }, () => { 
             console.log("Finished! "); 
         });
-    };
+      };
 
+    verifyProjDone(projId){
+        let alert = this.alertCtrl.create({
+            title: 'Confirm Completed Goal',
+            message: 'Are you sure you want to mark this goal as completed?',
+            buttons: [
+                {
+                    text: 'No',
+                    role: 'cancel',
+                    handler: () => {
+                        this.showToast("Can't wait till it's done!");
+                    }
+                },
+                {
+                    text: "Yep, I Completed it!",
+                    handler: () => {
+                        this.markProjectDone (projId)
+                    }
+                }
+            ]
+        });
+        alert.present();
+    }
     markMilestoneDone (milId) {
         
         //console.log("lay it down for gospel ");
