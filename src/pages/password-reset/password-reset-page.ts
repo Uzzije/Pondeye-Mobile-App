@@ -4,7 +4,7 @@ import {ActivityPage} from "../activity/activity";
 import {RegisterPage} from "../register/register";
 import {SettingsService} from '../../services/settings-service';
 import {AuthenticateService} from '../../services/authenticate-service';
-import {Network} from 'ionic-native';
+import {Network} from '@ionic-native/network';
 import {LoginPage} from "../login/login";
 
 declare var window;
@@ -24,10 +24,10 @@ export class PasswordResetPage {
 
 // login and go to home page
     reset  (email, newPassword, confPassword, passToken) {
-            if (Network.connection === 'none') {
+          /*  if (Network.connection === 'none') {
                 var alert_1 = this.showAlert("Hey! Pondeye requires internet connection to work!");
             }
-            else {
+            else {*/
                 if (email && newPassword && passToken && (confPassword == newPassword)) {
                     this.loader = this.loadingCtrl.create({
                         content: "Reseting Password...",
@@ -61,7 +61,7 @@ export class PasswordResetPage {
                         var alert_4 = this.showAlert("Make sure your inputs are valid, including your email");
                     }
                 }
-            }
+    //}
         };
     sendResetCode  (email) {
         if (email) {
@@ -113,6 +113,7 @@ export class PasswordResetPage {
     showToast  (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");
+        }).catch(()=>{
         });
     };
 

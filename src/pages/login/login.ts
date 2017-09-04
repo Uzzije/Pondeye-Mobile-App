@@ -6,7 +6,7 @@ import {PostService} from '../../services/post-service';
 import {PostPage} from "../post/post";
 import {UserPage} from "../user/user";
 import {NewPostPage} from "../new-post/new-post";
-import {Camera} from 'ionic-native';
+import {Camera} from '@ionic-native/camera';
 import {NewPostServices} from '../../services/new-post-service';
 import {SettingsService} from '../../services/settings-service';
 import {NewPictureUploadPage} from '../pictureUpload/pictureUpload';
@@ -14,7 +14,7 @@ import {MilestonePage} from '../milestone-page/milestone-page';
 import {PondService} from '../../services/pond-service';
 import {UserService} from '../../services/user-service';
 import {AuthenticateService} from '../../services/authenticate-service';
-import {Network} from 'ionic-native';
+import {Network} from '@ionic-native/network';
 import {PasswordResetPage} from '../password-reset/password-reset-page';
 /*
  Generated class for the LoginPage page.
@@ -27,6 +27,7 @@ declare var window;
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
+  providers: [Network]
 })
 export class LoginPage {
   private getData;
@@ -34,49 +35,48 @@ export class LoginPage {
   constructor(private nav: NavController,  private authService: AuthenticateService,
             private setService: SettingsService, private postService: PostService, public actionSheetCtrl: ActionSheetController,
               public platform: Platform, public loadingCtrl: 
-              LoadingController, public alertCtrl: AlertController, public newPostService: NewPostServices) {
+              LoadingController, private network: Network, public alertCtrl: AlertController, public newPostService: NewPostServices) {
                       this.loader = loadingCtrl.create({
                         content: "Logging in...",
                       });
-                      
+        let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
+            var alert_1 = this.showAlert("Hey! Pondeye requires internet connection to work!");
+         });                 
   }
 
           // login and go to home page
         login (username, userPassword) {
-            if (Network.connection === 'none') {
-                var alert_1 = this.showAlert("Hey! Pondeye requires internet connection to work!");
+
+            //console.log("Name: " + username + "Password: " + userPassword);
+            //console.log("I return", this.authService.authenticate(username, userPassword));
+            if (this.indentificationMatch(username, userPassword)) {
+                this.nav.setRoot( ActivityPage);
             }
             else {
-                console.log("Name: " + username + "Password: " + userPassword);
-                //console.log("I return", this.authService.authenticate(username, userPassword));
-                if (this.indentificationMatch(username, userPassword)) {
-                    this.nav.setRoot( ActivityPage);
-                }
-                else {
-                    this.loader.present();
-                    this.authService.authenticate(username, userPassword)
-                        .subscribe((data) => {
-                        this.getData = JSON.parse(data);
-                        if (this.getData) {
-                            if (this.getData.status == true) {
-                                localStorage.setItem("username", username);
-                                localStorage.setItem("password", userPassword);
-                                this.nav.setRoot( ActivityPage);
-                            }
-                            else {
-                                var alert_2 = this.showAlert(this.getData.error);
-                            }
+                this.loader.present();
+                this.authService.authenticate(username, userPassword)
+                    .subscribe((data) => {
+                    this.getData = JSON.parse(data);
+                    if (this.getData) {
+                        if (this.getData.status == true) {
+                            localStorage.setItem("username", username);
+                            localStorage.setItem("password", userPassword);
+                            this.nav.setRoot( ActivityPage);
                         }
-                    }, (error) => { 
+                        else {
+                            var alert_2 = this.showAlert(this.getData.error);
+                        }
+                    }
+                }, (error) => { 
+                    this.loader.dismiss();
+                    var alert = this.showAlert(error); }, 
+                    () => { 
                         this.loader.dismiss();
-                        var alert = this.showAlert(error); }, 
-                        () => { 
-                            this.loader.dismiss();
-                            return console.log("Finished!"); 
-                         },
-                    );
-                }
+                        return console.log("Finished!"); 
+                        },
+                );
             }
+            
         };
 
    indentificationMatch (username, password) {
@@ -112,6 +112,7 @@ export class LoginPage {
     showToast  (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");
+        }).catch(()=>{
         });
     };
 

@@ -7,7 +7,7 @@
     </ion-navbar>
 </ion-header>
 <ion-content> 
-  <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, people" (search)="search($event)"></ion-searchbar> 
+  <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, people..." (search)="search($event)"></ion-searchbar> 
   <ion-list class="notifications-list"> 
     <ion-item *ngFor="let notification of notifications" text-wrap> 
       <div *ngIf="notification.is_let_down" (click)="viewMilestone(notification.mil_is_deleted, notification.id)" class="notification-content"> 
@@ -61,6 +61,9 @@
         <span (click)="viewProject(notification.is_deleted, notification.id)" color="gray">{{ notification.blurb }}</span>
       </div>
       <div *ngIf="notification.is_project_vouch" class="notification-content"> 
+        <span (click)="viewProject(notification.is_deleted, notification.id)" color="gray">{{ notification.blurb }}</span>
+      </div>
+      <div *ngIf="notification.is_shared_exp" class="notification-content"> 
         <span (click)="viewProject(notification.is_deleted, notification.id)" color="gray">{{ notification.blurb }}</span>
       </div>
     </ion-item> 

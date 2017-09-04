@@ -1,4 +1,4 @@
-import { Injectable }  from '@angular/core';
+import { Injectable, Component }  from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
@@ -7,7 +7,11 @@ import {CURRENTURL} from './service-util/URLS';
 import {TIMEZONE} from './service-util/timezone-local';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
-@Injectable()
+
+@Component({
+    providers:[Http]
+})
+
 export class AuthenticateService {
   private posts: any;
 

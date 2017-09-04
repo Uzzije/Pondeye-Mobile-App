@@ -7,7 +7,7 @@
 	</ion-navbar>
 </ion-header>
 <ion-content>	
-	<ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, and people" (search)="search($event)"></ion-searchbar>
+	<ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, and people..." (search)="search($event)"></ion-searchbar>
 	<ion-list class="list-no-border">
 		<span *ngIf="hasProj">	
 			<ion-item>
@@ -19,7 +19,16 @@
 				<ion-select [(ngModel)]="projId" >
 					<ion-option value="{{proj.id}}" *ngFor="let proj of projects">{{proj.name}}</ion-option>
 				</ion-select>	 
-			</ion-item>	 	
+			</ion-item>	 
+			<ion-item>
+				<ion-label>Did it happen with someone?</ion-label>
+				<ion-select [(ngModel)]="progMembersList" multiple="true">
+					<ion-option value="{{member.id}}" *ngFor="let member of progMembers">                               
+                    		<h3 color="primary" text-wrap>{{ member.first_name }} {{ member.last_name }} {{ member.username }}</h3>        
+					</ion-option>
+				</ion-select>	
+				
+			</ion-item>	 
 			<ion-item>
 				<label class="item item-input">
 					<button ion-button color="light" (click)="createMilPictureUpload()" large>Add Progress</button>

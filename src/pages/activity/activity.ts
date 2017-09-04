@@ -1,27 +1,36 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, NgModule} from '@angular/core';
 import {NavController, ActionSheetController, LoadingController, AlertController,  Platform} from 'ionic-angular';
 
 import {PostService} from '../../services/post-service';
 import {PostPage} from "../post/post";
 import {UserPage} from "../user/user";
 import {NewPostPage} from "../new-post/new-post";
-import {Camera} from 'ionic-native';
+import {Camera} from '@ionic-native/camera';
 import {NewPostServices} from '../../services/new-post-service';
 import {MilestonePage} from '../milestone-page/milestone-page';
 import {ProjectPage} from '../project-page/project-page';
 import {SearchResultPage} from '../search-result-page/search-result-page';
 import {NewPictureUploadPage} from '../pictureUpload/pictureUpload';
+import {CommonModule} from '@angular/common';
+import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions} from '@ionic-native/media-capture';
+import { File } from '@ionic-native/file';
 /*
  Generated class for the LoginPage page.
 
  See http://ionicframework.com/docs/v2/components/#navigation for more info on
  Ionic pages and navigation.
  */
+@NgModule({
+    imports: [
+        CommonModule,
+    ]
+})
 @Component({
   selector: 'page-activity',
-  templateUrl: 'activity.html',
+  templateUrl: 'activity_video.html',
+  providers:[File, MediaCapture]
 })
-export class ActivityPage implements OnInit {
+export class ActivityPage  {
   // list of posts
   private feeds = [];
   private  vouchCountList = [];
@@ -35,10 +44,15 @@ export class ActivityPage implements OnInit {
   private nextFeed;
   private nextId;
   private feedData;
+  private myVideo;
+  private videoData;
+  private vidDir;
+  private vidStorage; 
   // set sample data
   constructor(private nav: NavController,  private postService: PostService, public actionSheetCtrl: ActionSheetController,
               public platform: Platform, public loadingCtrl: 
-              LoadingController, public alertCtrl: AlertController, public newPostService: NewPostServices) {
+              LoadingController, private fileReader: File, private mediaCapture: MediaCapture,
+              public alertCtrl: AlertController, public newPostService: NewPostServices) {
     // set sample data
     this.followCountList[0] = "say";
    //console.log(this.followCountList, + "list follow");
@@ -84,6 +98,75 @@ export class ActivityPage implements OnInit {
             console.log("Finished! ");
             this.loader.dismiss();
         });
+    }
+    showPicture(picUrl){
+        
+    }
+    record(){
+        
+        let videoOptions = {
+            number: 1,
+            duration: 10,
+        }
+        let options: CaptureImageOptions = { limit: 3 };
+        var captureVid = this.mediaCapture.captureVideo(videoOptions);
+        captureVid.then((vidData: MediaFile[])=>{
+            var type_of_obj = typeof captureVid;
+            this.vidStorage = vidData;
+            if(this.platform.is('ios')){
+                var name = "/"+this.vidStorage[0].name
+                this.vidDir = "file://"+this.vidStorage[0]['fullPath'].replace(name, "");
+            }else{
+                this.vidDir = this.vidStorage[0]['fullPath'].replace(this.vidStorage[0].name, "")
+            }   
+            console.log(this.vidDir);
+            let videoPromise = this.fileReader.readAsDataURL(this.vidDir, this.vidStorage[0].name);
+            return videoPromise;
+        }).then((data)=>{
+            console.log(this.vidDir);
+            console.log(this.vidStorage[0].name);
+            console.log(data);
+            let base64Video = data;
+            //this.fileReader.removeFile(this.vidDir, this.vidStorage[0].name);
+            console.log("reaching here");
+            this.nav.push(NewPictureUploadPage, { 'fileName': base64Video, 'isVideo':true });
+            }, error=>{
+                console.log(error);
+        }).catch(function(err: CaptureError){
+            console.log(err);
+            console.log("error in capturing information");
+        })
+        /*
+        }, error=>{
+            console.log(error);
+        }
+        ).catch(function(err: CaptureError){
+            console.log(err);
+            console.log("error in capturing information");
+        })
+    
+        let videoFile = File.createFromFileName(this.videoData);
+        let reader = new FileReader();
+        reader.readAsBinaryString(videoFile);
+        blah
+        console.log('base64Video ', base64Video);
+        */
+    }
+    selectvideo(){
+        /*
+          Camera.getPicture({
+            destinationType:  Camera.DestinationType.DATA_URL,
+            mediaType: Camera.MediaType.PICTURE,
+            encodingType: Camera.EncodingType.JPEG,
+            correctOrientation: true
+        }).then((imageData) => {
+            this.base64Image = "data:image/jpeg;base64," + imageData;
+            console.log('base64Image pic ', this.base64Image);
+            this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
+        }, function (err) {
+            console.log(err);
+        });
+        */
     }
     ngAfterViewInit (){ 
         var idNext;
@@ -133,6 +216,15 @@ export class ActivityPage implements OnInit {
             buttons: ['OK']
         });
         alert.present();
+    }
+
+    doRefresh(refresher) {
+        console.log('Begin async operation', refresher);
+
+        setTimeout(() => {
+        console.log('Async operation has ended');
+        refresher.complete();
+        }, 2000);
     }
 
     createVouch (proj_Id, userResponse) {
@@ -217,10 +309,12 @@ export class ActivityPage implements OnInit {
     createPost (){ 
         this.nav.push(NewPostPage);
     }
-    createPicture (){ 
-        this.takePicture();
-    }
-     takePicture (){ 
+   createPicture = () => {
+       console.log("picture is called!");
+       // this.takePicture();
+    };
+    /*
+    takePicture (){ 
           Camera.getPicture({
             destinationType:  Camera.DestinationType.DATA_URL,
             mediaType: Camera.MediaType.PICTURE,
@@ -228,11 +322,11 @@ export class ActivityPage implements OnInit {
             correctOrientation: true
         }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
-            console.log('base64Image pic ', this.base64Image);
+            //console.log('base64Image pic ', this.base64Image);
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {
             console.log(err);
         });
-        
     }
+    */
 }

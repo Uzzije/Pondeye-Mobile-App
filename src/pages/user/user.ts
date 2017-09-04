@@ -5,7 +5,7 @@ import {PostService} from '../../services/post-service';
 import {PostPage} from "../post/post";
 
 import {NewPostPage} from "../new-post/new-post";
-import {Camera} from 'ionic-native';
+import {Camera, CameraOptions} from '@ionic-native/camera';
 import {NewPostServices} from '../../services/new-post-service';
 import {SettingsService} from '../../services/settings-service';
 import {NewPictureUploadPage} from '../pictureUpload/pictureUpload';
@@ -26,6 +26,7 @@ declare var window: any;
 @Component({
   selector: 'page-user',
   templateUrl: 'user.html',
+  providers: [Camera]
 })
 export class UserPage {
   public user: any;
@@ -60,7 +61,7 @@ export class UserPage {
   private user_stats: any;
   constructor(private nav: NavController, private userService: UserService, private pondService: PondService, 
               private picUploadService: PictureUploadService, private navParams: NavParams, private setService: SettingsService, private postService: PostService, 
-              public actionSheetCtrl: ActionSheetController,
+              public actionSheetCtrl: ActionSheetController, private camera: Camera,
               public platform: Platform, public loadingCtrl: 
               LoadingController, public alertCtrl: AlertController, public newPostService: NewPostServices) {
     // get sample data only
@@ -167,6 +168,7 @@ export class UserPage {
     };
 
     takeProfilePicture(user_id) {
+        /*
         Camera.getPicture({
             destinationType: Camera.DestinationType.DATA_URL,
             targetWidth: 400,
@@ -180,6 +182,7 @@ export class UserPage {
         }, function (err) {
             //console.log(err);
         });
+        */
     };
 
     markProjectDone (projId) {
@@ -212,7 +215,7 @@ export class UserPage {
                     }
                 },
                 {
-                    text: "Yep, I Completed it!",
+                    text: "Yep!",
                     handler: () => {
                         this.markProjectDone (projId)
                     }
@@ -276,6 +279,7 @@ export class UserPage {
     showToast  (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");
+        }).catch(()=>{
         });
     }
 
@@ -287,16 +291,17 @@ export class UserPage {
     };
 
     takePicture (){ 
-          Camera.getPicture({
-            destinationType:  Camera.DestinationType.DATA_URL,
-            mediaType: Camera.MediaType.PICTURE,
-            encodingType: Camera.EncodingType.JPEG,
-            correctOrientation: true
-        }).then((imageData) => {
+      const options: CameraOptions = {
+          quality: 100,
+          destinationType: this.camera.DestinationType.DATA_URL,
+          encodingType: this.camera.EncodingType.JPEG,
+          mediaType: this.camera.MediaType.PICTURE
+       }
+          this.camera.getPicture(options).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
             //console.log('base64Image pic ', this.base64Image);
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
-        }, function (err) {
+        }).catch((err)=>{
             console.log(err);
         });
     }

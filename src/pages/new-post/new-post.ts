@@ -4,7 +4,7 @@ import {NavController, ActionSheetController, NavParams, LoadingController, Aler
 import {PostService} from '../../services/post-service';
 import {PostPage} from "../post/post";
 import {UserPage} from "../user/user";
-import {Camera} from 'ionic-native';
+import {Camera} from '@ionic-native/camera';
 import {NewPostServices} from '../../services/new-post-service';
 import {SettingsService} from '../../services/settings-service';
 import {NewPictureUploadPage} from '../pictureUpload/pictureUpload';
@@ -14,11 +14,13 @@ import {ActivityPage} from '../activity/activity';
 import {UserService} from '../../services/user-service';
 import {ProjectPage} from '../project-page/project-page';
 import {SearchResultPage} from '../search-result-page/search-result-page';
+import { MediaCapture } from '@ionic-native/media-capture';
 
 declare var window: any;
 @Component({
   selector: 'page-new-post',
   templateUrl: 'new-post.html',
+  providers:[MediaCapture]
 })
 
 export class NewPostPage implements OnInit{
@@ -42,6 +44,7 @@ export class NewPostPage implements OnInit{
   private projComDate;
   private milComTime;
   private milComDate;
+  private videoData = "";
   constructor(private nav: NavController,  private params: NavParams, private setService: SettingsService, 
               private postService: PostService, public actionSheetCtrl: ActionSheetController,
               public platform: Platform, public loadingCtrl: 
@@ -96,14 +99,8 @@ export class NewPostPage implements OnInit{
         else {
             //console.log(" no proj time " + this.projComTime + " no mile date: " + this.milestone_date);
         }
-        let projectpicture = this.base64Image;
-        if(this.base64Image){
-            projectpicture = this.base64Image
-        }else{
-            projectpicture = "";
-        }
         var subcribe = this.newPostService.postNewProject(this.name_of_project, this.public_status, 
-            this.milestone_date, this.tags, projectpicture).subscribe((data) => {
+            this.milestone_date, this.tags, this.videoData).subscribe((data) => {
             this.newPostData = JSON.parse(data);
             if (this.newPostData.status === false) {
                 var alert_1 = this.showAlert(this.newPostData.error);
@@ -168,6 +165,7 @@ export class NewPostPage implements OnInit{
     showToast  (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");
+        }).catch(()=>{
         });
     };
  
@@ -176,10 +174,11 @@ export class NewPostPage implements OnInit{
         this.nav.push(NewPostPage);
     };
     createProjectPicture = () => {
-        this.addProjectPic();
+       // this.addProjectPic();
     };
 
     addProjectPic (){ 
+        /*
         Camera.getPicture({
         destinationType:  Camera.DestinationType.DATA_URL,
         mediaType: Camera.MediaType.PICTURE,
@@ -192,5 +191,23 @@ export class NewPostPage implements OnInit{
         }, function (err) {
             console.log(err);
         });
+        */
     }
+
+    record(){
+        /*
+        let videoOptions = {
+            number: 1,
+            duration: 10,
+        }
+        MediaCapture.captureVideo(videoOptions)
+        .then((videoData)=>{
+            this.videoData = "data:video/mp4" + videoData;
+            console.log('data pic ', videoData);
+        }, function (err) {
+            console.log(err);
+        });
+    }
+    */
+}
 }

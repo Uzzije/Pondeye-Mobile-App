@@ -5,6 +5,8 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import {CURRENTURL} from './service-util/URLS'
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+
+
 @Injectable()
 export class PictureUploadService {
   private chats: any;
@@ -20,6 +22,7 @@ export class PictureUploadService {
         return this._http.get(this.platformUrl + ("/social/api/new-picture-entry/?username=" + username))
             .map(this.processData).catch(this.processError);
     };
+
     getProgressPostData() {
         /*
             Get the progress information for pondeye's progress page
@@ -28,18 +31,47 @@ export class PictureUploadService {
         return this._http.get(this.platformUrl + ("/social/api/new-picture-entry/?username=" + username))
             .map(this.processData).catch(this.processError);
     }
-    progressPictureUpload (picture, goalId, name_of_progress) {
+
+    progressPictureUpload (picture, goalId, name_of_progress, membersId, shoutOuts) {
+        
         var username = localStorage.getItem("username");
         console.log("upload file ", picture);
         var new_pic = encodeURIComponent(picture);
         var data = "username=" + username + "&picture=" + new_pic + "&project_id=" + goalId + 
-                    "&progress_name=" + name_of_progress;
+                    "&progress_name=" + name_of_progress + "&members_id=" + membersId + "&shout_emails=" + shoutOuts;
         console.log(new_pic);
         var headers = new Headers()
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         headers.append('Content-Transfer-Encoding', 'base64');
         return this._http.post(this.platformUrl + '/social/api/new-picture-entry/', data, { headers: headers })
             .map(this.processData).catch(this.processError);
+    };
+
+    progressVideoUpload (picture, goalId, name_of_progress, membersId, shoutOuts) {
+        var username = localStorage.getItem("username");
+        console.log("upload file ", picture);
+        var new_pic = encodeURIComponent(picture);
+        var data = "username=" + username + "&picture=" + new_pic + "&project_id=" + goalId + 
+                    "&progress_name=" + name_of_progress + "&members_id=" + membersId + "&shout_emails=" + shoutOuts;
+        
+        let headers = new Headers()
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        headers.append('Content-Transfer-Encoding', 'base64');
+        /*
+        let dataOptions: FileUploadOptions = {
+            username: username,
+            project_id: goalId,
+            progress_name: name_of_progress,
+            members_id: membersId,
+            shout_emails: shoutOuts,
+            headers: headers
+        }
+        return fileTransfer.upload(picture, this.platformUrl + '/social/api/new-video-entry/', dataOptions)
+            .map(this.processData).catch(this.processError);
+            */
+        console.log(new_pic);
+        return this._http.post(this.platformUrl + '/social/api/new-video-entry/', data, { headers: headers })
+          .map(this.processData).catch(this.processError);
     };
 
     milPictureUpload  (picture, type_of_picture, name_of_progress) {

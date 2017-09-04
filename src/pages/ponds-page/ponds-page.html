@@ -7,7 +7,7 @@
     </ion-navbar>
 </ion-header>
 <ion-content>  
-    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, people" (search)="search($event)"></ion-searchbar>  
+    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, people..." (search)="search($event)"></ion-searchbar>  
     <ion-list *ngIf="!noPonds" class="list-full-border">    
         <ion-item-sliding *ngFor="let pond of ponds">      
             <ion-item (click)="viewPond(pond.id)">        

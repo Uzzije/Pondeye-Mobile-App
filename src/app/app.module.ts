@@ -1,6 +1,8 @@
 import {NgModule} from '@angular/core';
 import {IonicApp, IonicModule} from 'ionic-angular';
 import {MyApp} from './app.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http'; 
 
 // import services
 import {UserService} from '../services/user-service';
@@ -80,6 +82,9 @@ import {TermsAndConditionPage} from '../pages/terms-and-condition/terms-and-cond
     /* import pages */
   ],
   imports: [
+    BrowserModule,
+    HttpModule,
+    
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],

@@ -7,7 +7,7 @@
     </ion-navbar>
 </ion-header>
 <ion-content class="list-avatar-page">
-    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, people.." (search)="search($event)"></ion-searchbar>
+    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, people..." (search)="search($event)"></ion-searchbar>
     <div *ngIf="pond" class="list-full-border">
         <button *ngIf="!pond.is_member" (click)="sendPondRequest(pond.id)" ion-button color="gray" outline large text-center>
             Join Pond
@@ -23,19 +23,20 @@
             </ion-item>
         </ion-card>
         <div text-wrap padding *ngIf="!noMotif">
-            <ion-label class="font-wrting-pond" color="primary" >Motivations</ion-label>  
+            <ion-label class="font-wrting-pond" color="primary" >Motivation for Pond's Creation</ion-label>  
                 <div>
                     <ion-badge *ngFor="let tags of pond.tags" color="gray">{{ tags }} </ion-badge>
                 </div><br>
-        </div>          
+        </div> 
         <ion-item *ngIf="noMotif" text-wrap>
+            <ion-label class="font-wrting-pond" color="primary" >Motivation for Pond's Creation</ion-label> 
             <p>No particular motivation stated!</p>
         </ion-item>
         <ion-list>
             <ion-list-header><h1 class="font-wrting-pond" color="primary">Pond's Leaderboard</h1></ion-list-header> 
             <ion-item color="gray">
-                <span item-left>Pond Member</span>
-                <span item-right>Work Ethic Rank</span>
+                <span color="white" item-left>Pond Member</span>
+                <span color="white" item-right>Work Ethic Rank</span>
             </ion-item>
             <ion-item *ngFor="let ponder of pond.ponders">
                 <ion-avatar item-left>
@@ -49,6 +50,20 @@
             </ion-item>
         </ion-list>
         <h3 color="primary" *ngIf="!pond.ponders" text-wrap>Empty Pond</h3>
+         <div padding>
+            <div *ngIf="ifActivities" text-wrap>
+                <h2 class="font-wrting-pond" color="primary">Shared Experiences</h2>
+                <ion-item  *ngFor="let each_feed of pondFeed" text-wrap>
+                    <ion-list (click)="viewProject(each_feed.proj_id)">
+                        <p>{{ each_feed.name_of_feed }}</p>
+                    </ion-list>
+                </ion-item> 
+                <ion-item *ngIf="!ifActivities" text-wrap>
+                    <h2 class="font-wrting-pond" color="primary">Shared Experiences</h2>
+                    <p>No shared experience between pond members yet!</p>
+                </ion-item> 
+            </div>
+        </div>     
     </div>
     <ion-fab bottom right>
         <button ion-fab mini (click)="createPost()">

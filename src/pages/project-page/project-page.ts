@@ -5,12 +5,14 @@ import {PostService} from '../../services/post-service';
 import {PostPage} from "../post/post";
 import {UserPage} from "../user/user";
 import {NewPostPage} from "../new-post/new-post";
-import {Camera} from 'ionic-native';
+import {Camera} from '@ionic-native/camera';
 import {NewPostServices} from '../../services/new-post-service';
 import {SettingsService} from '../../services/settings-service';
 import {NewPictureUploadPage} from '../pictureUpload/pictureUpload';
 import {MilestonePage} from '../milestone-page/milestone-page';
 import {SearchResultPage} from '../search-result-page/search-result-page';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
+
 /*
  Generated class for the LoginPage page.
 
@@ -21,6 +23,7 @@ declare var window: any;
 @Component({
   selector: 'project-page',
   templateUrl: 'project-page.html',
+  providers:[PhotoViewer]
 })
 export class ProjectPage {
     private queryWord = "";
@@ -37,7 +40,8 @@ export class ProjectPage {
     constructor(private nav: NavController,  private params: NavParams, private setService: SettingsService, 
               private postService: PostService, public actionSheetCtrl: ActionSheetController,
               public platform: Platform, public loadingCtrl: 
-              LoadingController, public alertCtrl: AlertController, public newPostService: NewPostServices) {
+              LoadingController, private photoViewer: PhotoViewer,
+              public alertCtrl: AlertController, public newPostService: NewPostServices) {
             // set sample data
             this.projID = this.params.get('id');
             this.loader = loadingCtrl.create({
@@ -140,6 +144,7 @@ export class ProjectPage {
     viewMilestone  (feedId) {
         this.nav.push(MilestonePage, { id: feedId }).then((data) => {
             //console.log(data, " viewmil data");
+        }).catch(()=>{
         });
         //console.log(feedId, " feed id");
     };
@@ -156,7 +161,9 @@ export class ProjectPage {
             //console.log(this.queryWord, " query word");
         }
     }
-
+    showPicture(picUrl){
+        this.photoViewer.show(picUrl);
+    }
     showAlert  (mes) {
         var alert = this.alertCtrl.create({
             title: 'Error!',
@@ -168,6 +175,7 @@ export class ProjectPage {
     showToast  (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");
+        }).catch(()=>{
         });
     };
  
@@ -175,10 +183,11 @@ export class ProjectPage {
     createPost = () => {
         this.nav.push(NewPostPage);
     };
-    createPicture = () => {
-        this.takePicture();
+  createPicture = () => {
+       // this.takePicture();
     };
-      takePicture (){ 
+    /*
+    takePicture (){ 
           Camera.getPicture({
             destinationType:  Camera.DestinationType.DATA_URL,
             mediaType: Camera.MediaType.PICTURE,
@@ -191,6 +200,7 @@ export class ProjectPage {
         }, function (err) {
             console.log(err);
         });
-     }
+    }
+    */
     
 }

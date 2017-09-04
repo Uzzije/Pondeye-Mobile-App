@@ -19,71 +19,69 @@
                 <button ion-button color="light" class="action" (click)="takeProfilePicture(profUserId)">
                   <ion-icon name="md-camera"></ion-icon>
                 </button>
-                </ion-col>
-                <ion-col>
+              </ion-col>
+              <ion-col>
                   <img class="profile-picture" src="{{ profilePic }}">
-                </ion-col>
+              </ion-col>
           </ion-row>
+          <br><br><br><br>
           <ion-row>
             <ion-col>
               <h4 color="light">{{ firstName }} {{ lastName }}</h4>
             </ion-col>
           </ion-row>
-          <ion-row>
-              <div item-left>
-                <span class="desc font-writing-insight">Following
-                    <span class="desc font-writing-insight" *ngIf="yourProfile">your</span>
-                    <span class="desc font-writing-insight" *ngIf="!yourProfile">{{ firstName }}'s</span>
-                    Goals
+           <ion-row>
+              <ion-col item-left>
+                <span class="desc font-writing-insight">Goal Followers
+                  <span class="number"><ion-badge color="gray">{{ user_stats?.total_goal_followers }} ponders</ion-badge></span>
                 </span>
-                <span class="number"><ion-badge color="gray">{{ user_stats.total_goal_followers }} ponders</ion-badge></span>
-              </div>
-              <div item-right>
-                <span class="desc font-writing-insight">% of Goals Completed</span>
-                <span class="number"> 
-                  {{ user_stats.consistency_percentage }}%
+              </ion-col>
+              <ion-col>
+                <span class="desc font-writing-insight">Completions </span>
+                <span class="desc font-writing-insight">{{ user_stats?.consistency_percentage }}%
                   <ion-badge *ngIf="gradeHigh" color="green">
-                    {{ user_stats.consistency_grade }}
+                    {{ user_stats?.consistency_grade }}
                   </ion-badge>
                   <ion-badge *ngIf="!gradeHigh" color="danger">
-                    {{ user_stats.consistency_grade }}
+                    {{ user_stats?.consistency_grade }}
                   </ion-badge>
                 </span>
-              </div>
+              </ion-col>
            </ion-row>
         </ion-grid>
       </div>
     </div>
+    <div class="posts">
     <ion-card>
         <ion-card-header class="font-writing-header">
-          <span *ngIf="yourProfile" item-left>Your</span>
+          <span *ngIf="yourProfile" class="font-writing-header" item-left>Your</span>
                     <span *ngIf="!yourProfile" item-left>{{ firstName }}'s</span> Insights
         </ion-card-header>
          <ion-list >
             <ion-item [ngStyle]="{'background-image': 'url(' + background_url + ')'}">
               <span item-left class="font-writing-insight">Goals Completed</span>
-              <span item-right class="insight-number">{{ user_stats.goal_success_count }}</span>
+              <span item-right class="insight-number">{{ user_stats?.goal_success_count }}</span>
             </ion-item>
             <ion-item [ngStyle]="{'background-image': 'url(' + background_url + ')'}">
               <span item-left class="font-writing-insight">Failed Goals</span>
-              <span item-right class="insight-number">{{ user_stats.goal_failed_count }}</span>
+              <span item-right class="insight-number">{{ user_stats?.goal_failed_count }}</span>
             </ion-item>
             <ion-item [ngStyle]="{'background-image': 'url(' + background_url + ')'}">
               <span item-left class="font-writing-insight">Total Goals Attempted</span>
-              <span item-right class="insight-number">{{ user_stats.total }}</span>
+              <span item-right class="insight-number">{{ user_stats?.total }}</span>
             </ion-item>
             <ion-item [ngStyle]="{'background-image': 'url(' + background_url + ')'}">
               <ion-col>
               <span item-left class="font-writing-insight">Times 
-                <span *ngIf="yourProfile" item-left>You Impressed</span>
+                <span class="font-writing-insight" *ngIf="yourProfile" item-left>You Impressed</span>
                     <span *ngIf="!yourProfile" item-left>{{ firstName }}'s Impressed</span>
                 </span>
               </ion-col>
-              <span class="insight-number" item-right>{{ user_stats.total_times_impressed }}</span>
+              <span class="insight-number" item-right>{{ user_stats?.total_times_impressed }}</span>
             </ion-item>
             <ion-item [ngStyle]="{'background-image': 'url(' + background_url + ')'}">
               <span item-left class="font-writing-insight">Accurate Votes on Goals</span>
-              <span item-right class="insight-number">{{ user_stats.correct_vouch_percentage }}%</span>
+              <span item-right class="insight-number">{{ user_stats?.correct_vouch_percentage }}%</span>
             </ion-item>
          </ion-list>
          <ion-card-header *ngIf="yourProfile" class="font-writing-header">
@@ -92,22 +90,23 @@
          <ion-list *ngIf="yourProfile" [ngStyle]="{'background-image': 'url(' + background_url + ')'}">
             <ion-item text-wrap [ngStyle]="{'background-image': 'url(' + background_url + ')'}">
               <span text-center text-wrap class="font-writing">Work Ethic</span>
-              <div text-wrap class="font-writing-insight">Your Work Ethic is Better Than {{ user_stats.work_ethic_consis_rank }}% of Ponders</div>
+              <div text-wrap class="font-writing-insight">Your Work Ethic is Better Than {{ user_stats?.work_ethic_consis_rank }}% of Ponders</div>
             </ion-item>
             <ion-item text-wrap [ngStyle]="{'background-image': 'url(' + background_url + ')'}">
               <span text-center text-wrap class="font-writing">Insightfulness</span>
               <div text-wrap class="font-writing-insight">
-                Your Voting Record is More Insightful Than {{ user_stats.work_ethic_correct_vouch }}% of Ponders
+                Your Voting Record is More Insightful Than {{ user_stats?.work_ethic_correct_vouch }}% of Ponders
               </div>
             </ion-item>
             <ion-item text-wrap [ngStyle]="{'background-image': 'url(' + background_url + ')'}">
               <span text-center text-wrap class="font-writing">Consistency</span>
               <div text-wrap class="font-writing-insight">
-                You are More Consistent in Finishing Your Goals Than {{ user_stats.work_ethic_consis_rank }}% of Ponders
+                You are More Consistent in Finishing Your Goals Than {{ user_stats?.work_ethic_consis_rank }}% of Ponders
               </div>
             </ion-item>
          </ion-list>
     </ion-card>
+    </div>
     <hr>
     <ion-item *ngIf="!yourProfile">
         <ion-label>Choose Pond to Add {{ firstName }} to</ion-label>
@@ -122,7 +121,7 @@
                 <p (click)="viewProject(curr_proj.id)">{{ curr_proj.blurb }}</p>
             </ion-item>
             <ion-item *ngIf="yourProfile">
-                <button ion-button large outline color="green" (click)="markProjectDone(curr_proj.id)">Completed</button>
+                <button ion-button large outline color="green" (click)="verifyProjDone(curr_proj.id)">Completed</button>
             </ion-item>
         </div>
     </ion-item>
@@ -145,7 +144,7 @@
             </ion-item>
         </div>
      </ion-item>
-     <ion-item *ngIf="hasProj" class="posts">
+     <ion-item *ngIf="!hasProj" class="posts">
         <h1>Goal Activities</h1>
             <div class="item-post border-bottom">
               <ion-item class="no-border" text-wrap>

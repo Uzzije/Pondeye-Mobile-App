@@ -7,7 +7,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content> 
-    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, people" (search)="search($event)"></ion-searchbar> 
+    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, people..." (search)="search($event)"></ion-searchbar> 
         <ion-toolbar *ngIf="newUser" text-wrap>
             <ion-title text-wrap>Thanks for testing out Pondeye!</ion-title>
         </ion-toolbar>

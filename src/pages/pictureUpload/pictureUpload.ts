@@ -1,14 +1,17 @@
 import {Component} from '@angular/core';
 import {NavController, ActionSheetController, NavParams, LoadingController, AlertController,  Platform} from 'ionic-angular';
-
+import { Headers, } from '@angular/http';
 import {PostService} from '../../services/post-service';
+import {CURRENTURL} from '../../services/service-util/URLS'
 import {PostPage} from "../post/post";
 import {UserPage} from "../user/user";
 import {NewPostPage} from "../new-post/new-post";
-import {Camera} from 'ionic-native';
+import {Camera} from '@ionic-native/camera';
 import {PictureUploadService} from '../../services/pictureUploadService';
 import {SearchResultPage} from '../search-result-page/search-result-page';
 import {ActivityPage} from '../activity/activity';
+import { File } from '@ionic-native/file';
+
 /*
  Generated class for the LoginPage page.
 
@@ -19,6 +22,7 @@ declare var window: any;
 @Component({
   selector: 'page-picture-upload',
   templateUrl: 'progressUpload.html',
+  providers:[File]
 })
 
 export class NewPictureUploadPage {
@@ -39,13 +43,20 @@ export class NewPictureUploadPage {
   private projId;
   private projects;
   private hasProj;
+  private shoutOuts = "";
+  private isVideoUpload;
+  private progMembersList = [];
+  private platformUrl = CURRENTURL;
+  progMembers = "";
+
   // set sample data
   constructor(private nav: NavController,  private params: NavParams, private picUploadService: PictureUploadService, 
               private postService: PostService, public actionSheetCtrl: ActionSheetController,
               public platform: Platform, public loadingCtrl: 
-              LoadingController, public alertCtrl: AlertController) {
+              LoadingController, public alertCtrl: AlertController, private file: File) {
     // set sample data
     this.base64Image = this.params.get('fileName');
+    this.isVideoUpload = this.params.get('isVideo');
     this.loader = loadingCtrl.create({
       content:  "Uploading Picture..",
     });
@@ -60,6 +71,7 @@ export class NewPictureUploadPage {
                 this.milPicture = this.progressListData.progress;
                 this.projects = this.progressListData.projects;
                 this.hasProj = true;
+                this.progMembers = this.progressListData.prog_members
             }
             else {
                 var alert_1 = this.showAlert(this.progressListData.error);
@@ -75,43 +87,43 @@ export class NewPictureUploadPage {
         });
     };
    createMilPictureUpload() {
-       
         this.fileUpload = this.base64Image;
         //console.log('file uploda ', this.fileUpload);
-        if (this.projId && this.fileUpload) {
+        if (this.projId && this.fileUpload && this.nameOfProgress) {
             this.loader = this.loadingCtrl.create({
                     content:  "Creating New Progress..",
             });
-            this.loader.present();
-            var subscribe = this.picUploadService.progressPictureUpload(this.fileUpload, this.projId, this.nameOfProgress);
-            subscribe.subscribe((data) => {
-                this.progressListData = JSON.parse(data);
-                this.loader.dismiss();
-                if (this.progressListData.status === false) {
-                    var alert_2 = this.showAlert(this.progressListData.error);
-                }
-                else {
-                    this.showToast("Progress Created!");
-                    this.nav.setRoot(ActivityPage);
-                }
-            }, (error) => {
-                this.loader.dismiss();
-                console.log(error);
-                var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
-            }, () => { 
-                console.log("Finished! "); 
-                this.loader.dismiss();  
-          });
+            if(this.isVideoUpload){
+                    this.loader.present();
+                    var subscribe = this.picUploadService.progressVideoUpload(this.fileUpload, 
+                                    this.projId, this.nameOfProgress, this.progMembersList, this.shoutOuts); 
+                    subscribe.subscribe((data) => {
+                        this.progressListData = JSON.parse(data);
+                        this.loader.dismiss();
+                        if (this.progressListData.status === false) {
+                            var alert_2 = this.showAlert(this.progressListData.error);
+                        }
+                        else {
+                            this.showToast("Progress Created!");
+                            this.nav.setRoot(ActivityPage);
+                        }
+                    }, (error) => {
+                        this.loader.dismiss();
+                        console.log(error);
+                        var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
+                    }, () => { 
+                        console.log("Finished! "); 
+                        this.loader.dismiss();  
+                });
+                
+            }
         }else{
-            this.showAlert("Make sure you select a goal!");
+            this.showAlert("Make sure you select a goal and describe what happened!");
         }
     };
     // create a new post
    createPost = () => {
         this.nav.push(NewPostPage);
-    };
-   createPicture = () => {
-        this.takePicture();
     };
     showAlert(mes) {
         let alert = this.alertCtrl.create({
@@ -132,9 +144,14 @@ export class NewPictureUploadPage {
     showToast  (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");
+        }).catch(()=>{
         });
     };
-      takePicture (){ 
+  createPicture = () => {
+       // this.takePicture();
+    };
+    /*
+    takePicture (){ 
           Camera.getPicture({
             destinationType:  Camera.DestinationType.DATA_URL,
             mediaType: Camera.MediaType.PICTURE,
@@ -148,4 +165,5 @@ export class NewPictureUploadPage {
             console.log(err);
         });
     }
+    */
 }

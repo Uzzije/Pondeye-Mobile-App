@@ -66,8 +66,14 @@
         <ion-toolbar> <ion-title text-center>Progression</ion-title></ion-toolbar>
         <div padding *ngFor="let progress of projData.progresses" text-wrap>
            <ion-item text-wrap>{{ progress.progress_message }}</ion-item>
+           <p>{{ progress.date_created }}</p>
+           <div *ngIf="progress.experience_with"><h1 class="primary">WITH</h1>
+            <span  *ngFor="let person of progress.experience_with" (click)="viewProfile(person.id)" text-wrap>
+                  {{ person.first_name }} {{ person.last_name }} 
+            </span>
+        </div>
           <ion-card text-wrap no-padding class="post-body">            
-              <img class="full-image" src="{{ progress.image_url }}">                  
+              <img class="full-image" src="{{ progress.image_url }}" (click)="showPicture(progress.image_url)">                  
               <ion-card-content>                 
                   <span (click)="createImpression(progress.progress_id, progress.progress_set_id)">                  
                       <ion-icon style="font-size: 24px;"  name="md-heart" color="secondary"></ion-icon> 

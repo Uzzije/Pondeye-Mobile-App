@@ -5,7 +5,7 @@ import {PostService} from '../../services/post-service';
 import {PostPage} from "../post/post";
 import {UserPage} from "../user/user";
 import {NewPostPage} from "../new-post/new-post";
-import {Camera} from 'ionic-native';
+import {Camera} from '@ionic-native/camera';
 import {NewPostServices} from '../../services/new-post-service';
 import {SettingsService} from '../../services/settings-service';
 import {NewPictureUploadPage} from '../pictureUpload/pictureUpload';
@@ -52,6 +52,8 @@ export class AboutPage {
     showToast  (mes) {
         this.platform.ready().then(function () {
             window.plugins.toast.show(mes, "short", "top");
+        }).catch(function(err){
+            console.log(err)
         });
     };
     goToTerms(){
@@ -62,9 +64,10 @@ export class AboutPage {
         this.nav.setRoot(NewPostPage);
     };
     createPicture  () {
-        this.takePicture();
+       // this.takePicture();
     };
      takePicture (){ 
+         /*
          this.loader = this.loadingCtrl.create({
             content: "processing picture...",
             });
@@ -85,4 +88,6 @@ export class AboutPage {
         });
         this.loader.dismiss();
     }
+    */
+     }
 }

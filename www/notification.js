@@ -1,5 +1,5 @@
 
-var LIVEURL = "http://Uzzije.pythonanywhere.com";
+var LIVEURL = 'http://pondeye-env-1.y4besq8x8g.us-west-1.elasticbeanstalk.com';
 var LOCALURL = "http://localhost:8000";
 var CURRENT_URL = LIVEURL;
 var NOTIFICATIONCOUNTER = 150000;
@@ -53,28 +53,33 @@ function notificationReminder(){
         data: {username:localStorage.getItem("username")},
         success: function(response){
             var statusParse = JSON.parse(response);
-            var status = statusParse['data']["has_notification"];
-            if (status == true){
-                data = statusParse['data']['notifications']
-                console.log("New Notification!");
-                //if(!localStorage.getItem("notifClicked")){
-                    sendNotificationToUser(data);  
-                    localStorage.setItem("notification_length", havntReadList.length);
-                //}
-            }
-            else{
-                //localStorage.setItem("seenNotif", "seen");
+            try{
+                console.log(statusParse);
+                var status = statusParse['data']["has_notification"];
+                if (status == true){
+                    data = statusParse['data']['notifications']
+                    console.log("New Notification!");
+                    //if(!localStorage.getItem("notifClicked")){
+                        sendNotificationToUser(data);  
+                        localStorage.setItem("notification_length", havntReadList.length);
+                    //}
+                }
+                else{
+                    //localStorage.setItem("seenNotif", "seen");
+                    
+                    localStorage.removeItem("notif");
+                    console.log("No Notification!");
+                }  
+                if(havntReadList.length > 15){
+                    havntReadList = [];
+                }
+                var tz = jstz.determine();
+                localStorage.setItem("pondTimezone", tz.name());
                 
-                localStorage.removeItem("notif");
-                console.log("No Notification!");
-            }  
-            if(havntReadList.length > 15){
-                havntReadList = [];
+                console.log("TimeZone", localStorage.getItem("pondTimezone"));
+            }catch(e){
+                console.log("Not logged in!");
             }
-            var tz = jstz.determine();
-            localStorage.setItem("pondTimezone", tz.name());
-            
-            console.log("TimeZone", localStorage.getItem("pondTimezone"));
         },
         error: function(xhr){
             $("#error-message").text(xhr.responseText).show();

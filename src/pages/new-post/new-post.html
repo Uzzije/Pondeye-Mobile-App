@@ -3,11 +3,11 @@
 		<button ion-button menuToggle>
 			<ion-icon name="menu"></ion-icon>
 		</button>
-		<ion-title>New Post</ion-title>
+		<ion-title>New Goal</ion-title>
 	</ion-navbar>
 </ion-header>
 <ion-content>	
-	<ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, and people" (search)="search($event)"></ion-searchbar>
+	<ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, and people..." (search)="search($event)"></ion-searchbar>
 	<ion-list class="list-no-border">	
 		<ion-item>
 			<ion-textarea #goalName placeholder="My Goal is to..."></ion-textarea>
@@ -39,13 +39,18 @@
 			<ion-label>Who Can See This Goal?</ion-label>
 			<ion-select [(ngModel)]="public_status">
 				<ion-option value="{{pond.id}}" *ngFor="let pond of projAndPond.pond.ponds">{{pond.pond_name}}</ion-option>
-				<ion-option value="aps">All Pond</ion-option>
-				<ion-option checked="true" value="">Public</ion-option>
+				<ion-option value="aps">Only Pond Members</ion-option>
+				<ion-option checked="true" value="">Public (followers)</ion-option>
 			</ion-select>
 		 </ion-item>
 		 <ion-item>
+			<button ion-button color="primary" (click)="record()" outline>          
+				Introduce this challenge       
+			</button>
+		 </ion-item>
+		 <ion-item>
 			<ion-label class="item item-input">
-				<button ion-button color="primary" (click)="addNewProject(goalName.value)" large>Add Project</button>
+				<button ion-button color="primary" (click)="addNewProject(goalName.value)" large>Create Goal</button>
 			</ion-label>
 		 </ion-item>
 	</ion-list>	

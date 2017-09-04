@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
+  <script data-ionic="inject">
+    (function(w){var i=w.Ionic=w.Ionic||{};i.version='^3.6.0';i.angular='^4.3.6';i.staticDir='build/';})(window);
+  </script>
   <meta charset="UTF-8">
   <title>Pondeye</title>
   <meta name="viewport"
@@ -40,11 +43,15 @@
 <!-- cordova.js required for cordova apps -->
 <script src="cordova.js"></script>
 
+<script src="build/vendor.js"></script>
+
 <!-- The polyfills js is generated during the build process -->
 <script src="build/polyfills.js"></script>
 
 <!-- The bundle js is generated during the build process -->
 <script src="build/main.js"></script>
+
+
 
 </body>
 </html>

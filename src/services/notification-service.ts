@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map';
 import {CURRENTURL} from './service-util/URLS'
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
+
 @Injectable()
 export class NotificationService {
   private chats: any;

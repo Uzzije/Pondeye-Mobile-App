@@ -5,7 +5,7 @@ import {PostService} from '../../services/post-service';
 import {PostPage} from "../post/post";
 import {UserPage} from "../user/user";
 import {NewPostPage} from "../new-post/new-post";
-import {Camera} from 'ionic-native';
+import {Camera} from '@ionic-native/camera';
 import {NewPostServices} from '../../services/new-post-service';
 import {SettingsService} from '../../services/settings-service';
 import {NewPictureUploadPage} from '../pictureUpload/pictureUpload'
@@ -68,18 +68,20 @@ export class SettingsPage {
     showToast  (mes) {
         this.platform.ready().then(function () {
             window.plugins.toast.show(mes, "short", "top");
+        }).catch(()=>{
         });
     };
 
     createPost  () {
         this.nav.setRoot(NewPostPage);
     };
-    createPicture  () {
-        this.takePicture();
+  createPicture = () => {
+       // this.takePicture();
     };
+    /*
     takePicture (){ 
           Camera.getPicture({
-            destinationType:  Camera.DestinationType.FILE_URI,
+            destinationType:  Camera.DestinationType.DATA_URL,
             mediaType: Camera.MediaType.PICTURE,
             encodingType: Camera.EncodingType.JPEG,
             correctOrientation: true
@@ -91,5 +93,6 @@ export class SettingsPage {
             console.log(err);
         });
     }
+    */
     
 }

@@ -5,7 +5,7 @@ import {PostService} from '../../services/post-service';
 import {PostPage} from "../post/post";
 import {UserPage} from "../user/user";
 import {NewPostPage} from "../new-post/new-post";
-import {Camera} from 'ionic-native';
+import {Camera} from '@ionic-native/camera';
 import {NewPostServices} from '../../services/new-post-service';
 import {SettingsService} from '../../services/settings-service';
 import {NewPictureUploadPage} from '../pictureUpload/pictureUpload'
@@ -124,10 +124,11 @@ export class ProjectEditPage {
     createPost = () => {
         this.nav.push(NewPostPage);
     };
-    createPicture = () => {
-        this.takePicture();
+  createPicture = () => {
+       // this.takePicture();
     };
-      takePicture (){ 
+    /*
+    takePicture (){ 
           Camera.getPicture({
             destinationType:  Camera.DestinationType.DATA_URL,
             mediaType: Camera.MediaType.PICTURE,
@@ -141,5 +142,6 @@ export class ProjectEditPage {
             console.log(err);
         });
     }
+    */
     
 }

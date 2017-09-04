@@ -5,7 +5,7 @@ import {PostService} from '../../services/post-service';
 import {PostPage} from "../post/post";
 import {UserPage} from "../user/user";
 import {NewPostPage} from "../new-post/new-post";
-import {Camera} from 'ionic-native';
+import {Camera} from '@ionic-native/camera';
 import {NewPostServices} from '../../services/new-post-service';
 import {SettingsService} from '../../services/settings-service';
 import {NewPictureUploadPage} from '../pictureUpload/pictureUpload';
@@ -87,6 +87,7 @@ export class MilestonePage {
     viewMilestone  (feedId) {
         this.nav.setRoot(MilestonePage, { id: feedId }).then((data) => {
             //console.log(data, " viewmil data");
+        }).catch(()=>{
         });
         //console.log(feedId, " feed id");
     };
@@ -131,6 +132,7 @@ export class MilestonePage {
     showToast  (mes) {
         this.platform.ready().then(() => {
             window.plugins.toast.show(mes, "short", "top");
+        }).catch(()=>{
         });
     };
 
@@ -138,10 +140,11 @@ export class MilestonePage {
     createPost = () => {
         this.nav.push(NewPostPage);
     };
-    createPicture = () => {
-        this.takePicture();
+  createPicture = () => {
+       // this.takePicture();
     };
-      takePicture (){ 
+    /*
+    takePicture (){ 
           Camera.getPicture({
             destinationType:  Camera.DestinationType.DATA_URL,
             mediaType: Camera.MediaType.PICTURE,
@@ -150,13 +153,11 @@ export class MilestonePage {
         }).then((imageData) => {
             this.base64Image = "data:image/jpeg;base64," + imageData;
             //console.log('base64Image pic ', this.base64Image);
-            
             this.nav.push(NewPictureUploadPage, { 'fileName': this.base64Image });
         }, function (err) {
             console.log(err);
-            
         });
-        
     }
+    */
     
 }

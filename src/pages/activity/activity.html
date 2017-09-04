@@ -14,8 +14,12 @@
     </ion-navbar>
 </ion-header>
 <ion-content>  
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-searchbar [(ngModel)]="queryWord" placeholder="find goals, friends, ponds..." (search)="search($event)"></ion-searchbar>  
-  <div #imgCompare class="posts">    
+  <div #imgCompare class="posts"> 
+    <video #myvideo height="300" width="300" controls></video>   
     <ion-card color="card-color" class="item-post border-bottom" *ngFor="let feed of feeds">
       <ion-toolbar *ngIf="feed.is_completed" text-center text-wrap>
         <h2 color="green" text-wrap text-center>Completed! 
@@ -63,7 +67,7 @@
            </ion-item>
             <ion-item *ngIf="feed.is_completed || feed.is_failed">                 
                   Goal was followed by                         
-                  <ion-badge item-right color="gray">  {{ followCountList[feed.id] }} follower(s)</ion-badge>                          
+                  <ion-badge item-right color="gray">  {{ followCountList[feed.id] }} ponders(s)</ion-badge>                          
            </ion-item>
            <ion-item *ngIf="feed.is_completed">                     
                     Lived up to the hype of       
@@ -76,9 +80,15 @@
           </div>         
           <div *ngIf="feed.is_progress_feed" #imgList>                  
             <div *ngFor="let progress of feed.list_of_progress">           
-              <img class="full-image" src="{{ progress.image_url }}" (click)="viewPost(feed.id)">
+              <img class="full-image" src="{{ progress.image_url }}" (click)="showPicture(progress.image_url)">
                 <ion-card-content>
-                  <h2 class="progress-message">{{ progress.progress_message }}</h2>
+                  <h2 class="progress-message">{{ progress.progress_message }}</h2> 
+                  <div *ngIf="progress.experience_with">
+                      <h2 class="secondary">WITH</h2>
+                      <span *ngFor="let person of progress.experience_with"  (click)="viewProfile(person.id)" color="primary" text-wrap>
+                        {{ person.first_name }} {{ person.last_name }}, </span>
+                  </div>
+                  <p>{{ progress.created }}</p>
                 </ion-card-content>
                 <ion-card-content>                 
                   <span (click)="createImpression(progress.id, feed.progress_set_id)">                  
@@ -100,5 +110,8 @@
       <button ion-fab mini (click)="createPicture()">          
         <ion-icon name="md-camera"></ion-icon>        
       </button>      
+      <button ion-fab mini (click)="record()">          
+        <ion-icon name="md-camera"></ion-icon>        
+      </button>
     </ion-fab>
 </ion-content>

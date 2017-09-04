@@ -1,7 +1,8 @@
 import {Component, ViewChild} from '@angular/core';
 import {Platform} from 'ionic-angular';
-import {StatusBar, Keyboard, Splashscreen} from 'ionic-native';
-
+import {Keyboard} from '@ionic-native/keyboard';
+import {StatusBar} from '@ionic-native/status-bar';
+import {SplashScreen} from '@ionic-native/splash-screen';
 // import pages
 import {WelcomePage} from '../pages/welcome/welcome';
 import {LoginPage} from '../pages/login/login';
@@ -12,7 +13,7 @@ import {RegisterPage} from '../pages/register/register';
 import {ChatDetailPage} from '../pages/chat-detail/chat-detail';
 import {NewPostPage} from '../pages/new-post/new-post';
 import {NotificationsPage} from '../pages/notifications/notifications';
-import {SettingsPage} from '../pages/settings/settings';
+import {SettingsPage} from '../pages/settings/settings'; 
 import {PondsPage} from '../pages/ponds-page/ponds-page';
 import {NewPondPage} from '../pages/new-pond-page/new-pond-page';
 import {AboutPage} from '../pages/about/about';
@@ -24,6 +25,7 @@ import {CURRENTURL} from '../services/service-util/URLS';
 
 @Component({
   templateUrl: 'app.html',
+  providers: [Keyboard, SplashScreen, StatusBar],
   queries: {
     nav: new ViewChild('content')
   }
@@ -90,45 +92,48 @@ export class MyApp {
     // import menu
   ];
 
-  constructor(public platform: Platform) {
+  constructor(public platform: Platform, private keyboard: Keyboard, 
+            private splashScreen: SplashScreen, private statusBar: StatusBar) {
     this.rootPage = WelcomePage;
-    Keyboard.disableScroll(true);
-    platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      this.hideSplashScreen();
-       if (this.platform.is('android')) {
-          
-        this.platform.registerBackButtonAction(() => {
-            window['plugins'].appMinimize.minimize();
-        });
-       }
-      StatusBar.styleDefault();
-    });
-    this.platform.registerBackButtonAction(function () {
+    this.keyboard.disableScroll(true);
+        platform.ready().then(() => {
+        // Okay, so the platform is ready and our plugins are available.
+        // Here you can do any higher level native things you might need.
+        if (this.platform.is('android')) {
+            
+            this.platform.registerBackButtonAction(() => {
                 window['plugins'].appMinimize.minimize();
-    });
-  }
-    hideSplashScreen = function () {
-            if (Splashscreen) {
-                setTimeout(function () {
-                   Splashscreen.hide();
-                }, 100);
-            }
-        };
-  openPage(page){
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    this.userProfilePic = CURRENTURL + localStorage.getItem("profile_url");
-    if(localStorage.getItem("notification_length")){
-        this.pages[4]['count'] = parseInt(localStorage.getItem("notification_length"))
-        this.hasNotif = parseInt(localStorage.getItem("notification_length"));
-    }else{
-        this.hasNotif = 0;
+            });
+        }
+        statusBar.styleDefault();
+        }).catch((err)=>{
+            console.log(err);
+        });
+        this.platform.registerBackButtonAction(function () {
+                    window['plugins'].appMinimize.minimize();
+        });
+        /*
+        if (this.splashScreen) {
+            setTimeout(function () {
+                this.splashScreen.hide();
+            }, 100);
+        }
+        */
     }
-    
-    this.nav.setRoot(page.component);
-  }
+
+    openPage(page){
+        // Reset the content nav to have just this page
+        // we wouldn't want the back button to show in this scenario
+        this.userProfilePic = CURRENTURL + localStorage.getItem("profile_url");
+        if(localStorage.getItem("notification_length")){
+            this.pages[4]['count'] = parseInt(localStorage.getItem("notification_length"))
+            this.hasNotif = parseInt(localStorage.getItem("notification_length"));
+        }else{
+            this.hasNotif = 0;
+        }
+        
+        this.nav.setRoot(page.component);
+    }
     openProfilePage(){
         this.userProfilePic = CURRENTURL + localStorage.getItem("profile_url");
         this.nav.setRoot(UserPage);

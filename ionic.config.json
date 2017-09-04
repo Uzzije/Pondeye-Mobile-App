@@ -1,6 +1,8 @@
 {
   "name": "pondeye",
   "app_id": "0e189852",
-  "v2": true,
-  "typescript": true
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
 }

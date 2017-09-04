@@ -40,11 +40,13 @@
             <ion-item>							
                 <ion-label>Remove Pond Members</ion-label>							
                 <ion-select [(ngModel)]="pondMemberArray[pel.id]">								
-                    <ion-option value="{{ ponders.id }}" *ngFor="let ponders of pel.pond_members">{{ ponders.first_name }}  {{ ponders.last_name }}</ion-option>							
+                    <ion-option value="{{ ponders.id }}" *ngFor="let ponders of pel.pond_members">
+                        {{ ponders.first_name }}  {{ ponders.last_name }}
+                    </ion-option>							
                 </ion-select>					
             </ion-item>									
             <ion-item>					
-                <label class="item item-input">							
+                <label class="item item-input" text-wrap>							
                     <button ion-button large outline color="secondary" (click)="updateIndividualPondSet(pel.id)">Update Pond</button>							
                     <button ion-button large outline color="danger" (click)="deletePondSet(pel.id)">Delete Pond</button>					
                 </label>  				
