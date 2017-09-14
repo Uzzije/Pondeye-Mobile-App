@@ -1,7 +1,7 @@
 
 var LIVEURL = 'http://pondeye-env-1.y4besq8x8g.us-west-1.elasticbeanstalk.com';
 var LOCALURL = "http://localhost:8000";
-var CURRENT_URL = LIVEURL;
+var CURRENT_URL = LOCALURL;
 var NOTIFICATIONCOUNTER = 150000;
 var CHECKFAILEDCOUNTER = 100000;
 var clickNotif = localStorage.getItem("clickNotif");
