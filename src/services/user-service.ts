@@ -18,10 +18,11 @@ export class UserService {
   private platformUrl;
   private timezone;
 
-   getUserInformation  (userId) {
+   getUserInformation  (userId, ownUser) {
         var username = localStorage.getItem("username");
         var user;
-        return this._http.get(this.platformUrl + ("/api/profile-view/?username=" + username + "&other_user_id=" + userId))
+        return this._http.get(this.platformUrl + ("/api/profile-view/?username=" + username + 
+        "&other_user_id=" + userId + "&own_profile=" + ownUser))
             .map(this.processData).catch(this.processError);
    }
 

@@ -1,4 +1,4 @@
-
+/*
 var LIVEURL = 'http://pondeye-env-1.y4besq8x8g.us-west-1.elasticbeanstalk.com';
 var LOCALURL = "http://localhost:8000";
 var CURRENT_URL = LOCALURL;
@@ -42,7 +42,7 @@ function checkFailedProjectsMilestones(){
     });
 }
 */
-
+/*
 function notificationReminder(){
     $.ajaxSetup({
         data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
@@ -137,3 +137,4 @@ function sendNotificationToUser(data){
 
 //var check_failed_interval = setInterval(checkFailedProjectsMilestones, CHECKFAILEDCOUNTER);
 var check_notif_interval = setInterval(notificationReminder, NOTIFICATIONCOUNTER);
+*/

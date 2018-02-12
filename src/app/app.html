@@ -13,11 +13,8 @@
             <button ion-item menuClose icon-left *ngFor="let page of pages" (click)="openPage(page)">
                 <ion-icon color="primary" name="{{ page.icon }}"></ion-icon>
                 {{ page.title }}
-                <ion-badge color="danger" item-right *ngIf="page.count">{{ page.count }}</ion-badge>
             </button>
         </ion-list>
     </ion-content>
-
 </ion-menu>
-
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

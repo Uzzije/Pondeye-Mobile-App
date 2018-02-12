@@ -15,6 +15,8 @@ import {PondService} from '../services/pond-service';
 import {SearchService} from '../services/search-service';
 import {PostService} from '../services/post-service';
 import {SettingsService} from '../services/settings-service';
+import {FriendService} from '../services/friend-service';
+import {ProjectService} from '../services/project-service';
 // end import services
 
 // import pages
@@ -45,6 +47,16 @@ import {PictureEditPage} from '../pages/settings/picture-edit';
 import {NewPictureUploadPage} from '../pages/pictureUpload/pictureUpload';
 import {PersonalInfoEditPage} from '../pages/settings/personal-info-edit';
 import {TermsAndConditionPage} from '../pages/terms-and-condition/terms-and-condition';
+import { Ionic2RatingModule } from 'ionic2-rating';
+import {TabsPage} from '../pages/tabs/tabs';
+import {FriendRequestPage} from '../pages/friend-request/friend-request';
+import {ChallengeRequestPage} from '../pages/challenge-request/challenge-request';
+import {ChallengeActivityPage} from '../pages/challenge-activity/challenge-activity';
+import {NotificationTabPage} from '../pages/notification-tabs/notification-tabs';
+import { FriendsPage } from '../pages/friends/friends';
+import { ProjectsPage } from '../pages/projects/projects';
+import {EntryPage} from '../pages/entry/entry';
+import {VideoUploadModalPage} from '../pages/videoUploadModal/videoUploadModal';
 
 // end import pages
 
@@ -69,7 +81,11 @@ import {TermsAndConditionPage} from '../pages/terms-and-condition/terms-and-cond
     NewPondPage,
     NotificationsPage,
     NewPictureUploadPage,
-
+    FriendRequestPage,
+    ChallengeActivityPage,
+    ChallengeRequestPage,
+    FriendsPage,
+    ProjectsPage,
     SearchResultPage,
     
 
@@ -78,14 +94,19 @@ import {TermsAndConditionPage} from '../pages/terms-and-condition/terms-and-cond
     MilestoneEditPage,
     PictureEditPage,
     PersonalInfoEditPage,
-    PondEditPage
+    PondEditPage,
+
+    TabsPage,
+    NotificationTabPage,
+    EntryPage,
+    VideoUploadModalPage
     /* import pages */
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    
-    IonicModule.forRoot(MyApp)
+    Ionic2RatingModule,
+    IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -108,7 +129,10 @@ import {TermsAndConditionPage} from '../pages/terms-and-condition/terms-and-cond
     NewPondPage,
     NotificationsPage,
     NewPictureUploadPage,
-
+    ChallengeRequestPage,
+    ChallengeActivityPage,
+    FriendsPage,
+    ProjectsPage,
     SearchResultPage,
     
 
@@ -117,7 +141,13 @@ import {TermsAndConditionPage} from '../pages/terms-and-condition/terms-and-cond
     MilestoneEditPage,
     PictureEditPage,
     PersonalInfoEditPage,
-    PondEditPage
+    PondEditPage,
+
+    TabsPage,
+    NotificationTabPage,
+    FriendRequestPage,
+    EntryPage,
+    VideoUploadModalPage
     /* import pages */
   ],
   providers: [
@@ -131,7 +161,9 @@ import {TermsAndConditionPage} from '../pages/terms-and-condition/terms-and-cond
     PondService,
     SearchService,
     PostService,
-    SettingsService
+    SettingsService,
+    FriendService,
+    ProjectService
     /* import services */
 
   ]

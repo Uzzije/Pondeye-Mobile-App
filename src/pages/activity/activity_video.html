@@ -20,7 +20,7 @@
   <ion-searchbar [(ngModel)]="queryWord" placeholder="find goals, friends, ponds..." (search)="search($event)"></ion-searchbar>  
   <div #imgCompare class="posts"> 
     <video #myvideo height="300" width="300"></video>   
-    <ion-card color="card-color" class="item-post border-bottom" *ngFor="let feed of feeds">
+      <ion-card color="card-color" class="item-post border-bottom" *ngFor="let feed of feeds">
       <ion-toolbar *ngIf="feed.is_completed" text-center text-wrap>
         <h2 color="green" text-wrap text-center>Completed! 
           <ion-icon style="font-size: 30px;" color="green" name="checkmark-circle"></ion-icon>

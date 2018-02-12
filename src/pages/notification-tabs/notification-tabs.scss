@@ -1,0 +1,30 @@
+.notif-scroll-content {
+  display: table !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+.notif-scroll {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+.button-wraps {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+}
+.button-wrap {
+  height: 100%;
+  justify-content: center;
+}
+.mid-page{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+ion-grid {
+  height: 100%;
+  justify-content: center;
+}

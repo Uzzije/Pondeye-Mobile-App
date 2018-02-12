@@ -3,11 +3,10 @@
           <button menuToggle ion-button>      
               <ion-icon name="menu"></ion-icon>    
           </button>    
-          <ion-title>Goal Entries</ion-title>  
+          <ion-title>Edit Projects</ion-title>  
       </ion-navbar>
 </ion-header>
-<ion-content>	
-    <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals,people..." (search)="search($event)"></ion-searchbar>  
+<ion-content>	  
     <ion-list class="list-full-border">			
         <span *ngIf="hasProject">				
             <div *ngFor="let proj of projectList">							
@@ -20,16 +19,10 @@
                 <ion-item *ngIf="showProjectArray[proj.id]">									
                     <ion-label>Check tags that best describes the motivation of this goal?</ion-label>									
                     <ion-select [(ngModel)]="tagModelArray[proj.id]" multiple="true">										
-                        <ion-option  value="Relationship">Relationship</ion-option>										
-                        <ion-option  value="Health">Health</ion-option>										
-                        <ion-option  value="Self-Image">Self-Image</ion-option>										
-                        <ion-option  value="Social Cause">Social Cause</ion-option>										
-                        <ion-option  value="Self-Improvement">Self-Improvement</ion-option>										
-                        <ion-option  value="A Challenge">A Challenge</ion-option>										
-                        <ion-option  value="Diet">Diet</ion-option>										
-                        <ion-option  value="Get In Shape">Get In Shape</ion-option>										
-                        <ion-option  value="Build Muscle">Build Muscle</ion-option>										
-                        <ion-option  value="Lose Weight">Lose Weight</ion-option>									
+                        <ion-option value="Fitness">Fitness</ion-option>
+                        <ion-option value="Social Cause">Social Cause</ion-option>
+                        <ion-option value="Randomness">Randomness</ion-option>
+                        <ion-option value="Learn Something New">Learn Something New</ion-option>								
                     </ion-select>							
                 </ion-item>							
                 <ion-item *ngIf="showProjectArray[proj.id]">										
@@ -44,19 +37,12 @@
                     </button>					
                 </ion-item>								
                 <br><br><br>						
-            </div>				
+            </div>	
+            <p>Progression cannot be deleted, only projects!</p>			
         </span>						
         <ion-item text-wrap *ngIf="!hasProject">			
             <p>You do not have a goal entry yet.</p>		
         </ion-item>  
     </ion-list>		
-    <ion-fab bottom right>    
-        <button ion-fab mini (click)="createPost()">      
-            <ion-icon name="add"></ion-icon>   
-        </button>		
-        <br>    
-        <button ion-fab mini (click)="createPicture()">      
-            <ion-icon name="md-camera"></ion-icon>   
-        </button>  
-    </ion-fab>	
+
  </ion-content>

@@ -7,95 +7,129 @@
   </ion-navbar>
 </ion-header>
 <ion-content>    
-  <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, people..." (search)="search($event)"></ion-searchbar>    
-  <div *ngIf="projData" class="item-post">        
-        <ion-item *ngIf="projData.is_completed" class="no-border" text-wrap text-center>            
+      <div *ngIf="projData" class="item-post">
+        <ion-item no-padding *ngIf="!projData?.is_completed_bool && !projData?.is_failed && projData?.user_owns_proj && !showProj">     
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <span>Is this project completed?</span> 
+              </ion-col>
+              <ion-col>
+                <button ion-button outline (click)="verifyProjDone(projID)">Yes</button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>   
+
+        <ion-item *ngIf="projData?.is_completed_bool" class="no-border" text-wrap text-center>            
           <ion-toolbar> <ion-title>{{ projData.is_completed }}</ion-title></ion-toolbar>      
-        </ion-item>        
+        </ion-item>   
+
         <ion-item class="no-border" text-wrap>          
-            <h2 (click)="viewUser(post.user_id)">Owner: {{ projData?.user_first_name }}  {{ projData?.user_last_name }}</h2>          
+            <h2 (click)="viewUser(post.user_id)">{{ projData?.user_first_name }}  
+                      {{ projData?.user_last_name }}
+            </h2>          
             <p>{{ projData.start_time }} to {{ projData.end_time }}</p>        
-        </ion-item>            
-        <ion-item text-wrap no-padding class="post-body">          
-          <div padding>             
-            <h2>{{ projData.project_name }}</h2>          
-          </div>          
-          <ion-item>                             
-                <span item-left>Seen By <ion-icon name="md-eye" color="primary"></ion-icon></span>                
-                <ion-badge item-right color="gray">{{ projData.seen_count }} ponder(s)</ion-badge>
-          </ion-item>
-          <ion-item *ngIf="!projData?.is_completed_bool && !projData?.is_failed">                                            
-                <button item-left (click)="createFollow(projData?.proj_id)" 
-                    ion-button outline class="green">Follow Goal</button> 
-                  <ion-badge item-right color="gray">{{  followCount }} follower(s)</ion-badge>       
-          </ion-item>        
         </ion-item> 
-         <ion-item *ngIf="!projData?.is_completed_bool && !projData?.is_failed">     
-              <span> Will goal be completed?</span> 
-              <ion-badge color="gray" item-right>{{ projData.vouch_count }} Yeses</ion-badge> 
-              <div>
-                <button ion-button outline (click)="createVouch(projData?.proj_id, 'yuwcg')">Yes</button>
-                <button ion-button outline (click)="createVouch(projData?.proj_id, 'nuwncg')">No</button>
-              </div> 
-          </ion-item>   
-           <ion-item *ngIf="projData?.is_completed_bool || feed?.is_failed">                 
-                  <span item-left>Goal was followed by</span>                  
-                  <ion-badge item-right color="gray">{{  followCount }} ponders(s)</ion-badge>                          
-           </ion-item>
-           <ion-item *ngIf="projData?.is_completed_bool">                     
-                    <span item-left>Lived up to the hype of</span>        
-                <ion-badge item-right color="gray">{{ projData.vouch_count }} ponders(s)</ion-badge>                          
-           </ion-item>
-           <ion-item *ngIf="projData?.is_failed">    
-                    <span item-left> Let downs</span>
-                    <ion-badge item-right color="gray">{{ projData.vouch_count }} ponders(s)</ion-badge>                          
-           </ion-item>     
-        <ion-item *ngIf="projData.user_owns_proj" text-wrap>            
-          <p  text-wrap>{{ projData.public_status }}</p>        
-        </ion-item>       
-        <div text-wrap padding *ngIf="!noMotif">
-          <ion-label class="font-wrting-pond" color="primary">Motivations</ion-label>  
-          <div>
-            <ion-badge *ngFor="let tags of projData.motif" color="gray">{{ tags }} </ion-badge>
+
+        <ion-item text-wrap no-padding class="post-body">                       
+          <div padding *ngIf="projData?.user_owns_proj" text-wrap>            
+            <p  text-wrap>{{ projData.public_status }}</p>        
           </div>
-          <br>
-        </div>               
-        <ion-item *ngIf="noMotif" text-wrap>
-            <p>No particular motivation stated!</p>
-        </ion-item>                
-        <ion-toolbar> <ion-title text-center>Progression</ion-title></ion-toolbar>
-        <div padding *ngFor="let progress of projData.progresses" text-wrap>
-           <ion-item text-wrap>{{ progress.progress_message }}</ion-item>
-           <p>{{ progress.date_created }}</p>
-           <div *ngIf="progress.experience_with"><h1 class="primary">WITH</h1>
-            <span  *ngFor="let person of progress.experience_with" (click)="viewProfile(person.id)" text-wrap>
-                  {{ person.first_name }} {{ person.last_name }} 
-            </span>
-        </div>
-          <ion-card text-wrap no-padding class="post-body">            
-              <img class="full-image" src="{{ progress.image_url }}" (click)="showPicture(progress.image_url)">                  
-              <ion-card-content>                 
-                  <span (click)="createImpression(progress.progress_id, progress.progress_set_id)">                  
-                      <ion-icon style="font-size: 24px;"  name="md-heart" color="secondary"></ion-icon> 
-                  </span>             
-                  <ion-badge item-right color="gray">{{ impressCountList[progress.progress_id] }} ponders' impressed</ion-badge>       
-              </ion-card-content>       
-          </ion-card>    
-         </div> 
-         <ion-item *ngIf="!projData.progresses" text-wrap>
-            <p>No progression captured!</p>
+        </ion-item> 
+
+        <ion-item *ngIf="hasHighlight" text-wrap no-padding class="post-body no-border"> 
+            <ion-grid padding>
+              <h2 text-center class="progress-message"> 
+                   <ion-icon style="font-size:52px; color:green;" ios="ios-done-all" md="md-done-all"> </ion-icon>
+              </h2>  
+              <ion-row>
+                <ion-col col-8>
+                  <span style="font-size:16px;" class="time-remaining">{{ projData.project_name }}</span>
+                </ion-col>
+                <ion-col col-4 push-1>
+                    <ion-icon class="icon-play" (click)="playHighlightVideo(highlightUrl, projData?.progress_set_id)" style="font-size:48px;" ios="ios-play" md="md-play">
+                    </ion-icon>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col col-3>
+                  <span (click)="createHighlightImpression(projData?.progress_set_id)">
+                    <ion-icon style="font-size:24px;" ios="ios-heart-outline" md="md-heart"></ion-icon>
+                  </span>
+                </ion-col>
+                <ion-col col-3 push-1>
+                  <span>
+                    <ion-icon style="font-size:24px;" name="ios-eye-outline" color="danger"></ion-icon>
+                    <span ion-text color="gray">{{ viewCountListH[projData?.progress_set_id] }}</span>
+                  </span>
+                </ion-col>
+                <ion-col col-4 push-3>                                            
+                    <span color="gray">{{ followCountList[projData?.id] }} follower(s)</span>       
+                </ion-col>
+              </ion-row>
+              <p text-center style="font-size:24px;" class="impressed" color="gray">
+                  {{ impressHighlightCountList[projData?.progress_set_id] }} people impressed
+              </p>
+              <div text-wrap padding *ngIf="projData?.tags"> 
+                  <ion-badge *ngFor="let tags of projData.tags" (click)="findTagView(tags)" color="gray"><ion-icon ios="ios-star" md="md-star"></ion-icon>{{ tags }}</ion-badge>
+              </div>               
+            </ion-grid>
+            <h1 text-center>Progressions</h1>
+            <ion-item *ngFor="let prog_name of progress">
+              <p text-wrap>{{ prog_name }}</p>
+            </ion-item>
+        </ion-item>
+
+
+        <ion-item text-wrap no-padding *ngIf="hasRecent" class="post-body no-border">   
+          <h2 text-center class="progress-message"> 
+              <ion-icon style="font-size:52px; color:green;" ios="ios-walk" md="md-walk"> </ion-icon>
+          </h2>
+          <ion-grid padding> 
+            <ion-row>
+                <ion-col col-8>
+                    <span style="font-size:16px;" class="time-remaining">Challenge: {{ projData?.project_name }}</span>
+                  </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-8>
+                <span style="font-size:16px;" class="time-remaining">{{ projData?.recent_upload_name }}</span>
+              </ion-col>
+              <ion-col col-4 push-1>
+                  <ion-icon class="icon-play" (click)="playRecentUploadVideo(recentUploadUrl, projData?.progress_id)" 
+                      style="font-size:48px;" ios="ios-play" md="md-play">
+                  </ion-icon>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-3>
+                <span (click)="createRecentImpression(projData?.progress_id)">
+                  <ion-icon style="font-size:24px;" ios="ios-heart-outline" md="md-heart"></ion-icon>
+                </span>
+              </ion-col>
+              <ion-col col-3 push-3>
+                <span>
+                  <ion-icon name="ios-eye-outline" style="font-size:24px;" color="danger"></ion-icon>
+                  <span ion-text color="gray">{{ viewRecentCountList[projData?.progress_id] }}</span>
+                </span>
+              </ion-col>
+              <ion-col col-3 push-2 *ngIf="!projData?.is_completed_bool && !projData?.is_failed">                                            
+                  <button item-left (click)="createFollow(projData?.proj_id)" 
+                      ion-button outline class="green">Follow Goal {{ followCountList[projData?.id] }}</button>      
+              </ion-col>
+            </ion-row>
+            <p text-center class="impressed" color="gray" style="font-size:24px;">
+                {{ impressRecentCountList[projData?.progress_id] }} people impressed
+            </p>
+            <div text-wrap padding *ngIf="projData?.tags"> 
+                <ion-badge *ngFor="let tags of projData.tags" (click)="findTagView(tags)" color="gray"><ion-icon ios="ios-star" md="md-star"></ion-icon>{{ tags }}</ion-badge>
+            </div>   
+          </ion-grid> 
+        </ion-item>
+        <ion-item *ngIf="!hasHighlight && !hasRecent" text-wrap>
+          <p>{{ projData.project_name }}</p>
+          <p>No progression captured!</p>
         </ion-item>      
-   </div>    
-  <ion-fab bottom right>    
-     <button ion-fab mini (click)="createPost()">      
-        <ion-icon name="add"></ion-icon>    
-      </button>    
-        <br>    
-      <button ion-fab mini (click)="createPicture()">      
-        <ion-icon name="md-camera"></ion-icon>    
-      </button>  
-   </ion-fab>
+      </div>    
 </ion-content>
-<ion-footer>
-  <br>
-</ion-footer>

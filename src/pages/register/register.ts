@@ -89,6 +89,7 @@ export class RegisterPage {
                         if (this.getData.success == "created") {
                             localStorage.setItem("username", username);
                             localStorage.setItem("password", userPassword);
+                            localStorage.setItem("userId", this.getData.user_id);
                             this.loader.dismiss()
                             this.nav.setRoot(AboutPage, { 'newUser': true });
                         }

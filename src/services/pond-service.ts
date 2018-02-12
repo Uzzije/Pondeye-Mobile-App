@@ -44,6 +44,28 @@ export class PondService {
         return this._http.post(this.platformUrl + '/social/api/pond-request/', data, { headers: headers })
             .map(this.processData).catch(this.processError);
     };
+    getFriendRequest(){
+        var username = localStorage.getItem("username");
+        console.log(username);
+        return this._http.get(this.platformUrl + ("/social/api/get-friend-request?username=" + username))
+            .map(this.processData).catch(this.processError);
+    }
+    rejectFriendRequest  (userId) {
+        var username = localStorage.getItem("username");
+        var data = "username=" + username + "&user_id=" + userId;
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this.platformUrl + '/social/api/accept-friend-request/', data, { headers: headers })
+            .map(this.processData).catch(this.processError);
+    };
+    acceptFriendRequest  (reqId) {
+        var username = localStorage.getItem("username");
+        var data = "username=" + username + "&req_id=" + reqId;
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this.platformUrl + '/social/api/accept-friend-request/', data, { headers: headers })
+            .map(this.processData).catch(this.processError);
+    };
     addUserToPond  (pondId, userId) {
         var username = localStorage.getItem("username");
         var data = "username=" + username + "&pond_id=" + pondId + "&user_id=" + userId;
@@ -52,6 +74,14 @@ export class PondService {
         return this._http.post(this.platformUrl + '/social/api/add-user-to-pond/', data, { headers: headers })
             .map(this.processData).catch(this.processError);
     };
+    addUserToFriends(profUserId){
+        var username = localStorage.getItem("username");
+        var data = "username=" + username + "&user_id=" + profUserId;
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this.platformUrl + '/social/api/add-user-to-friends/', data, { headers: headers })
+            .map(this.processData).catch(this.processError);
+    }
     denyUserFromPond  (pondRequestId) {
         var username = localStorage.getItem("username");
         var data = "username=" + username + "&pond_request_id=" + pondRequestId;

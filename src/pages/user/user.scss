@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:700');
 @import url('https://fonts.googleapis.com/css?family=Arima+Madurai:500');
+@import url('https://fonts.googleapis.com/css?family=Dancing+Script:400');
 $font-writing: 'Open Sans Condensed', sans-serif;
 $font-writing-insight: 'Arima Madurai', cursive;
+$Dancing-font-family: 'Dancing Script', cursive;
 page-user {
 
   .user-profile {
@@ -80,4 +82,14 @@ ion-content{
 .feed-message{
     font-family: $font-stack;
 }
+.time-remaining {
+  font-size: 12px;
+  font-style: italic;
+}
+.viewFriends {
+  font-family: $Dancing-font-family;
+  font-size: 32px;
+  
+}
+
 

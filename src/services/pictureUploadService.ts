@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import {CURRENTURL} from './service-util/URLS'
+import {} from './service-util/'
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
 
@@ -35,7 +36,7 @@ export class PictureUploadService {
     progressPictureUpload (picture, goalId, name_of_progress, membersId, shoutOuts) {
         
         var username = localStorage.getItem("username");
-        console.log("upload file ", picture);
+        //console.log("upload file ", picture);
         var new_pic = encodeURIComponent(picture);
         var data = "username=" + username + "&picture=" + new_pic + "&project_id=" + goalId + 
                     "&progress_name=" + name_of_progress + "&members_id=" + membersId + "&shout_emails=" + shoutOuts;
@@ -49,14 +50,14 @@ export class PictureUploadService {
 
     progressVideoUpload (picture, goalId, name_of_progress, membersId, shoutOuts) {
         var username = localStorage.getItem("username");
-        console.log("upload file ", picture);
+        // console.log("upload file ", picture);
         var new_pic = encodeURIComponent(picture);
         var data = "username=" + username + "&picture=" + new_pic + "&project_id=" + goalId + 
                     "&progress_name=" + name_of_progress + "&members_id=" + membersId + "&shout_emails=" + shoutOuts;
         
         let headers = new Headers()
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        headers.append('Content-Transfer-Encoding', 'base64');
+        // headers.append('Content-Transfer-Encoding', 'base64');
         /*
         let dataOptions: FileUploadOptions = {
             username: username,
@@ -69,7 +70,7 @@ export class PictureUploadService {
         return fileTransfer.upload(picture, this.platformUrl + '/social/api/new-video-entry/', dataOptions)
             .map(this.processData).catch(this.processError);
             */
-        console.log(new_pic);
+        // console.log(new_pic);
         return this._http.post(this.platformUrl + '/social/api/new-video-entry/', data, { headers: headers })
           .map(this.processData).catch(this.processError);
     };

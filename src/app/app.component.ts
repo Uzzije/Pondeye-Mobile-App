@@ -18,7 +18,14 @@ import {PondsPage} from '../pages/ponds-page/ponds-page';
 import {NewPondPage} from '../pages/new-pond-page/new-pond-page';
 import {AboutPage} from '../pages/about/about';
 import {CURRENTURL} from '../services/service-util/URLS';
-
+import {TabsPage} from '../pages/tabs/tabs';
+import {FriendRequestPage} from '../pages/friend-request/friend-request';
+import {ChallengeRequestPage} from '../pages/challenge-request/challenge-request';
+import {ChallengeActivityPage} from '../pages/challenge-activity/challenge-activity';
+import {NotificationTabPage} from '../pages/notification-tabs/notification-tabs';
+import { FriendsPage } from '../pages/friends/friends';
+import { ProjectsPage } from '../pages/projects/projects';
+import {VideoUploadModalPage} from '../pages/videoUploadModal/videoUploadModal';
 // end import pages
 
 
@@ -40,47 +47,17 @@ export class MyApp {
   public nav: any;
 
   public pages = [
-           {
-                title: 'Feed',
-                icon: 'md-trending-up',
-                count: 0,
-                component: ActivityPage
-            },
             {
-                title: 'Create New Pond',
-                icon: 'md-add-circle',
-                count: 0,
-                component: NewPondPage  
-            },
-            {
-                title: 'My Ponds',
-                icon: 'ios-people',
-                count: 0,
-                component: PondsPage ,
-            },
-            {
-                title: 'My Entries',
-                icon: 'book',
+                title: 'Settings',
+                icon: 'md-settings',
                 count: 0,
                 component:  SettingsPage
-            },
-            {
-                title: 'Notifications',
-                icon: 'ios-notifications-outline',
-                count: this.hasNotif,
-                component: NotificationsPage 
             },
             {
                 title: 'About/Help',
                 icon: 'help-circle',
                 count: 0,
                 component:  AboutPage
-            },
-            {
-                title: 'Login',
-                icon: 'ios-log-in-outline',
-                count: 0,
-                component: LoginPage
             },
             {
                 title: 'Logout',
@@ -97,6 +74,8 @@ export class MyApp {
     this.rootPage = WelcomePage;
     this.keyboard.disableScroll(true);
         platform.ready().then(() => {
+            this.splashScreen.hide();
+            console.log("SPlashscreen hide")
         // Okay, so the platform is ready and our plugins are available.
         // Here you can do any higher level native things you might need.
         if (this.platform.is('android')) {
@@ -126,13 +105,12 @@ export class MyApp {
         // we wouldn't want the back button to show in this scenario
         this.userProfilePic = CURRENTURL + localStorage.getItem("profile_url");
         if(localStorage.getItem("notification_length")){
-            this.pages[4]['count'] = parseInt(localStorage.getItem("notification_length"))
             this.hasNotif = parseInt(localStorage.getItem("notification_length"));
         }else{
             this.hasNotif = 0;
         }
         
-        this.nav.setRoot(page.component);
+        this.nav.push(page.component);
     }
     openProfilePage(){
         this.userProfilePic = CURRENTURL + localStorage.getItem("profile_url");

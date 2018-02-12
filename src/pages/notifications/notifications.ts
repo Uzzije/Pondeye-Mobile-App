@@ -39,8 +39,9 @@ export class NotificationsPage implements OnInit{
     private postData;
     // get sample data only
     private projID;
-    constructor(private nav: NavController,  private pondService: PondService, private params: NavParams, private setService: SettingsService, private postService: PostService, public actionSheetCtrl: ActionSheetController,
-              public platform: Platform, public loadingCtrl: 
+    constructor(private nav: NavController,  private pondService: PondService, private params: NavParams,
+                private setService: SettingsService, private postService: PostService, public actionSheetCtrl: ActionSheetController,
+                public platform: Platform, public loadingCtrl: 
               LoadingController, public notificationService: NotificationService, public alertCtrl: AlertController, public newPostService: NewPostServices) {
             // set sample data
             this.projID = this.params.get('id');
@@ -49,6 +50,7 @@ export class NotificationsPage implements OnInit{
             });
             this.loader.present();
             localStorage.setItem("notification_length", "0");
+            this.switchTabs();
    }
 
   ngOnInit(): void {
@@ -165,7 +167,11 @@ export class NotificationsPage implements OnInit{
         }).catch(()=>{
         });
     };
- 
+    
+    switchTabs() {
+        this.nav.parent.select(0);
+    }
+    
     // create a new post
     createPost = () => {
         this.nav.push(NewPostPage);

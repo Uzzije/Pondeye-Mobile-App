@@ -3,3 +3,6 @@ $general-font: 'Open Sans', sans-serif;
 p h1 h2 h3 {
     font-family: $general-font;
 }
+video{
+    max-height: 400px;
+}

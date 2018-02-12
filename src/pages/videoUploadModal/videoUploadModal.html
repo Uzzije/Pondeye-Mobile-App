@@ -1,0 +1,38 @@
+<ion-header>
+	<ion-navbar color="light">
+		<ion-title>New Progress</ion-title>
+	</ion-navbar>
+</ion-header>
+<ion-content>	
+	<ion-list class="list-no-border">
+		<span *ngIf="hasProj">	
+			<ion-item>
+				<label class="item item-input"></label>
+					<ion-textarea [(ngModel)]="nameOfProgress" placeholder="What happened in this progress?"></ion-textarea>	
+			</ion-item>
+			<ion-item>
+				<ion-label>For what goal?</ion-label>
+				<ion-select [(ngModel)]="projId" >
+					<ion-option value="{{proj.id}}" *ngFor="let proj of projects">{{proj.name}}</ion-option>
+				</ion-select>	 
+			</ion-item>	 
+			<ion-item>
+				<ion-label>Did it happen with someone?</ion-label>
+				<ion-select [(ngModel)]="progMembersList" multiple="true">
+					<ion-option value="{{member.id}}" *ngFor="let member of progMembers">                               
+                    		<h3 color="primary" text-wrap>{{ member.first_name }} {{ member.last_name }} {{ member.username }}</h3>        
+					</ion-option>
+				</ion-select>	
+				
+			</ion-item>	 
+			<ion-item>
+				<label class="item item-input">
+					<button ion-button color="light" (click)="closeModal()" large>Add Progress</button>
+				</label>
+			</ion-item>
+		</span>
+		 <ion-list *ngIf="!hasProj">
+			<p>Can't have progress without a goal.</p>
+		 </ion-list>
+	</ion-list>
+</ion-content>

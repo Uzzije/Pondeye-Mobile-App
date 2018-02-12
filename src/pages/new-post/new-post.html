@@ -7,50 +7,48 @@
 	</ion-navbar>
 </ion-header>
 <ion-content>	
-	<ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, and people..." (search)="search($event)"></ion-searchbar>
 	<ion-list class="list-no-border">	
-		<ion-item>
-			<ion-textarea #goalName placeholder="My Goal is to..."></ion-textarea>
-		</ion-item>
 		 <ion-item>
-			 <ion-label>What best describes your motivation?</ion-label>
-			 <ion-select [(ngModel)]="tags" multiple="true">
-				<ion-option value="Relationship">Relationship</ion-option>
-				<ion-option value="Health">Health</ion-option>
-				<ion-option value="Self-Image">Self-Image</ion-option>
+			<ion-textarea #goalName placeholder="What's the Challenge..."></ion-textarea>
+		 </ion-item>
+		 <ion-item>
+			<ion-label>Reason for Challenge?</ion-label>
+				<ion-select [(ngModel)]="tags" multiple="true">
+				<ion-option value="Fitness">Fitness</ion-option>
 				<ion-option value="Social Cause">Social Cause</ion-option>
-				<ion-option value="Self-Improvement">Self-Improvement</ion-option>
-				<ion-option value="A Dare">A Dare</ion-option>
-				<ion-option value="Diet">Diet</ion-option>
-				<ion-option value="Get In Shape">Get In Shape</ion-option>
-				 <ion-option value="Build Muscle">Build Muscle</ion-option>
-				<ion-option value="Lose Weight">Lose Weight</ion-option>
+				<ion-option value="Randomness">Randomness</ion-option>
+				<ion-option value="Learn Something New">Learn Something New</ion-option>
 			</ion-select>
-		 </ion-item>
-		 <ion-item>
-			<ion-label>Finished Date?</ion-label>
-			<ion-datetime [(ngModel)]="projComDate" displayFormat="MMM DD YYYY"></ion-datetime>
+			
 		 </ion-item>
 		<ion-item>
-			<ion-label>Finished Time?</ion-label>
-			<ion-datetime [(ngModel)]="projComTime" dispdisplayFormat="h:mm A" pickerFormat="h mm A"></ion-datetime>
-		</ion-item>
-		<ion-item *ngIf="hasPond">
-			<ion-label>Who Can See This Goal?</ion-label>
-			<ion-select [(ngModel)]="public_status">
-				<ion-option value="{{pond.id}}" *ngFor="let pond of projAndPond.pond.ponds">{{pond.pond_name}}</ion-option>
-				<ion-option value="aps">Only Pond Members</ion-option>
-				<ion-option checked="true" value="">Public (followers)</ion-option>
+			<ion-label>Who are you challenging?</ion-label>
+			<ion-select [(ngModel)]="challenged_user">
+				<ion-option value="{{ user.id }}" *ngFor="let user of challengable_users">{{ user.name }}</ion-option>
 			</ion-select>
 		 </ion-item>
 		 <ion-item>
-			<button ion-button color="primary" (click)="record()" outline>          
-				Introduce this challenge       
-			</button>
+			<ion-label>Get Done In?</ion-label>
+			<ion-select [(ngModel)]="projComDate" required>
+				<ion-option value="1">A Day</ion-option>
+				<ion-option value="2">Two Days</ion-option>
+				<ion-option value="3">Three Days</ion-option>
+				<ion-option value="4">Four Days</ion-option>
+				<ion-option value="5">Five Days</ion-option>
+				<ion-option value="6">Six Days</ion-option>
+				<ion-option value="7">Seven Days</ion-option>
+				<ion-option value="8">Eight Days</ion-option>
+				<ion-option value="9">Nine Days</ion-option>
+				<ion-option value="10">10 Days</ion-option>
+				<ion-option value="11">11 Days</ion-option>
+				<ion-option value="12">12 Days</ion-option>
+				<ion-option value="13">13 Day</ion-option>
+				<ion-option value="14">14 Day</ion-option>
+			</ion-select>
 		 </ion-item>
 		 <ion-item>
-			<ion-label class="item item-input">
-				<button ion-button color="primary" (click)="addNewProject(goalName.value)" large>Create Goal</button>
+			<ion-label text-center class="item item-input">
+				<button ion-button color="primary" (click)="addNewChallenge(goalName.value)" large outline>Create Goal</button>
 			</ion-label>
 		 </ion-item>
 	</ion-list>	

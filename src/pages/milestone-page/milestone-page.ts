@@ -94,7 +94,7 @@ export class MilestonePage {
     createSeenCount  (milId) {
         
         var seenData;
-        var subcription = this.postService.postMilestoneNewSeen(this.milID).subscribe((data) => {
+        var subcription = this.postService.postRecentUploadNewSeen(this.milID).subscribe((data) => {
             seenData = JSON.parse(data);
             if (seenData.status == false) {
                 var alert_3 = this.showAlert(seenData.error);

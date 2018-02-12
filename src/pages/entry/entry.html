@@ -1,0 +1,25 @@
+<ion-header> 
+  <ion-navbar color="primary"> 
+    <button ion-button menuToggle> 
+      <ion-icon name="menu"></ion-icon> 
+    </button> 
+    <ion-title>Entry</ion-title> 
+  </ion-navbar>
+</ion-header>
+<ion-content> 
+<ion-grid>
+  <ion-row>
+    <ion-col text-center>
+        <button outline large ion-button color="primary" (click)="createPost()">New Goal<span> </span>
+          <ion-icon style="font-size:28px;" ios="ios-add" md="md-add"></ion-icon>
+          </button>
+    </ion-col>
+    <ion-col text-center>
+        <button outline large ion-button color="primary" (click)="record()">Progress<span> </span>
+          <ion-icon style="font-size:28px;" ios="ios-videocam" md="md-videocam"></ion-icon>
+        </button>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+</ion-content>

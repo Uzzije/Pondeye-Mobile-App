@@ -93,7 +93,7 @@ export class MilestoneEditPage {
     createSeenCount  (proj_Id) {
         
         var seenData;
-        var subcription = this.postService.postProjectNewSeen(proj_Id).subscribe((data) => {
+        var subcription = this.postService.postRecentUploadNewSeen(proj_Id).subscribe((data) => {
             seenData = JSON.parse(data);
             //console.log(seenData);
             if (seenData.status == false) {

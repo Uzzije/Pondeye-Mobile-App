@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, ActionSheetController, NavParams, LoadingController, AlertController,  Platform} from 'ionic-angular';
+import {IonicPage, NavController, ActionSheetController, NavParams, LoadingController, AlertController,  Platform} from 'ionic-angular';
 
 import {PostService} from '../../services/post-service';
 import {PostPage} from "../post/post";
@@ -21,8 +21,10 @@ import {SearchService} from '../../services/search-service';
  Ionic pages and navigation.
  */
 declare var window: any;
+
+@IonicPage()
 @Component({
-  selector: 'project-page',
+  selector: 'search-page',
   templateUrl: 'search-result-page.html',
 })
 export class SearchResultPage {
@@ -35,6 +37,7 @@ export class SearchResultPage {
     private projID;
     private resultData;
     private dataResult;
+    private tagSearch = "";
     constructor(private nav: NavController,  private userService: UserService,  private params: NavParams, 
                 private setService: SettingsService, private postService: PostService, public actionSheetCtrl: ActionSheetController,
                 public platform: Platform, public loadingCtrl: 
@@ -42,36 +45,87 @@ export class SearchResultPage {
                 public alertCtrl: AlertController, public newPostService: NewPostServices) {
             // set sample data
             this.queryWord = this.params.get('queryWord');
+            this.tagSearch = this.params.get('tagSearch');
             this.loader = loadingCtrl.create({
-            content: "Grabbing your request...",
+                content: "Grabbing your request...",
             });
             this.loader.present();
+             
+            if(this.tagSearch){
+                this.queryWord = this.tagSearch;
+            }else{
+                this.switchTabs();
+            }
    }
 
     ngOnInit(): void {
         
-        var subcription = this.searchService.getsearchResult(this.queryWord).subscribe((data) => {
-            //console.log("search word ", this.queryWord);
-            this.resultData = JSON.parse(data);
-            if (this.resultData.status == false) {
-                var alert_1 = this.showAlert(this.resultData.error);
-            }
-            else {
-                this.dataResult = this.resultData.result_list;
-                if (this.dataResult.length == 0) {
-                    this.noResult = true;
+        if(this.queryWord && !this.tagSearch){
+            
+            console.log("search here");
+            var subcription = this.searchService.getsearchResult(this.queryWord).subscribe((data) => {
+                //console.log("search word ", this.queryWord);
+                this.resultData = JSON.parse(data);
+                if (this.resultData.status == false) {
+                    var alert_1 = this.showAlert(this.resultData.error);
                 }
-            }
-        }, (error) => {
-            console.log(error);
+                else {
+                    this.dataResult = this.resultData.result_list;
+                    console.log(this.dataResult);
+                    if (this.dataResult.length == 0) {
+                        this.noResult = true;
+                    }
+                }
+            }, (error) => {
+                console.log(error);
+                this.loader.dismiss();
+                var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
+            }, () => {
+                console.log("Finished! ");
+                this.loader.dismiss();
+            });
+        }else if(this.tagSearch){
+            this.queryWord = this.tagSearch; 
+            this.findProjectByTags(); 
             this.loader.dismiss();
-            var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
-        }, () => {
-            console.log("Finished! ");
+
+            
+        }else{
             this.loader.dismiss();
-        });
+        }
     };
 
+    findProjectByTags () {
+        
+        if (this.queryWord.length > 0) {
+            var subcription = this.searchService.getTagResult(this.queryWord).subscribe((data) => {
+              //console.log("search word ", this.queryWord);
+              this.resultData = JSON.parse(data);
+              if (this.resultData.status == false) {
+                  var alert_1 = this.showAlert(this.resultData.error);
+              }
+              else {
+                  this.dataResult = this.resultData.result_list;
+                  console.log(this.dataResult);
+                  if (this.dataResult.length == 0) {
+                      this.noResult = true;
+                  }
+              }
+          }, (error) => {
+              console.log(error);
+              var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
+          }, () => {
+              console.log("Finished! ");
+              
+          });
+        }
+    }
+
+    /*
+    findTagView(queryWord){
+        this.nav.setRoot(SearchResultPage, {tagSearch:queryWord});
+    }
+    */
      // view pond
     viewPond  (pondId) {
         this.nav.push(PondPage, { id: pondId });
@@ -85,6 +139,10 @@ export class SearchResultPage {
     viewProfile  (id) {
         this.nav.push(UserPage, { id: id });
     };
+
+    switchTabs() {
+        this.nav.parent.select(4);
+    }
 
     search  (ev) {
         var queryWord = ev.target.value;

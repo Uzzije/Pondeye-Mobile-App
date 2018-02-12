@@ -23,14 +23,24 @@ export class NewPostServices {
         return this._http.get(this.platformUrl + ("/api/get-new-post-info/?username=" + username))
             .map(this.processData).catch(this.processError);
     }
-    postNewProject  (name_of_project, public_status, milestone_date, tags, videoData) {
+    postNewProject  (name_of_project, challenged_user, days, tags, videoData) {
         var username = localStorage.getItem("username");
         var new_vid = encodeURIComponent(videoData);
         var data = "username=" + username + "&timezone=" + this.timezone + "&name_of_project=" + 
-        name_of_project + "&public_status=" + public_status + "&milestone_date=" + milestone_date + "&tags=" + tags + "&projectvid="+new_vid;
+        name_of_project + "&challenged_user=" + challenged_user + "&days=" + days + "&tags=" + tags + "&cha_vid="+new_vid;
         var headers = new  Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this.platformUrl + '/api/create-new-project/', data, { headers: headers })
+            .map(this.processData).catch(this.processError);
+    }
+    postNewChallenge(name_of_project, challenged_user, days, tags, videoData) {
+        var username = localStorage.getItem("username");
+        var new_vid = encodeURIComponent(videoData);
+        var data = "username=" + username + "&timezone=" + this.timezone + "&name_of_project=" + 
+        name_of_project + "&challenged_user=" + challenged_user + "&days=" + days + "&tags=" + tags + "&cha_vid="+new_vid;
+        var headers = new  Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this.platformUrl + '/api/create-new-challenge/', data, { headers: headers })
             .map(this.processData).catch(this.processError);
     }
     postNewMilestone  (milestone_name, name_of_mil_proj, length_of_time, milestone_date) {

@@ -1,6 +1,6 @@
-import {Component, NgModule} from '@angular/core';
-import {NavController, ActionSheetController, LoadingController, AlertController,  Platform} from 'ionic-angular';
-
+import {Component, NgModule, ViewChild} from '@angular/core';
+import {NavController, ActionSheetController, LoadingController, AlertController,  Content, Platform} from 'ionic-angular';
+import { StreamingMedia, StreamingVideoOptions } from '@ionic-native/streaming-media';
 import {PostService} from '../../services/post-service';
 import {PostPage} from "../post/post";
 import {UserPage} from "../user/user";
@@ -14,6 +14,8 @@ import {NewPictureUploadPage} from '../pictureUpload/pictureUpload';
 import {CommonModule} from '@angular/common';
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions} from '@ionic-native/media-capture';
 import { File } from '@ionic-native/file';
+import { Ionic2RatingModule } from 'ionic2-rating';
+import { enableDebugTools } from '@angular/platform-browser/src/browser/tools/tools';
 /*
  Generated class for the LoginPage page.
 
@@ -23,20 +25,25 @@ import { File } from '@ionic-native/file';
 @NgModule({
     imports: [
         CommonModule,
+        Ionic2RatingModule
     ]
 })
 @Component({
   selector: 'page-activity',
-  templateUrl: 'activity_video.html',
-  providers:[File, MediaCapture]
+  templateUrl: 'activity_feed.html',
+  providers:[File, MediaCapture, StreamingMedia]
 })
+
 export class ActivityPage  {
   // list of posts
+  @ViewChild(Content) content: Content;
   private feeds = [];
   private  vouchCountList = [];
   private followCountList = [];
   private idList = [];
   private impressCountList = [];
+  private impressHighlightCountList = [];
+  private impressRecentCountList = [];
   private queryWord = "";
   private loader: any;
   private base64Image;
@@ -48,49 +55,123 @@ export class ActivityPage  {
   private videoData;
   private vidDir;
   private vidStorage; 
+  private viewRecentCountList = [];
+  private viewCountListH = [];
+  private showSpinner = false;
   // set sample data
   constructor(private nav: NavController,  private postService: PostService, public actionSheetCtrl: ActionSheetController,
               public platform: Platform, public loadingCtrl: 
-              LoadingController, private fileReader: File, private mediaCapture: MediaCapture,
+              LoadingController, private streamingMedia: StreamingMedia, 
+              private fileReader: File, private mediaCapture: MediaCapture,
               public alertCtrl: AlertController, public newPostService: NewPostServices) {
     // set sample data
     this.followCountList[0] = "say";
    //console.log(this.followCountList, + "list follow");
+   
     this.loader = loadingCtrl.create({
       content: "Getting ponders fitness activities...",
     });
       this.loader.present();
+      this.switchTabs(); 
   }
     ngOnInit (): void {
-        
+       this.loadFeed(); 
+    }
+
+    loadFeed(){
         var subcription = this.postService.getUserFeed().subscribe(data => {
             
             this.feedData = JSON.parse(data);
-            //console.log(this.feedData);
+            console.log("feed here, :");
             if (this.feedData.status == false) {
                 let alert = this.showAlert(this.feedData.error);
-               
             }
             this.feeds = this.feedData.all_feeds;
+            console.log("feed here, :");console.log(this.feeds);
             if (this.feeds) {
                 this.hasFeed = true;
-                //console.log("feed length ", this.feeds.length);
+                localStorage.setItem('end_range', this.feedData.index);
+                console.log(localStorage.getItem('end_range'))
+                console.log("feed length ", this.feeds.length);
                 for (var item = 0; item < this.feeds.length; item++) {
                     this.nextFeed = this.feeds[item];
                     this.nextId = this.nextFeed.id;
-                    if(this.nextFeed.is_project_feed){
-                        this.vouchCountList[this.nextId] = this.nextFeed.vouch_count;
-                        this.followCountList[this.nextId] = this.nextFeed.follow_count;
+                    if(this.nextFeed.is_recent_progress || this.nextFeed.is_video_highlight){
+                        this.impressRecentCountList[this.nextFeed.progress_id] = this.nextFeed.impressed;
+                        this.viewRecentCountList[this.nextFeed.progress_id] = this.nextFeed.seen;
                     }
-                    if(this.nextFeed.is_progress_feed){
-                        console.log("next progr ", this.nextFeed.list_of_progress.length);
-                        for(var prog = 0; prog < this.nextFeed.list_of_progress.length; prog++){
-                            var progress = this.nextFeed.list_of_progress[prog];
-                            this.impressCountList[progress.id] = progress.impress_count;
-                        } 
+                    if(this.nextFeed.is_video_highlight){
+                        this.impressHighlightCountList[this.nextFeed.progress_set_id] = this.nextFeed.impressed;
+                        this.viewCountListH[this.nextFeed.progress_set_id] = this.nextFeed.seen;
+                        
                     }
+                    if(this.nextFeed.is_recent_progress || this.nextFeed.is_video_highlight 
+                            || this.nextFeed.is_challenge_accept){
+                        this.followCountList[this.nextId] = this.nextFeed.follow;
+                    }
+                    console.log("Nexting id ", this.nextId);
+                    this.followCountList[this.nextId] = this.nextFeed.follow;
                 }
             }
+        }, error => {
+            this.loader.dismiss();
+            let alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
+        }, () => {
+            console.log("Finished! ");
+            this.loader.dismiss();
+        });
+    }
+    
+    loadMoreItems(){
+        console.log("Scroll End!");
+        let end = localStorage.getItem('end_range');
+        let start_range = parseInt(end);
+        let end_range = parseInt(end) + 5;
+        this.showSpinner = true;
+        console.log(start_range);
+        console.log(end_range);
+        //localStorage.setItem('end_range', end_range);
+        var subcription = this.postService.getNextUserFeed(start_range, end_range).subscribe(data => {
+            
+            this.feedData = JSON.parse(data);
+            //console.log("feed here, :");console.log(this.feeds);
+            if (this.feedData.status == false) {
+                let alert = this.showAlert(this.feedData.error);
+            }
+            for (var item = 0; item < this.feedData.all_feeds.length; item++){
+                    this.feeds.push(this.feedData.all_feeds[item]);
+            }
+            //this.feeds = Array.prototype.push.apply(this.feeds, this.feedData.all_feeds);
+            
+
+            if (this.feeds) {
+                this.hasFeed = true;
+                console.log("feed here, :");
+                //console.log(this.feeds);
+                //console.log("feed length ", this.feeds.length);
+                let nextAllFeed = this.feedData.all_feeds;
+                console.log(nextAllFeed);
+                for (var item = 0; item < nextAllFeed.length; item++) {
+                    this.nextFeed = nextAllFeed[item];
+                    this.nextId = this.nextFeed.id;
+                    if(this.nextFeed.is_recent_progress || this.nextFeed.is_video_highlight){
+                        this.impressRecentCountList[this.nextFeed.progress_id] = this.nextFeed.impressed;
+                        this.viewRecentCountList[this.nextFeed.progress_id] = this.nextFeed.seen;
+                    }
+                    if(this.nextFeed.is_video_highlight){
+                        this.impressHighlightCountList[this.nextFeed.progress_set_id] = this.nextFeed.impressed;
+                        this.viewCountListH[this.nextFeed.progress_set_id] = this.nextFeed.seen;
+                        
+                    }
+                    if(this.nextFeed.is_recent_progress || this.nextFeed.is_video_highlight 
+                            || this.nextFeed.is_challenge_accept){
+                        this.followCountList[this.nextId] = this.nextFeed.follow;
+                    }
+                    console.log("Nexting id ", this.nextId);
+                    this.followCountList[this.nextId] = this.nextFeed.follow;
+                }
+            }
+            this.showSpinner = false;
         }, error => {
             this.loader.dismiss();
             let alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
@@ -102,11 +183,34 @@ export class ActivityPage  {
     showPicture(picUrl){
         
     }
+    switchTabs() {
+        this.nav.parent.select(1);
+    }
+    playHighlightVideo(video_url, progress_set_id){
+        let options: StreamingVideoOptions = {
+            successCallback: () => { console.log('Video played') },
+            errorCallback: (e) => { console.log('Error streaming') },
+            orientation: 'landscape'
+        };
+        this.streamingMedia.playVideo(video_url);
+        this.incrementSeenH(progress_set_id);
+    }
+    playRecentUploadVideo(video_url, progress_id){
+        let options: StreamingVideoOptions = {
+            successCallback: () => { console.log('Video played') },
+            errorCallback: (e) => { console.log('Error streaming') },
+            orientation: 'landscape'
+        };
+        this.streamingMedia.playVideo(video_url);
+        this.incrementSeen(progress_id);
+    }
     record(){
         
         let videoOptions = {
             number: 1,
             duration: 10,
+            height:1080,
+            width:1080
         }
         let options: CaptureImageOptions = { limit: 3 };
         var captureVid = this.mediaCapture.captureVideo(videoOptions);
@@ -120,23 +224,24 @@ export class ActivityPage  {
                 this.vidDir = this.vidStorage[0]['fullPath'].replace(this.vidStorage[0].name, "")
             }   
             console.log(this.vidDir);
-            let videoPromise = this.fileReader.readAsDataURL(this.vidDir, this.vidStorage[0].name);
-            return videoPromise;
-        }).then((data)=>{
-            console.log(this.vidDir);
-            console.log(this.vidStorage[0].name);
-            console.log(data);
-            let base64Video = data;
-            //this.fileReader.removeFile(this.vidDir, this.vidStorage[0].name);
-            console.log("reaching here");
-            this.nav.push(NewPictureUploadPage, { 'fileName': base64Video, 'isVideo':true });
-            }, error=>{
-                console.log(error);
-        }).catch(function(err: CaptureError){
-            console.log(err);
-            console.log("error in capturing information");
-        })
-        /*
+            var vidpromise = this.fileReader.readAsDataURL(this.vidDir, this.vidStorage[0].name);
+            console.log(vidpromise);
+            vidpromise.then((data)=>{
+                /*
+                console.log(this.vidDir);
+                console.log(this.vidStorage[0].name);
+                console.log(data);
+                */
+                let base64Video = data;
+                //this.fileReader.removeFile(this.vidDir, this.vidStorage[0].name);
+                console.log("reaching here");
+                this.nav.push(NewPictureUploadPage, { 'fileName': base64Video, 'isVideo':true });
+                }, error=>{
+                    console.log(error);
+                }).catch(function(err: CaptureError){
+                    console.log(err);
+                    console.log("error in capturing information");
+                })
         }, error=>{
             console.log(error);
         }
@@ -144,7 +249,7 @@ export class ActivityPage  {
             console.log(err);
             console.log("error in capturing information");
         })
-    
+        /*
         let videoFile = File.createFromFileName(this.videoData);
         let reader = new FileReader();
         reader.readAsBinaryString(videoFile);
@@ -170,6 +275,9 @@ export class ActivityPage  {
     }
     ngAfterViewInit (){ 
         var idNext;
+        this.content.ionScrollEnd.subscribe((data)=>{
+            //this.loadMoreItems();
+        });
         /*
         $(this.input.nativeElement).find("section").twentytwenty({
               default_offset_pct: 0.9
@@ -220,11 +328,12 @@ export class ActivityPage  {
 
     doRefresh(refresher) {
         console.log('Begin async operation', refresher);
-
+        this.loadFeed();
         setTimeout(() => {
-        console.log('Async operation has ended');
-        refresher.complete();
-        }, 2000);
+            console.log('Async operation has ended');
+            refresher.complete();
+        }, 1000);
+        
     }
 
     createVouch (proj_Id, userResponse) {
@@ -247,15 +356,15 @@ export class ActivityPage  {
         });
     }
 
-    createFollow (proj_Id){
-        this.postService.postNewFollow(proj_Id).subscribe(data => {
+    createFollow (nextId){
+        this.postService.postNewFollow(nextId).subscribe(data => {
             var followData = JSON.parse(data);
             //console.log(followData);
             if (followData.status == false) {
                 let alert_3 = this.showAlert(followData.error);
             }
             else {
-                this.followCountList[proj_Id] = followData.count;
+                this.followCountList[nextId] = followData.count;
             }
         }, error => {
             let alert = this.showAlert("Oops. Something Went Wrong! Check your connection!");
@@ -264,16 +373,32 @@ export class ActivityPage  {
         });
     }
 
-    createImpression(progressId, progressSetId){
-        console.log("impress count ", progressSetId);
-        this.postService.postNewImpression(progressId, progressSetId).subscribe(data => {
+    createHighlightImpression(projId){
+        this.postService.postNewHighlightImpression(projId).subscribe(data => {
             var impressData = JSON.parse(data);
             //console.log(followData);
             if (impressData.status == false) {
                 let alert_3 = this.showAlert(impressData.error);
             }
             else {
-                this.impressCountList[progressId] = impressData.count;
+                this.impressHighlightCountList[projId] = impressData.count;
+            }
+        }, error => {
+            let alert = this.showAlert("Oops. Something Went Wrong! Check your connection!");
+        }, () => { 
+            //console.log("Finished! " + this.feedData); 
+        });
+    }
+    
+    createRecentImpression(projId){
+        this.postService.postNewRecentUploadImpression(projId).subscribe(data => {
+            var impressData = JSON.parse(data);
+            //console.log(followData);
+            if (impressData.status == false) {
+                let alert_3 = this.showAlert(impressData.error);
+            }
+            else {
+                this.impressRecentCountList[projId] = impressData.count;
             }
         }, error => {
             let alert = this.showAlert("Oops. Something Went Wrong! Check your connection!");
@@ -285,7 +410,6 @@ export class ActivityPage  {
         this.nav.push(MilestonePage, { id: feedId });
         // console.log(feedId, " feed id");
     }
-
     /*
     viewPictureSet(feedId){
         this.nav.push(PostPage, {id: feedId});
@@ -303,6 +427,7 @@ export class ActivityPage  {
     }
     // on click, go to user timeline
     viewProfile(id) {
+        console.log("feed id", id);
         this.nav.push( UserPage, { id: id });
     }
     // create a new post
@@ -313,6 +438,44 @@ export class ActivityPage  {
        console.log("picture is called!");
        // this.takePicture();
     };
+    incrementSeen(progID){
+        
+        this.postService.postRecentUploadNewSeen(progID).subscribe(data => {
+            var seenData = JSON.parse(data);
+            //console.log(followData);
+            if (seenData.status == false) {
+                let alert_3 = this.showAlert(seenData.error);
+            }else{
+                this.viewRecentCountList[progID] = seenData.count;
+            }
+        }, error => {
+            let alert = this.showAlert("Oops. Something Went Wrong! Check your connection!");
+        }, () => { 
+            //console.log("Finished! " + this.feedData); 
+        });
+        
+        console.log("Seen By!");
+    }
+
+    incrementSeenH(progSetId){
+        this.postService.postHighlightUploadNewSeen(progSetId).subscribe(data => {
+            var seenData = JSON.parse(data);
+            //console.log(followData);
+            if (seenData.status == false) {
+                let alert_3 = this.showAlert(seenData.error);
+            }else{
+                this.viewCountListH[progSetId] = seenData.count;
+            }
+        }, error => {
+            let alert = this.showAlert("Oops. Something Went Wrong! Check your connection!");
+        }, () => { 
+            //console.log("Finished! " + this.feedData); 
+        });
+        
+        console.log("Seen By!");
+    }
+    
+
     /*
     takePicture (){ 
           Camera.getPicture({

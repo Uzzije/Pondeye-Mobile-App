@@ -1,0 +1,26 @@
+<ion-header> 
+    <ion-navbar color="primary"> 
+      <button ion-button menuToggle> 
+        <ion-icon name="menu"></ion-icon> 
+      </button> 
+      <ion-title>Notifications</ion-title> 
+    </ion-navbar>
+</ion-header>
+<ion-content> 
+  <ion-grid>
+    <ion-row>
+      <ion-col text-center>
+          <button outline large ion-button color="primary" (click)="viewFriendRequest()">View Friend Request
+              <ion-badge id="notifications-badge" color="danger">New</ion-badge>
+            </button>
+      </ion-col>
+      <ion-col text-center>
+          <button outline large ion-button color="primary" (click)="viewChallengeActivity()">View Challenge Activity</button>
+      </ion-col>
+      <ion-col text-center>
+          <button outline large text-center ion-button color="primary" (click)="viewChallengeRequest()">View Challenge Request</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

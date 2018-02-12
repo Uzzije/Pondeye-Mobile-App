@@ -10,7 +10,7 @@ import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 @Injectable()
 export class PostService {
   private posts: any;
-
+ //xwtq5a1b39512a761193174166
   constructor(private _http: Http) {
     this.platformUrl = CURRENTURL;
     this.timezone =  TIMEZONE;
@@ -21,13 +21,23 @@ export class PostService {
     getUserFeed  () {
         var headers = new Headers();
         var username = localStorage.getItem("username");
-        return this._http.get(this.platformUrl + ("/social/api/news-feed?username=" + username + "&timezone=" + this.timezone))
+        return this._http.get(this.platformUrl + ("/social/api/news-feed?username=" + username + "&timezone=" + this.timezone 
+        + "&start=" + "" + "&end=" + ""))
             .map(this.processData).catch(this.processError);
     };
 
-    postNewFollow  (proj_id) {
+    getNextUserFeed(start_range, end_range){
+        var headers = new Headers();
         var username = localStorage.getItem("username");
-        var data = "username=" + username + "&proj_id=" + proj_id;
+        return this._http.get(this.platformUrl + ("/social/api/news-feed?username=" + username + "&timezone=" 
+        + this.timezone + "&start=" + start_range + "&end=" + end_range))
+            .map(this.processData).catch(this.processError);
+    }
+
+    postNewFollow  (nextId) {
+        var username = localStorage.getItem("username");
+        var data = "username=" + username + "&nextId=" + nextId;
+        console.log("Next id ", nextId);
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         return this._http.post(this.platformUrl + "/social/api/create-follow/", data, { headers: headers })
@@ -49,23 +59,49 @@ export class PostService {
     };
     getProjectPost  (projectID) {
         var username = localStorage.getItem("username");
-        return this._http.get(this.platformUrl + ("/social/api/individual-project?username=" + username + "&proj_id=" + projectID + "&timezone=" + this.timezone))
+        return this._http.get(this.platformUrl + ("/social/api/individual-project?username=" + username + "&ch_id=" + projectID + "&timezone=" + this.timezone))
             .map(this.processData).catch(this.processError);
     };
-    postProjectNewSeen  (proj_id) {
+
+    postRecentUploadNewSeen  (prog_id) {
         var username = localStorage.getItem("username");
-        var data = "username=" + username + "&proj_id=" + proj_id;
+        var data = "username=" + username + "&prog_id=" + prog_id;
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        return this._http.post(this.platformUrl + "/social/api/create-project-seen-count/", data, { headers: headers })
+        return this._http.post(this.platformUrl + "/social/api/recent-upload-count", data, { headers: headers })
             .map(this.processData).catch(this.processError);
     };
-    postNewImpression(progressId, progressSetId){
+    postHighlightUploadNewSeen(prog_set_id) {
         var username = localStorage.getItem("username");
-        var data = "username=" + username + "&progress_id=" + progressId + "&progress_set_id=" + progressSetId;
+        var data = "username=" + username + "&prog_set_id=" + prog_set_id;
         var headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        return this._http.post(this.platformUrl + "/social/api/new-impression/", data, { headers: headers })
+        return this._http.post(this.platformUrl + "/social/api/highlight-upload-count", data, { headers: headers })
+            .map(this.processData).catch(this.processError);
+    };
+
+    postNewRecentUploadImpression(projId){
+        var username = localStorage.getItem("username");
+        var data = "username=" + username + "&progress_id=" + projId;
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this.platformUrl + "/social/api/new-recent-upload-impression/", data, { headers: headers })
+            .map(this.processData).catch(this.processError);
+    }
+    postNewImpression(projId, progress_id){
+        var username = localStorage.getItem("username");
+        var data = "username=" + username + "&progress_id=" + projId;
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this.platformUrl + "/social/api/new-recent-upload-impression/", data, { headers: headers })
+            .map(this.processData).catch(this.processError);
+    }
+    postNewHighlightImpression(projId){
+        var username = localStorage.getItem("username");
+        var data = "username=" + username + "&progress_set_id=" + projId;
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this.platformUrl + "/social/api/new-highlight-impression/", data, { headers: headers })
             .map(this.processData).catch(this.processError);
     }
     postMilestoneNewSeen  (mil_id) {
@@ -78,7 +114,7 @@ export class PostService {
     };
   processData  (res) {
         var body = JSON.stringify(res.json());
-        console.log("body " + body);
+        
         return body || {};
     };
     processError  (error) {

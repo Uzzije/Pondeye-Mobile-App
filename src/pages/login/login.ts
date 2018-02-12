@@ -16,6 +16,8 @@ import {UserService} from '../../services/user-service';
 import {AuthenticateService} from '../../services/authenticate-service';
 import {Network} from '@ionic-native/network';
 import {PasswordResetPage} from '../password-reset/password-reset-page';
+import {TabsPage} from '../tabs/tabs';
+
 /*
  Generated class for the LoginPage page.
 
@@ -50,7 +52,7 @@ export class LoginPage {
             //console.log("Name: " + username + "Password: " + userPassword);
             //console.log("I return", this.authService.authenticate(username, userPassword));
             if (this.indentificationMatch(username, userPassword)) {
-                this.nav.setRoot( ActivityPage);
+                this.nav.setRoot(TabsPage);
             }
             else {
                 this.loader.present();
@@ -58,15 +60,18 @@ export class LoginPage {
                     .subscribe((data) => {
                     this.getData = JSON.parse(data);
                     if (this.getData) {
+                        this.loader.dismiss();
                         if (this.getData.status == true) {
                             localStorage.setItem("username", username);
                             localStorage.setItem("password", userPassword);
-                            this.nav.setRoot( ActivityPage);
+                            localStorage.setItem("userId", this.getData.user_id);
+                            this.nav.setRoot(TabsPage);
                         }
                         else {
                             var alert_2 = this.showAlert(this.getData.error);
                         }
                     }
+                    this.loader.dismiss();
                 }, (error) => { 
                     this.loader.dismiss();
                     var alert = this.showAlert(error); }, 
@@ -76,7 +81,7 @@ export class LoginPage {
                         },
                 );
             }
-            
+            this.loader.dismiss();
         };
 
    indentificationMatch (username, password) {

@@ -17,7 +17,28 @@ export class SearchService {
     getsearchResult  (queryWord) {
         console.log(queryWord , " searching!");
         var username = localStorage.getItem("username");
-        return this._http.get(this.platformUrl + ("/social/api/get-search-results?username=" + username + "&query_word=" + queryWord))
+        return this._http.get(this.platformUrl + ("/social/api/get-search-results?username=" 
+        + username + "&query_word=" + queryWord + "&tag_search=" + ""))
+            .map(this.processData).catch(this.processError);
+    }
+    getProjectResult  (queryWord) {
+        console.log(queryWord , " searching!");
+        var username = localStorage.getItem("username");
+        return this._http.get(this.platformUrl + ("/social/api/get-projects?username=" + username + "&query_word=" + queryWord))
+            .map(this.processData).catch(this.processError);
+    }
+    getFriendResult  (queryWord) {
+        console.log(queryWord , " searching!");
+        var username = localStorage.getItem("username");
+        return this._http.get(this.platformUrl + ("/social/api/get-friends?username=" + username + "&query_word=" + queryWord))
+            .map(this.processData)
+            .catch(this.processError);
+    }
+    getTagResult  (queryWord) {
+        console.log(queryWord , " searching!");
+        var username = localStorage.getItem("username");
+        return this._http.get(this.platformUrl + ("/social/api/get-search-results?username=" 
+        + username + "&query_word=" + queryWord + "&tag_search=" + true))
             .map(this.processData).catch(this.processError);
     }
     processData  (res) {

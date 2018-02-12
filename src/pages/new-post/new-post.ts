@@ -14,18 +14,22 @@ import {ActivityPage} from '../activity/activity';
 import {UserService} from '../../services/user-service';
 import {ProjectPage} from '../project-page/project-page';
 import {SearchResultPage} from '../search-result-page/search-result-page';
-import { MediaCapture } from '@ionic-native/media-capture';
+import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions} from '@ionic-native/media-capture';
+import { File } from '@ionic-native/file';
+
 
 declare var window: any;
 @Component({
   selector: 'page-new-post',
   templateUrl: 'new-post.html',
-  providers:[MediaCapture]
+  providers:[File, MediaCapture]
 })
 
 export class NewPostPage implements OnInit{
   private name_of_project = "";
   private public_status = "";
+  private challenged_user = "";
+  private challengable_users: any;
   private milestone_date = "";
   private queryWord = "";
   private name_of_mil_proj = ";";
@@ -45,10 +49,14 @@ export class NewPostPage implements OnInit{
   private milComTime;
   private milComDate;
   private videoData = "";
+  private vidStorage;
+  private vidDir;
+  private introVideoData;
   constructor(private nav: NavController,  private params: NavParams, private setService: SettingsService, 
               private postService: PostService, public actionSheetCtrl: ActionSheetController,
               public platform: Platform, public loadingCtrl: 
-              LoadingController, public alertCtrl: AlertController, public newPostService: NewPostServices) {}
+              LoadingController, public mediaCapture: MediaCapture, private fileReader: File,
+              public alertCtrl: AlertController, public newPostService: NewPostServices) {}
 
     ngOnInit (): void {
         var subcription = this.newPostService.getNewPostData().subscribe((data) => {
@@ -57,6 +65,7 @@ export class NewPostPage implements OnInit{
             this.hasProj = this.newPostData.user_project.status;
             this.hasPond = this.newPostData.pond.status;
             this.projAndPond = this.newPostData;
+            this.challengable_users = this.newPostData.challengable_users;
         }, (error) => {
             var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
         }, () => { 
@@ -84,29 +93,23 @@ export class NewPostPage implements OnInit{
         }
     }
 
-    addNewProject(name_of_project) {
+    addNewChallenge(name_of_project) {
         
         this.loader = this.loadingCtrl.create({
-            content: "Adding Goal...",
+            content: "Adding Challenge...",
         });
         this.loader.present();
         this.name_of_project = name_of_project;
         //console.log("name of project " + name_of_project);
-        if (this.projComTime) {
-            this.milestone_date = this.projComDate + 'T' + this.projComTime;
-            //console.log("proj time " + this.projComTime + " mile date: " + this.milestone_date);
-        }
-        else {
-            //console.log(" no proj time " + this.projComTime + " no mile date: " + this.milestone_date);
-        }
-        var subcribe = this.newPostService.postNewProject(this.name_of_project, this.public_status, 
-            this.milestone_date, this.tags, this.videoData).subscribe((data) => {
+        var subcribe = this.newPostService.postNewChallenge(this.name_of_project, this.challenged_user, 
+            this.projComDate, this.tags, this.introVideoData).subscribe((data) => {
             this.newPostData = JSON.parse(data);
             if (this.newPostData.status === false) {
                 var alert_1 = this.showAlert(this.newPostData.error);
             }
             else {
-                this.nav.setRoot(ActivityPage);
+                this.showToast  ("New Challenge Added!");
+                this.nav.pop();
             }
         }, (error) => {
             this.loader.dismiss();
@@ -177,6 +180,57 @@ export class NewPostPage implements OnInit{
        // this.addProjectPic();
     };
 
+    record(){
+        
+        let videoOptions = {
+            number: 1,
+            duration: 10,
+        }
+        let options: CaptureImageOptions = { limit: 3 };
+        var captureVid = this.mediaCapture.captureVideo(videoOptions);
+        captureVid.then((vidData: MediaFile[])=>{
+            var type_of_obj = typeof captureVid;
+            this.vidStorage = vidData;
+            if(this.platform.is('ios')){
+                var name = "/"+this.vidStorage[0].name
+                this.vidDir = "file://"+this.vidStorage[0]['fullPath'].replace(name, "");
+            }else{
+                this.vidDir = this.vidStorage[0]['fullPath'].replace(this.vidStorage[0].name, "")
+            }   
+            console.log(this.vidDir);
+            let videoPromise = this.fileReader.readAsDataURL(this.vidDir, this.vidStorage[0].name);
+            return videoPromise;
+        }).then((data)=>{
+            console.log(this.vidDir);
+            console.log(this.vidStorage[0].name);
+            console.log(data);
+            let base64Video = data;
+            //this.fileReader.removeFile(this.vidDir, this.vidStorage[0].name);
+            console.log("reaching here");
+            this.introVideoData = { 'fileName': base64Video, 'isVideo':true };
+            }, error=>{
+                console.log(error);
+        }).catch(function(err: CaptureError){
+            console.log(err);
+            console.log("error in capturing information");
+        })
+        /*
+        }, error=>{
+            console.log(error);
+        }
+        ).catch(function(err: CaptureError){
+            console.log(err);
+            console.log("error in capturing information");
+        })
+    
+        let videoFile = File.createFromFileName(this.videoData);
+        let reader = new FileReader();
+        reader.readAsBinaryString(videoFile);
+        blah
+        console.log('base64Video ', base64Video);
+        */
+    }
+
     addProjectPic (){ 
         /*
         Camera.getPicture({
@@ -193,21 +247,5 @@ export class NewPostPage implements OnInit{
         });
         */
     }
+}
 
-    record(){
-        /*
-        let videoOptions = {
-            number: 1,
-            duration: 10,
-        }
-        MediaCapture.captureVideo(videoOptions)
-        .then((videoData)=>{
-            this.videoData = "data:video/mp4" + videoData;
-            console.log('data pic ', videoData);
-        }, function (err) {
-            console.log(err);
-        });
-    }
-    */
-}
-}

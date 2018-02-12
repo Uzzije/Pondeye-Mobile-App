@@ -3,7 +3,7 @@ import {NavController} from 'ionic-angular';
 import {ActivityPage} from "../activity/activity";
 import {LoginPage} from "../login/login";
 import {RegisterPage} from '../register/register';
-
+import {TabsPage} from '../tabs/tabs';
 /*
  Generated class for the LoginPage page.
 
@@ -25,7 +25,7 @@ export class WelcomePage {
     // to go login page
     login  () {
         if (localStorage.getItem("username")) {
-            this.nav.setRoot(ActivityPage);
+            this.nav.setRoot(TabsPage);
         }
         else {
             this.nav.setRoot(LoginPage);
