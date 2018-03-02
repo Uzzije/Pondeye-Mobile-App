@@ -21,7 +21,10 @@ export class FriendService {
     }
     removeFriend(resId){
         var username = localStorage.getItem("username");
-        return this._http.get(this.platformUrl + ("/social/api/remove-friend?username=" + username + "&resId=" + resId))
+        var data = "username=" + username + "&resId=" + resId;
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        return this._http.post(this.platformUrl + '/social/api/remove-friend/', data, { headers: headers })
             .map(this.processData).catch(this.processError);
     }
     processData  (res) {
@@ -32,7 +35,7 @@ export class FriendService {
     processError  (error) {
         // In a real world app, we might use a remote logging infrastructure
         var errMsg;
-        if (error instanceof  Response) {
+        if (error instanceof  Response) {  
             var body = error.json() || '';
             var err = body.error || JSON.stringify(body);
             errMsg = error.status + " - " + (error.statusText || '') + " " + err;

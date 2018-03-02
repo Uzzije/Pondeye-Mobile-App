@@ -14,5 +14,31 @@
 
 
 <ion-content padding>
+    
+    <ion-list *ngIf="hasRequest" class="list-full-border">
+        <ion-item *ngFor="let feed of feeds">
+            <div *ngIf="chFeed[feed.ch_id]">
+                <ion-item text-wrap no-padding class="post-body no-border">    
+                  <ion-grid>
+                    <ion-row>
+                      <ion-col col-8>
+                        <span style="font-size:20px;" class="progress-message">Project Challenge! <span style="font-size:15px;" class="time-remaining">{{ feed.project_name }}</span></span>
+                      </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                          <button ion-button small outline (click)="acceptChallenge(feed.ch_id)" ion-text color="gray">Accept</button>
+                        </ion-col>
+                        <ion-col>
+                            <button ion-button small outline (click)="rejectChallenge(feed.ch_id)" ion-text color="gray">Reject</button>
+                        </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                </ion-item>
+                <p padding (click)="viewProfile(feed.challenger_id)" text-wrap>Challenged created by {{ feed.challenger_fn }} {{ feed.challenger_ln }} at {{ feed.created }}</p>
+            </div>
+        </ion-item>
+    </ion-list>
+    <h3 *ngIf="!hasRequest" padding>No Challenge Requests! Try Challenging someone!</h3>
 
 </ion-content>

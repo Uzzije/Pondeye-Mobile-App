@@ -70,7 +70,7 @@
 
   <ion-list class="posts" *ngIf="(isFriend || ownProfile) && hasRecentProj">
     <ion-list-header>
-      <h1>Projects</h1>
+      <h2>Current Projects</h2>
     </ion-list-header>
     <ion-item class="no-border" *ngFor="let post of currentProjects" text-wrap>
       <span (click)="viewProject(post.id)">
@@ -78,10 +78,10 @@
           <p class="time-remaining">{{ post.days_remaining.diff }} {{ post.days_remaining.is_days }} Remaining</p>
       </span>
     </ion-item>
-    <h2 (click)="viewAllProjects()">View all projects...</h2>
+    <h3 (click)="viewAllProjects()">View all projects...</h3>
   </ion-list>
   <ion-item *ngIf="(currentProjects?.length == 0)">
-      <h2 (click)="viewPublicProjects()">No current open project!</h2>
+      <h3 (click)="viewPublicProjects()">No current open project!</h3>
   </ion-item> 
   <ion-item padding *ngIf="(isFriend || ownProfile) && !hasRecentProj">
       <h2 (click)="viewAllProjects()">View all projects...</h2>

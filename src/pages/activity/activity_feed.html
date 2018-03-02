@@ -19,36 +19,8 @@
   </ion-refresher>  
     <div class="post"> 
       <div color="card-color" class="item-post border-bottom" *ngFor="let feed of feeds">
-        <div *ngIf="feed.is_challenge_accept">
-          <ion-item class="no-border" >
-            <ion-avatar item-left (click)="viewProfile(feed.user_id)">              
-                <img src="{{ feed.profile_url }}">            
-            </ion-avatar> 
-            <h2 (click)="viewProfile(feed.user_id)">{{ feed.name }}</h2>            
-            <p>{{ feed.created }}</p>    
-          </ion-item> 
-          <ion-item text-wrap no-padding class="post-body no-border">   
-            <video *ngIf="feed.has_video" #myvideo height="300" 
-                    controls="controls" preload="metadata" 
-                    webkit-playsinline="webkit-playsinline" 
-                    class="videoPlayer">
-                <source src="{{ feed.video_url }}#t=0.5" type="video/mp4" />    
-            </video> 
-            <p>Challenged by {{ feed.challenger_fn }} {{ feed.challenger_ln }} {{ feed.challenge_blurb }}</p>
-            <div class="actions">
-              <span>
-                <ion-icon name="eye" color="danger"></ion-icon>
-                <ion-icon name="ios-eye-outline" color="danger"></ion-icon>
-                <span ion-text color="gray">{{ feed.seen }}</span>
-              </span>
-              <span>
-                <button (click)="createFollow(feed.nextId)" ion-button>Follow {{ feed.follow }}</button>
-              </span>
-            </div>
-          </ion-item>
-        </div>
-
-        <div *ngIf="feed.is_challenge_req">
+        
+        <div *ngIf="feed.is_challenge_accept && !feed.self_challenge">
           <ion-item class="no-border">
             <ion-avatar item-left (click)="viewProfile(feed.challenged_id)">              
                 <img src="{{ feed.profile_url }}">            
@@ -57,16 +29,56 @@
             <p>{{ feed.created }}</p>    
           </ion-item> 
           <ion-item text-wrap no-padding class="post-body no-border">   
-            <video *ngIf="feed.has_video" #myvideo max-height="300" 
-                    controls="controls" preload="metadata" 
-                    webkit-playsinline="webkit-playsinline" 
-                    class="videoPlayer">
-                <source src="{{ feed.video_url }}#t=0.5" type="video/mp4" />    
-            </video> 
             <ion-grid>
               <ion-row>
                 <ion-col col-8>
-                  <span style="font-size:20px;" class="progress-message">Challenge: <span style="font-size:15px;" class="time-remaining">{{ feed.challenge_blurb }}</span></span>
+                  <span style="font-size:20px;" class="progress-message">Project Accepted! <span style="font-size:15px;" class="time-remaining">{{ feed.challenge_blurb }}</span></span>
+                </ion-col>
+                <ion-col>
+                  <button ion-button small outline (click)="createFollow(feed.id)" ion-text color="gray">Follow {{ followCountList[feed.id] }}</button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+            <p padding *ngIf="!feed.self_challenge">Challenged by {{ feed.challenger_fn }} {{ feed.challenger_ln }}</p>
+          </ion-item>
+        </div>
+
+        <div *ngIf="feed.is_challenge_accept && feed.self_challenge">
+          <ion-item class="no-border">
+            <ion-avatar item-left (click)="viewProfile(feed.challenged_id)">              
+                <img src="{{ feed.profile_url }}">            
+            </ion-avatar> 
+            <h2 (click)="viewProfile(feed.challenged_id)">{{ feed.name }}</h2>            
+            <p>{{ feed.created }}</p>    
+          </ion-item> 
+          <ion-item text-wrap no-padding class="post-body no-border">   
+            <ion-grid>
+              <ion-row>
+                <ion-col col-8>
+                  <span style="font-size:20px;" class="progress-message">Project! <span style="font-size:15px;" class="time-remaining">{{ feed.challenge_blurb }}</span></span>
+                </ion-col>
+                <ion-col>
+                  <button ion-button small outline (click)="createFollow(feed.id)" ion-text color="gray">Follow {{ followCountList[feed.id] }}</button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+            <p *ngIf="!feed.self_challenge">Self Made</p>
+          </ion-item>
+        </div>
+        
+        <div *ngIf="feed.is_challenge_req">
+          <ion-item class="no-border">
+            <ion-avatar item-left (click)="viewProfile(feed.challenged_id)">              
+                <img src="{{ feed.profile_url }}">            
+            </ion-avatar> 
+            <h2 (click)="viewProfile(feed.challenged_id)">{{ feed.name }}</h2>            
+            <p>{{ feed.created }}</p>    
+          </ion-item> 
+          <ion-item text-wrap no-padding class="post-body no-border">    
+            <ion-grid>
+              <ion-row>
+                <ion-col col-8>
+                  <span style="font-size:20px;" class="progress-message">Project Challenge Request! <span style="font-size:15px;" class="time-remaining">{{ feed.challenge_blurb }}</span></span>
                 </ion-col>
                 <ion-col>
                   <button ion-button small outline (click)="createFollow(feed.id)" ion-text color="gray">Follow {{ followCountList[feed.id] }}</button>
@@ -74,6 +86,7 @@
               </ion-row>
             </ion-grid>
           </ion-item>
+          <p padding (click)="viewProfile(feed.challenger_id)" *ngIf="!feed.self_challenge">Challenged by {{ feed.challenger_fn }} {{ feed.challenger_ln }}</p>
         </div>
   
         <div *ngIf="feed.is_recent_progress">
@@ -165,7 +178,10 @@
             </ion-grid> 
           </ion-item>
         </div>
-      </div>  
-      <p text-center (click)="loadMoreItems()">Load More...</p><ion-spinner *ngIf="showSpinner" name="bubbles"></ion-spinner>
+      </div>
+      <div text-center>
+        <button ion-button small outline (click)="loadMoreItems()">Load More...</button>
+            <ion-spinner *ngIf="showSpinner" name="bubbles"></ion-spinner>
+      </div>
     </div>             
 </ion-content>

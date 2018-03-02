@@ -21,11 +21,12 @@ export class FriendRequestPage implements OnInit{
 
   private loader: any;
   private feedData: any;
-  private feeds: any;
+  private feeds = [];
   private hasFeed: any;
   private nextFeed: any;
   private nextId: any;
   private friendsList = [];
+  private rejectList = []
   constructor(public navCtrl: NavController, public loadingCtrl: 
               LoadingController, 
               public actionSheetCtrl: ActionSheetController,
@@ -44,19 +45,21 @@ export class FriendRequestPage implements OnInit{
             this.feedData = JSON.parse(data);
             if (this.feedData.status == false) {
                 let alert = this.showAlert(this.feedData.error);
+            }else{
+                this.feeds = this.feedData.requests;
+                console.log("feed here, :");console.log(this.feeds.length);
+                if (this.feeds) {
+                    this.hasFeed = true;
+                    //console.log("feed length ", this.feeds.length);
+                    for (var item = 0; item < this.feeds.length; item++) {
+                        this.nextFeed = this.feeds[item];
+                        console.log("next feed"); console.log(this.nextFeed);
+                        this.nextId = this.nextFeed.req_id;
+                        this.friendsList[this.nextId] = "Add";
+                        this.rejectList[this.nextId] = 'Reject'
+                    }
             }
-            this.feeds = this.feedData.requests;
-            console.log("feed here, :");console.log(this.feeds);
-            if (this.feeds) {
-                this.hasFeed = true;
-                //console.log("feed length ", this.feeds.length);
-                for (var item = 0; item < this.feeds.length; item++) {
-                    this.nextFeed = this.feeds[item];
-                    console.log("next feed"); console.log(this.nextFeed);
-                    this.nextId = this.nextFeed.req_id;
-                    this.friendsList[this.nextId] = "Add";
-                }
-            }
+        }
             this.loader.dismiss();
         }, error => {
             this.loader.dismiss();
@@ -76,7 +79,26 @@ export class FriendRequestPage implements OnInit{
             }
             else {
                 this.friendsList[this.nextId] = "Friends";
+                this.showToast("Now Friend!");
+            }
+        }, (error) => { 
+            alert(error); }, 
+            () => 
+                { 
+                console.log("Finished! "); 
+        });
+    }
+    rejectFriendRequest(reqId){
+        var subscribe = this.pondService.rejectFriendRequest(reqId);
+        subscribe.subscribe( (data) => {
+            var statusData = JSON.parse(data);
+            if (statusData.status === false) {
+                var alert_5 = this.showAlert(statusData.error);
+            }
+            else {
+                //this.friendsList[this.nextId] = "Friends";
                 this.showToast("Sent Friend Request!");
+                this.friendsList[this.nextId] = "Rejected!";
             }
         }, (error) => { 
             alert(error); }, 

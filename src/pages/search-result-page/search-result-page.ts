@@ -38,6 +38,8 @@ export class SearchResultPage {
     private resultData;
     private dataResult;
     private tagSearch = "";
+    private firstIndex;
+    private endIndex;
     constructor(private nav: NavController,  private userService: UserService,  private params: NavParams, 
                 private setService: SettingsService, private postService: PostService, public actionSheetCtrl: ActionSheetController,
                 public platform: Platform, public loadingCtrl: 
@@ -61,8 +63,6 @@ export class SearchResultPage {
     ngOnInit(): void {
         
         if(this.queryWord && !this.tagSearch){
-            
-            console.log("search here");
             var subcription = this.searchService.getsearchResult(this.queryWord).subscribe((data) => {
                 //console.log("search word ", this.queryWord);
                 this.resultData = JSON.parse(data);
@@ -87,14 +87,81 @@ export class SearchResultPage {
         }else if(this.tagSearch){
             this.queryWord = this.tagSearch; 
             this.findProjectByTags(); 
-            this.loader.dismiss();
-
-            
+            this.loader.dismiss(); 
         }else{
+            this.firstIndex = 0;
+            this.endIndex = 6;
+            localStorage.setItem('disFIndex', this.firstIndex.toString());
+            localStorage.setItem('disEIndex', this.endIndex.toString());
+            this.discoverProjects();
             this.loader.dismiss();
         }
     };
-
+    discoverProjects(){
+        this.firstIndex = localStorage.getItem('disFIndex');
+        this.endIndex   = localStorage.getItem('disEIndex');
+        if (this.queryWord.length > 0) {
+            var subcription = this.searchService.discover(this.firstIndex, this.endIndex).subscribe((data) => {
+              //console.log("search word ", this.queryWord);
+              this.resultData = JSON.parse(data);
+              if (this.resultData.status == false) {
+                  var alert_1 = this.showAlert(this.resultData.error);
+              }
+              else {
+                  this.dataResult = this.resultData.result_list;
+                  console.log(this.dataResult);
+                  if (this.dataResult.length == 0) {
+                      this.noResult = true;
+                  }else{
+                    this.firstIndex = this.endIndex;
+                    this.endIndex = parseInt(this.endIndex) + 6;
+                    localStorage.setItem('disFIndex', this.firstIndex.toString());
+                    localStorage.setItem('disEIndex', this.endIndex.toString());
+                  }
+              }
+          }, (error) => {
+              console.log(error);
+              var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
+          }, () => {
+              console.log("Finished! ");
+              
+          });
+        }
+    }
+    loadMoreDiscoverProjects(){
+        this.firstIndex = localStorage.getItem('disFIndex');
+        this.endIndex   = localStorage.getItem('disEIndex');
+        if (this.queryWord.length > 0) {
+            var subcription = this.searchService.discover(this.firstIndex, this.endIndex).subscribe((data) => {
+              //console.log("search word ", this.queryWord);
+              this.resultData = JSON.parse(data);
+              if (this.resultData.status == false) {
+                  var alert_1 = this.showAlert(this.resultData.error);
+              }
+              else {
+                  this.dataResult = this.resultData.result_list;
+                  for (var item = 0; item < this.dataResult.all_feeds.length; item++){
+                    this.dataResult.push(this.resultData.result_list[item]);
+                  }
+                  console.log(this.dataResult);
+                  if (this.dataResult.length == 0) {
+                      this.noResult = true;
+                  }else{
+                    this.firstIndex = this.endIndex;
+                    this.endIndex = parseInt(this.endIndex) + 6;
+                    localStorage.setItem('disFIndex', this.firstIndex.toString());
+                    localStorage.setItem('disEIndex', this.endIndex.toString());
+                  }
+              }
+          }, (error) => {
+              console.log(error);
+              var alert = this.showAlert("Oops. Something Went Wrong! Restart the app!");
+          }, () => {
+              console.log("Finished! ");
+              
+          });
+        }
+    }
     findProjectByTags () {
         
         if (this.queryWord.length > 0) {

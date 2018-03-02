@@ -5,5 +5,7 @@ platforms/
 plugins/
 .DS_Store
 .idea/
+gradle-2.14.1-all.zip
 my-release-key.keystore
+CertificateSigningRequest.certSigningRequest
 

@@ -3,16 +3,16 @@
 		<button ion-button menuToggle>
 			<ion-icon name="menu"></ion-icon>
 		</button>
-		<ion-title>New Goal</ion-title>
+		<ion-title>New Project</ion-title>
 	</ion-navbar>
 </ion-header>
 <ion-content>	
 	<ion-list class="list-no-border">	
 		 <ion-item>
-			<ion-textarea #goalName placeholder="What's the Challenge..."></ion-textarea>
+			<ion-textarea #goalName placeholder="What's the Project..."></ion-textarea>
 		 </ion-item>
 		 <ion-item>
-			<ion-label>Reason for Challenge?</ion-label>
+			<ion-label>Inspiration for Challenge? <ion-icon ios="ios-bonfire" md="md-bonfire"></ion-icon></ion-label>
 				<ion-select [(ngModel)]="tags" multiple="true">
 				<ion-option value="Fitness">Fitness</ion-option>
 				<ion-option value="Social Cause">Social Cause</ion-option>

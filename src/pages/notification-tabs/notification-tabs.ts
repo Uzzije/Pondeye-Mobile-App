@@ -38,7 +38,7 @@ export class NotificationTabPage {
     this.nav.push(ChallengeActivityPage);
   }
   viewChallengeRequest(){
-    this.nav.push(ChallengeActivityPage);
+    this.nav.push(ChallengeRequestPage);
   }
   
   search (ev) {

@@ -21,6 +21,12 @@ export class SearchService {
         + username + "&query_word=" + queryWord + "&tag_search=" + ""))
             .map(this.processData).catch(this.processError);
     }
+    discover (firstIndex, endIndex) {
+        var username = localStorage.getItem("username");
+        return this._http.get(this.platformUrl + ("/social/api/discover-result?username=" 
+        + username + "&firstIndex=" + firstIndex + "&endIndex=" + endIndex))
+            .map(this.processData).catch(this.processError);
+    }
     getProjectResult  (queryWord) {
         console.log(queryWord , " searching!");
         var username = localStorage.getItem("username");

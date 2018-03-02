@@ -4,9 +4,11 @@
             <ion-icon name="menu"></ion-icon>
         </button>
         <ion-title>Search Results</ion-title>
-        </ion-navbar></ion-header><ion-content>
+        </ion-navbar>
+</ion-header>
+<ion-content>
         <ion-searchbar [(ngModel)]="queryWord" placeholder="find ponds, goals, people..." (search)="search($event)"></ion-searchbar>
-        <ion-list class="list-full-border">
+        <ion-list  v>
             <ion-item-sliding *ngFor="let res of dataResult">
                 <ion-item *ngIf="res.is_person" (click)="viewProfile(res.id)">
                     <ion-avatar item-left>

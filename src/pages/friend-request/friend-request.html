@@ -30,6 +30,7 @@
         <div>
           <h3 (click)="viewProfile(feed.id)" color="primary">{{ feed.first_name }} {{ feed.last_name }}</h3>
           <button ion-button outline (click)="acceptFriendRequest(feed.req_id)" color="primary">{{ friendsList[feed.req_id] }}</button>
+          <button ion-button outline (click)="rejectFriendRequest(feed.req_id)" color="primary">{{ rejectList[feed.req_id] }}</button>
         </div>
 
       </ion-item>

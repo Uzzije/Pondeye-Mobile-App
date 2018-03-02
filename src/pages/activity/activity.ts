@@ -76,6 +76,7 @@ export class ActivityPage  {
   }
     ngOnInit (): void {
        this.loadFeed(); 
+       console.log("slaya man"); console.log(this.feeds);
     }
 
     loadFeed(){
@@ -91,6 +92,7 @@ export class ActivityPage  {
             if (this.feeds) {
                 this.hasFeed = true;
                 localStorage.setItem('end_range', this.feedData.index);
+                localStorage.setItem('per_item', this.feedData.index);
                 console.log(localStorage.getItem('end_range'))
                 console.log("feed length ", this.feeds.length);
                 for (var item = 0; item < this.feeds.length; item++) {
@@ -123,14 +125,14 @@ export class ActivityPage  {
     }
     
     loadMoreItems(){
+        this.showSpinner = true;
         console.log("Scroll End!");
         let end = localStorage.getItem('end_range');
         let start_range = parseInt(end);
-        let end_range = parseInt(end) + 5;
-        this.showSpinner = true;
+        let end_range = parseInt(end) + parseInt(localStorage.getItem('per_item'));
         console.log(start_range);
         console.log(end_range);
-        //localStorage.setItem('end_range', end_range);
+        localStorage.setItem('end_range', end_range.toString());
         var subcription = this.postService.getNextUserFeed(start_range, end_range).subscribe(data => {
             
             this.feedData = JSON.parse(data);
